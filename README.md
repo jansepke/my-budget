@@ -1,4 +1,4 @@
-# My Money
+# My Budget
 
 ## TODO
 

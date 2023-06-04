@@ -4,9 +4,9 @@ import Page from "../components/shared/Page";
 
 const Index = () => {
   return (
-    <Page headline="My Money">
+    <Page headline="My Budget">
       <Container maxWidth="md" sx={{ marginTop: 3 }}>
-        <Typography>My Money</Typography>
+        <Typography>My Budget</Typography>
       </Container>
     </Page>
   );

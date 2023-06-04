@@ -9,7 +9,7 @@ const Page: React.FC<PageProps> = ({ headline, children }) => (
   <>
     <Head>
       <title>{headline}</title>
-      <meta name="description" content="My Money" />
+      <meta name="description" content="My Budget" />
     </Head>
 
     {children}
