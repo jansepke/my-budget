@@ -12,7 +12,8 @@ import { Session } from "next-auth";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export interface MyAppProps extends AppProps<{ session: Session }> {
+export interface MyAppProps extends AppProps {
+  session: Session;
   emotionCache?: EmotionCache;
 }
 

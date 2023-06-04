@@ -58,8 +58,13 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
+      // TODO: fix types with emotion+next-auth
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       enhanceApp: (App: React.ComponentType<React.ComponentProps<AppType> & MyAppProps>) =>
         function EnhanceApp(props) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           return <App emotionCache={cache} {...props} />;
         },
     });
