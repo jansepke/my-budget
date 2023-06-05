@@ -7,6 +7,11 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid email profile https://www.googleapis.com/auth/spreadsheets.readonly",
+        },
+      },
     }),
   ],
 };

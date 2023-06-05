@@ -2,9 +2,16 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Page from "../components/shared/Page";
+import { useEffect } from "react";
 
 const Index = () => {
   const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      fetch("/api/test");
+    }
+  }, [session]);
 
   return (
     <Page headline="My Budget">
@@ -19,7 +26,7 @@ const Index = () => {
         ) : (
           <Typography>
             Not signed in
-            <button onClick={() => signIn()}>Sign in</button>
+            <button onClick={() => signIn("google")}>Sign in</button>
           </Typography>
         )}
       </Container>
