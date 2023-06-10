@@ -1,37 +1,35 @@
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Page from "../components/shared/Page";
-import { useEffect } from "react";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import ProtectedPage from "../components/shared/ProtectedPage";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => {
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session) {
-      fetch("/api/transactions", { method: "POST" });
-    }
-  }, [session]);
+  const addTransaction = () => {
+    fetch("/api/transactions", { method: "POST" });
+  };
 
   return (
-    <Page headline="My Budget">
+    <ProtectedPage headline="My Budget">
       <Container maxWidth="md" sx={{ marginTop: 3 }}>
-        <Typography>My Budget</Typography>
+        <Typography variant="h4" gutterBottom>
+          My Budget
+        </Typography>
 
-        {session ? (
-          <Typography>
-            Signed in as {session.user?.email}
-            <button onClick={() => signOut()}>Sign out</button>
-          </Typography>
-        ) : (
-          <Typography>
-            Not signed in
-            <button onClick={() => signIn("google")}>Sign in</button>
-          </Typography>
-        )}
+        <Button onClick={addTransaction} variant="contained">
+          Add
+        </Button>
       </Container>
-    </Page>
+    </ProtectedPage>
   );
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps = async (context) => ({
+  props: {
+    session: await getServerSession(context.req, context.res, authOptions),
+  },
+});
