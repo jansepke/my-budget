@@ -1,6 +1,8 @@
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { DateField } from "@mui/x-date-pickers";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import ProtectedPage from "../components/shared/ProtectedPage";
@@ -18,9 +20,15 @@ const Index = () => {
           My Budget
         </Typography>
 
-        <Button onClick={addTransaction} variant="contained">
-          Add
-        </Button>
+        <form onSubmit={addTransaction}>
+          <DateField label="Date" format="DD-MM-YYYY" />
+          <TextField label="Description" variant="outlined" />
+          <TextField label="Amount" variant="outlined" type="number" />
+          <br />
+          <Button type="submit" variant="contained">
+            Add
+          </Button>
+        </form>
       </Container>
     </ProtectedPage>
   );
