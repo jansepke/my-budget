@@ -9,7 +9,7 @@ const Index = () => {
 
   useEffect(() => {
     if (session) {
-      fetch("/api/test");
+      fetch("/api/transactions", { method: "POST" });
     }
   }, [session]);
 
