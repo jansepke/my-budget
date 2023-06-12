@@ -1,3 +1,6 @@
+import { GoatCounter } from "@/components/shared/GoatCounter";
+import createEmotionCache from "@/next/createEmotionCache";
+import theme from "@/next/theme";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -7,9 +10,6 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { GoatCounter } from "../components/shared/GoatCounter";
-import createEmotionCache from "../next/createEmotionCache";
-import theme from "../next/theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

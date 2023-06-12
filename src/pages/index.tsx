@@ -1,10 +1,10 @@
+import ProtectedPage from "@/components/shared/ProtectedPage";
+import { AddForm } from "@/components/transactions/AddForm";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
-import ProtectedPage from "../components/shared/ProtectedPage";
-import { AddForm } from "../components/transactions/AddForm";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => (
   <ProtectedPage headline="My Budget">

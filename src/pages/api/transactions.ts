@@ -1,8 +1,8 @@
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import * as google from "@googleapis/sheets";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./auth/[...nextauth]";
 
 const post = async (sheets: google.sheets_v4.Sheets, req: NextApiRequest, res: NextApiResponse) => {
   await sheets.spreadsheets.values.append({
