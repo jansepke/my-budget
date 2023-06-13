@@ -12,9 +12,15 @@ export const getAllTransactions = async (session: Session) => {
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
       range: TRANSACTIONS_RANGE,
+      valueRenderOption: "UNFORMATTED_VALUE",
     });
 
-    return response.data.values?.map((row) => ({ date: row[0], description: row[1], amount: Number(row[2]) }));
+    return response.data.values?.map((row) => ({
+      date: row[0],
+      description: row[1],
+      amount: Number(row[2]),
+      category: row[3] ?? null,
+    }));
   } catch (error) {
     return [];
   }
