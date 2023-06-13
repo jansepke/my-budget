@@ -1,9 +1,6 @@
+import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient } from "@/backend/google-sheets";
 import { Transaction } from "@/domain";
-import * as google from "@googleapis/sheets";
 import { Session } from "next-auth";
-
-const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-const TRANSACTIONS_RANGE = process.env.TRANSACTIONS_RANGE;
 
 export const getAllTransactions = async (session: Session) => {
   try {
@@ -22,6 +19,8 @@ export const getAllTransactions = async (session: Session) => {
       category: row[3] ?? null,
     }));
   } catch (error) {
+    console.error(error);
+
     return [];
   }
 };
@@ -33,18 +32,8 @@ export const createTransaction = async (session: Session, newTransaction: Transa
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
     range: TRANSACTIONS_RANGE,
-    requestBody: { values: [[newTransaction.date, newTransaction.description, newTransaction.amount]] },
+    requestBody: {
+      values: [[newTransaction.date, newTransaction.description, newTransaction.amount, newTransaction.category]],
+    },
   });
 };
-
-function createSheetsClient(session: Session) {
-  const auth = new google.auth.OAuth2({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  });
-  auth.setCredentials({
-    access_token: session.accessToken,
-  });
-
-  return google.sheets({ version: "v4", auth });
-}

@@ -26,5 +26,6 @@ export const TransactionList: React.FC<TransactionListProps> = ({ transactions }
     hideFooter
     autoHeight
     disableColumnMenu
+    // density="compact"
   />
 );
