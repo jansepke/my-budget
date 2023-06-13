@@ -1,3 +1,4 @@
+import { Transaction } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import * as google from "@googleapis/sheets";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -5,11 +6,14 @@ import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
 
 const post = async (sheets: google.sheets_v4.Sheets, req: NextApiRequest, res: NextApiResponse) => {
+  const newTransaction = JSON.parse(req.body) as Transaction;
+  console.log(newTransaction);
+
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
     range: process.env.TRANSACTIONS_RANGE,
-    requestBody: { values: [["test", "test2", 2]] },
+    requestBody: { values: [[newTransaction.date, newTransaction.description, newTransaction.amount]] },
   });
 
   res.end();
