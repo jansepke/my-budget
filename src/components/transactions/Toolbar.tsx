@@ -7,10 +7,15 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export const Toolbar: React.FC = () => {
+interface ToolbarProps {
+  year: number;
+  month: number;
+}
+
+export const Toolbar: React.FC<ToolbarProps> = ({ year, month }) => {
   const router = useRouter();
 
-  const date = dayjs(`${router.query.year}-${router.query.month}-1`);
+  const date = dayjs(`${year}-${month}-1`);
   const prevMonth = date.subtract(1, "month");
   const nextMonth = date.add(1, "month");
 

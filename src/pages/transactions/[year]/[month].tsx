@@ -11,14 +11,16 @@ import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 
 interface TransactionsPageProps {
+  year: number;
+  month: number;
   categories: Category[];
   transactions: Transaction[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ transactions }) => (
+const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transactions }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <Toolbar />
+      <Toolbar year={year} month={month} />
       <TransactionStats transactions={transactions} />
       <TransactionList transactions={transactions} />
     </Container>
@@ -29,12 +31,17 @@ export default TransactionsPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
-  const year = Number(context.params?.year as string);
-  const month = Number(context.params?.month as string);
+
+  const yearString = context.params?.year as string;
+  const year = Number(yearString === "current" ? new Date().getUTCFullYear() : yearString);
+  const monthString = context.params?.month as string;
+  const month = Number(monthString === "current" ? new Date().getUTCMonth() + 1 : monthString);
 
   return {
     props: {
       session: session,
+      year,
+      month,
       categories: session ? await getAllCategories(session) : [],
       transactions: session ? await getTransactionsForMonth(session, year, month) : [],
     },

@@ -6,10 +6,13 @@ import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { Category, Transaction } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import NorthEastIcon from "@mui/icons-material/NorthEast";
+import { Link as MuiLink } from "@mui/material";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 interface IndexPageProps {
   categories: Category[];
@@ -24,7 +27,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ categories, transactions }) => (
       </Typography>
 
       <AddForm categories={categories} />
-      <Typography variant="h5">Current Month</Typography>
+      <Typography variant="h5">
+        <MuiLink component={Link} href="/transactions/current/current" color="inherit" underline="hover">
+          Current Month <NorthEastIcon />
+        </MuiLink>
+      </Typography>
       <TransactionStats transactions={transactions} />
       <TransactionList transactions={transactions.slice(-5)} />
     </Container>
