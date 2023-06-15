@@ -1,4 +1,4 @@
-import { parseGoogleSheetsDate } from "@/backend/utils";
+import { formatCurrency, parseGoogleSheetsDate } from "@/backend/utils";
 import { Transaction } from "@/domain";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
@@ -19,8 +19,7 @@ const columns: GridColDef[] = [
     field: "amount",
     type: "number",
     width: 90,
-    valueFormatter: ({ value }: { value: number }) =>
-      new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(value),
+    valueFormatter: ({ value }: { value: number }) => formatCurrency(value),
   },
   { field: "category", headerName: "cat.", width: 50 },
 ].map((cd) => ({ ...cd, sortable: false }));

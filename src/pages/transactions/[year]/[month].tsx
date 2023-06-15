@@ -4,6 +4,7 @@ import ProtectedPage from "@/components/shared/ProtectedPage";
 import { AddForm } from "@/components/transactions/AddForm";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
+import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { Category, Transaction } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Container from "@mui/material/Container";
@@ -25,6 +26,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ categories, transac
 
       <AddForm categories={categories} />
       <Toolbar />
+      <TransactionStats transactions={transactions} />
       <TransactionList transactions={transactions} />
     </Container>
   </ProtectedPage>
