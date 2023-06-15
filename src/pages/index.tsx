@@ -22,10 +22,6 @@ interface IndexPageProps {
 const IndexPage: React.FC<IndexPageProps> = ({ categories, transactions }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        My Budget
-      </Typography>
-
       <AddForm categories={categories} />
       <Typography variant="h5">
         <MuiLink component={Link} href="/transactions/current/current" color="inherit" underline="hover">
