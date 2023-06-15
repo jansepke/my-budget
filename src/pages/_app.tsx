@@ -1,4 +1,3 @@
-import { GoatCounter } from "@/components/shared/GoatCounter";
 import createEmotionCache from "@/next/createEmotionCache";
 import theme from "@/next/theme";
 import { CacheProvider, EmotionCache } from "@emotion/react";
@@ -36,8 +35,6 @@ export default function MyApp({
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>
-
-          <GoatCounter />
         </LocalizationProvider>
       </CacheProvider>
     </SessionProvider>
