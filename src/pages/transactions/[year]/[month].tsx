@@ -2,6 +2,7 @@ import { getAllCategories } from "@/backend/categories";
 import { getTransactionsForMonth } from "@/backend/transactions";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { AddForm } from "@/components/transactions/AddForm";
+import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { Category, Transaction } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -23,6 +24,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ categories, transac
       </Typography>
 
       <AddForm categories={categories} />
+      <Toolbar />
       <TransactionList transactions={transactions} />
     </Container>
   </ProtectedPage>
