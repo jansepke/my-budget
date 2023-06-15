@@ -1,7 +1,6 @@
 import { Category, Transaction } from "@/domain";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
-import EventIcon from "@mui/icons-material/Event";
 import TitleIcon from "@mui/icons-material/Title";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -11,7 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import { DateField } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
 
@@ -41,12 +40,11 @@ export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
       onSubmit={addTransaction}
     >
       <FormControl component="fieldset" sx={{ flexDirection: "row" }}>
-        <DateField
+        <DatePicker
           label="Date"
           defaultValue={dayjs()}
           onChange={(value) => setFormData({ ...formData, date: value ?? dayjs() })}
           format="DD-MM-YYYY"
-          InputProps={buildIconStartAdornment(<EventIcon />)}
         />
         <TextField
           label="Description"
