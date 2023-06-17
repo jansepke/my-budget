@@ -4,15 +4,20 @@ import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
+
+type TransactionType = "out" | "in";
 
 interface AddFormProps {
   categories: Category[];
@@ -20,6 +25,7 @@ interface AddFormProps {
 
 export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
   const [formData, setFormData] = useState<Partial<Transaction>>({ date: dayjs() });
+  const [type, setType] = useState<TransactionType>("out");
 
   const addTransaction = (e: FormEvent) => {
     e.preventDefault();
@@ -39,6 +45,19 @@ export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
       alignItems="center"
       spacing={2}
     >
+      <FormControl fullWidth>
+        <FormLabel>Type</FormLabel>
+        <ToggleButtonGroup
+          value={type}
+          onChange={(e: unknown, value: TransactionType) => value && setType(value)}
+          color="primary"
+          exclusive
+          fullWidth
+        >
+          <ToggleButton value="out">outgoing</ToggleButton>
+          <ToggleButton value="in">incoming</ToggleButton>
+        </ToggleButtonGroup>
+      </FormControl>
       <DatePicker
         label="Date"
         defaultValue={dayjs()}
@@ -74,6 +93,16 @@ export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
           ))}
         </Select>
       </FormControl>
+      {type === "out" && (
+        <FormControl fullWidth>
+          <FormLabel>From</FormLabel>
+          <ToggleButtonGroup color="primary" exclusive fullWidth>
+            <ToggleButton value="1">1</ToggleButton>
+            <ToggleButton value="2">2</ToggleButton>
+            <ToggleButton value="3">3</ToggleButton>
+          </ToggleButtonGroup>
+        </FormControl>
+      )}
       <Button type="submit" variant="contained" startIcon={<AddIcon />} sx={{ maxWidth: 120 }}>
         Add
       </Button>
