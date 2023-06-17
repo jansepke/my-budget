@@ -29,7 +29,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
 
 export default TransactionsPage;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = async (context) => {
   const session = await getSession(context);
 
   const yearString = context.params?.year as string;

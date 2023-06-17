@@ -25,7 +25,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ transactions }) => 
 
 export default TransactionsPage;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = async (context) => {
   const session = await getSession(context);
 
   const accountId = Number(context.params?.accountId as string);

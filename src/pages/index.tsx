@@ -30,7 +30,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, other
 
 export default IndexPage;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (context) => {
   const session = await getSession(context);
   const now = new Date();
 

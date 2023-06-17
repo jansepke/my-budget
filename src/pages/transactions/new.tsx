@@ -22,7 +22,7 @@ const NewTransactionPage: React.FC<NewTransactionPageProps> = ({ accounts, categ
 
 export default NewTransactionPage;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<NewTransactionPageProps> = async (context) => {
   const session = await getSession(context);
 
   return {
