@@ -1,5 +1,10 @@
 import { Dayjs } from "dayjs";
 
+export interface Account {
+  id: string;
+  label: string;
+}
+
 export interface Category {
   value: string;
   label: string;

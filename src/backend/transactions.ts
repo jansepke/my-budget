@@ -1,27 +1,21 @@
-import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient } from "@/backend/google-sheets";
+import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient, getValues } from "@/backend/google-sheets";
 import { Transaction } from "@/domain";
 import { Session } from "next-auth";
 import { parseGoogleSheetsDate } from "./utils";
 import dayjs from "dayjs";
 
-export const getTransactionsForMonth = async (session: Session, year: number, month: number) => {
+export const getTransactionsForMonth = async (
+  session: Session,
+  year: number,
+  month: number
+): Promise<Transaction[]> => {
   try {
     const startDate = dayjs(`${year}-${month}-1`);
     const endDate = startDate.endOf("month");
 
-    const sheets = createSheetsClient(session);
+    const rows = await getValues(session, TRANSACTIONS_RANGE);
 
-    const { data } = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: TRANSACTIONS_RANGE,
-      valueRenderOption: "UNFORMATTED_VALUE",
-    });
-
-    if (!data.values) {
-      throw new Error("no values");
-    }
-
-    const transactions = data.values.map((row) => ({
+    const transactions = rows.map((row) => ({
       date: row[0],
       description: row[1],
       amount: Number(row[2]),
