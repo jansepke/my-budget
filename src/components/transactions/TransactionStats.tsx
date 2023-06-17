@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/backend/utils";
+import { formatCurrency, sum } from "@/backend/utils";
 import { Transaction } from "@/domain";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -29,14 +29,10 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions
         m: 1,
       }}
     >
-      <Typography>{formatCurrency(incomeSum)} (Income)</Typography>
-      {showFixedSum && <Typography>{formatCurrency(fixedSum)} (Fixed)</Typography>}
-      <Typography>{formatCurrency(variableSum)} (Variable)</Typography>
-      <Typography>{formatCurrency(totalSum)} (Rest)</Typography>
+      <Typography color="text.secondary">{formatCurrency(incomeSum)} (Income)</Typography>
+      {showFixedSum && <Typography color="text.secondary">{formatCurrency(fixedSum)} (Fixed)</Typography>}
+      <Typography color="text.secondary">{formatCurrency(variableSum)} (Variable)</Typography>
+      <Typography color="text.secondary">{formatCurrency(totalSum)} (Rest)</Typography>
     </Box>
   );
 };
-
-function sum(transactions: Transaction[]) {
-  return transactions.reduce((sum, t) => sum + t.amount, 0);
-}

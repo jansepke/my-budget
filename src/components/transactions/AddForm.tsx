@@ -1,5 +1,5 @@
 import { AccountSelector } from "@/components/transactions/AccountSelector";
-import { Account, Category, Transaction } from "@/domain";
+import { Account, Category, NewTransaction } from "@/domain";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
@@ -31,7 +31,7 @@ const defaultFormData = {
 };
 
 export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
-  const [formData, setFormData] = useState<Partial<Transaction>>(defaultFormData["out"]);
+  const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData["out"]);
   const [type, setType] = useState<TransactionType>("out");
 
   const addTransaction = (e: FormEvent) => {
@@ -40,7 +40,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
     fetch("/api/transactions", { method: "POST", body: JSON.stringify(formData) });
   };
 
-  const changeHandler = <T,>(field: keyof Transaction, value: T) => setFormData({ ...formData, [field]: value });
+  const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
 
   const handleTypeChange = (value: TransactionType) => {
     setType(value);

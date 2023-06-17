@@ -1,5 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
-import { filterForOtherAccount, getAllTransactions } from "@/backend/transactions";
+import { getAllTransactions } from "@/backend/transactions";
+import { filterForOtherAccount } from "@/backend/utils";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";

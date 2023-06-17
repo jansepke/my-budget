@@ -1,7 +1,6 @@
-import { formatCurrency, parseGoogleSheetsDate } from "@/backend/utils";
+import { currencyColor, formatCurrency, parseGoogleSheetsDate } from "@/backend/utils";
 import { Transaction } from "@/domain";
 import Box from "@mui/material/Box";
-import { green, red } from "@mui/material/colors";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import React from "react";
 
@@ -22,7 +21,7 @@ const columns: GridColDef[] = [
     type: "number",
     width: 90,
     renderCell: (params: GridRenderCellParams) => (
-      <Box sx={{ color: params.value < 0 ? red[400] : green[700] }}>{formatCurrency(params.value)}</Box>
+      <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
     ),
   },
   { field: "category", headerName: "cat.", width: 50 },

@@ -13,12 +13,12 @@ export interface Category {
 export interface Transaction {
   from: number;
   to: number;
-  date: Dayjs;
+  date: number;
   description: string;
   amount: number;
   category: string;
 }
 
-export interface TransactionBackend extends Omit<Transaction, "date"> {
-  date: number;
+export interface NewTransaction extends Omit<Transaction, "date"> {
+  date: Dayjs;
 }
