@@ -13,7 +13,7 @@ interface NewTransactionPageProps {
 
 const NewTransactionPage: React.FC<NewTransactionPageProps> = ({ categories }) => (
   <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
+    <Container maxWidth="xs" sx={{ marginTop: 3 }}>
       <AddForm categories={categories} />
     </Container>
   </ProtectedPage>
