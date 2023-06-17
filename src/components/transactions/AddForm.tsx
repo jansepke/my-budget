@@ -34,13 +34,17 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData["out"]);
   const [type, setType] = useState<TransactionType>("out");
 
-  const addTransaction = (e: FormEvent) => {
+  const addTransaction = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!formData.amount) return;
 
     const amount = type === "out" ? -formData.amount : formData.amount;
-    fetch("/api/transactions", { method: "POST", body: JSON.stringify({ ...formData, amount: amount }) });
+    const body = JSON.stringify({ ...formData, amount: amount });
+
+    await fetch("/api/transactions", { method: "POST", body });
+
+    setFormData(defaultFormData["out"]);
   };
 
   const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
@@ -91,7 +95,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       )}
       <DatePicker
         label="Date"
-        defaultValue={dayjs()}
+        value={formData.date}
         onChange={(value) => changeHandler("date", value ?? dayjs())}
         format="DD-MM-YYYY"
         slotProps={{ textField: { fullWidth: true } }}
@@ -99,12 +103,14 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       <TextField
         label="Description"
         fullWidth
+        value={formData.description || ""}
         onChange={(e) => changeHandler("description", e.target.value)}
         InputProps={buildIconStartAdornment(<TitleIcon />)}
       />
       <TextField
         label="Amount"
         fullWidth
+        value={formData.amount || ""}
         onChange={(e) => changeHandler("amount", Number(e.target.value))}
         inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
         InputProps={buildIconStartAdornment(<EuroIcon />)}
@@ -114,7 +120,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         <Select
           labelId="category"
           label="Category"
-          defaultValue=""
+          value={formData.category || ""}
           onChange={(e) => changeHandler("category", e.target.value)}
         >
           {categories.map((c) => (
