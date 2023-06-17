@@ -12,6 +12,7 @@ export interface Category {
 
 export interface Transaction {
   from: number;
+  to: number;
   date: Dayjs;
   description: string;
   amount: number;

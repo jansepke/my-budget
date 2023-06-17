@@ -1,3 +1,4 @@
+import { AccountSelector } from "@/components/transactions/AccountSelector";
 import { Account, Category, Transaction } from "@/domain";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
@@ -24,8 +25,13 @@ interface AddFormProps {
   categories: Category[];
 }
 
+const defaultFormData = {
+  out: { date: dayjs(), from: 1 },
+  in: { date: dayjs() },
+};
+
 export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
-  const [formData, setFormData] = useState<Partial<Transaction>>({ date: dayjs(), from: 1 });
+  const [formData, setFormData] = useState<Partial<Transaction>>(defaultFormData["out"]);
   const [type, setType] = useState<TransactionType>("out");
 
   const addTransaction = (e: FormEvent) => {
@@ -35,6 +41,11 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   };
 
   const changeHandler = <T,>(field: keyof Transaction, value: T) => setFormData({ ...formData, [field]: value });
+
+  const handleTypeChange = (value: TransactionType) => {
+    setType(value);
+    setFormData(defaultFormData[value]);
+  };
 
   return (
     <Stack
@@ -50,7 +61,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         <FormLabel>Type</FormLabel>
         <ToggleButtonGroup
           value={type}
-          onChange={(e: unknown, value: TransactionType) => value && setType(value)}
+          onChange={(e: unknown, value: TransactionType) => value && handleTypeChange(value)}
           color="primary"
           exclusive
           fullWidth
@@ -60,22 +71,20 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         </ToggleButtonGroup>
       </FormControl>
       {type === "out" && (
-        <FormControl fullWidth>
-          <FormLabel>From</FormLabel>
-          <ToggleButtonGroup
-            value={formData.from}
-            onChange={(e: unknown, value: number) => value && changeHandler("from", value)}
-            color="primary"
-            exclusive
-            fullWidth
-          >
-            {accounts.map((a) => (
-              <ToggleButton key={a.id} value={a.id}>
-                {a.label}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </FormControl>
+        <AccountSelector
+          label="From"
+          accounts={accounts}
+          value={formData.from}
+          onChange={(value: number) => changeHandler("from", value)}
+        />
+      )}
+      {type === "in" && (
+        <AccountSelector
+          label="To"
+          accounts={accounts}
+          value={formData.to}
+          onChange={(value: number) => changeHandler("to", value)}
+        />
       )}
       <DatePicker
         label="Date"
