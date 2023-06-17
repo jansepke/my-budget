@@ -23,19 +23,17 @@ export const getAllTransactions = async (session: Session): Promise<TransactionB
   }
 };
 
-export const filterByMonth = (
-  transactions: TransactionBackend[],
-  year: number,
-  month: number
-): TransactionBackend[] => {
+export const filterByMonth = (year: number, month: number) => {
   const startDate = dayjs(`${year}-${month}-1`);
   const endDate = startDate.endOf("month");
 
-  return transactions.filter((t) => {
+  return (t: TransactionBackend) => {
     const date = parseGoogleSheetsDate(t.date);
     return date > startDate.toDate() && date < endDate.toDate();
-  });
+  };
 };
+
+export const filterForMainAccount = (t: TransactionBackend) => t.from || t.to === 1;
 
 export const createTransaction = async (session: Session, newTransaction: Transaction) => {
   const sheets = createSheetsClient(session);

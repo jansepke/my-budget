@@ -1,4 +1,4 @@
-import { filterByMonth, getAllTransactions } from "@/backend/transactions";
+import { filterByMonth, filterForMainAccount, getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
@@ -30,7 +30,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       session: session,
-      transactions: filterByMonth(await getAllTransactions(session), now.getUTCFullYear(), now.getUTCMonth() + 1),
+      transactions: (await getAllTransactions(session))
+        .filter(filterByMonth(now.getUTCFullYear(), now.getUTCMonth() + 1))
+        .filter(filterForMainAccount),
     },
   };
 };

@@ -1,5 +1,5 @@
 import { getAllCategories } from "@/backend/categories";
-import { filterByMonth, getAllTransactions } from "@/backend/transactions";
+import { filterByMonth, filterForMainAccount, getAllTransactions } from "@/backend/transactions";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       year,
       month,
       categories: await getAllCategories(session),
-      transactions: filterByMonth(await getAllTransactions(session), year, month),
+      transactions: (await getAllTransactions(session)).filter(filterByMonth(year, month)).filter(filterForMainAccount),
     },
   };
 };
