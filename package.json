@@ -28,7 +28,6 @@
     "dayjs": "^1.11.8",
     "next": "^13.4.3",
     "next-auth": "^4.22.1",
-    "next-translate": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -41,9 +40,7 @@
     "eslint-config-next": "13.4.4",
     "eslint-config-prettier": "^8.8.0",
     "husky": "8.0.3",
-    "next-translate-plugin": "^2.0.5",
     "prettier": "^2.8.8",
-    "ts-node": "10.9.1",
     "typescript": "^5.0.4"
   }
 }
