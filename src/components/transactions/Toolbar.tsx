@@ -35,7 +35,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ year, month }) => {
         label="month"
         views={["year", "month"]}
         openTo="month"
-        defaultValue={date}
+        value={date}
         disableFuture
         onChange={(value) => value && router.push(buildHref(value))}
       />
