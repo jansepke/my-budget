@@ -1,7 +1,7 @@
 import { Dayjs } from "dayjs";
 
 export interface Account {
-  id: string;
+  id: number;
   label: string;
 }
 
@@ -11,6 +11,7 @@ export interface Category {
 }
 
 export interface Transaction {
+  from: number;
   date: Dayjs;
   description: string;
   amount: number;

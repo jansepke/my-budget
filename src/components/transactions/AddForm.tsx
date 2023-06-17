@@ -1,4 +1,4 @@
-import { Category, Transaction } from "@/domain";
+import { Account, Category, Transaction } from "@/domain";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
@@ -20,11 +20,12 @@ import { FormEvent, useState } from "react";
 type TransactionType = "out" | "in";
 
 interface AddFormProps {
+  accounts: Account[];
   categories: Category[];
 }
 
-export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
-  const [formData, setFormData] = useState<Partial<Transaction>>({ date: dayjs() });
+export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
+  const [formData, setFormData] = useState<Partial<Transaction>>({ date: dayjs(), from: 1 });
   const [type, setType] = useState<TransactionType>("out");
 
   const addTransaction = (e: FormEvent) => {
@@ -58,10 +59,28 @@ export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
           <ToggleButton value="in">incoming</ToggleButton>
         </ToggleButtonGroup>
       </FormControl>
+      {type === "out" && (
+        <FormControl fullWidth>
+          <FormLabel>From</FormLabel>
+          <ToggleButtonGroup
+            value={formData.from}
+            onChange={(e: unknown, value: number) => value && changeHandler("from", value)}
+            color="primary"
+            exclusive
+            fullWidth
+          >
+            {accounts.map((a) => (
+              <ToggleButton key={a.id} value={a.id}>
+                {a.label}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </FormControl>
+      )}
       <DatePicker
         label="Date"
         defaultValue={dayjs()}
-        onChange={(value) => setFormData({ ...formData, date: value ?? dayjs() })}
+        onChange={(value) => changeHandler("date", value ?? dayjs())}
         format="DD-MM-YYYY"
         slotProps={{ textField: { fullWidth: true } }}
       />
@@ -93,16 +112,6 @@ export const AddForm: React.FC<AddFormProps> = ({ categories }) => {
           ))}
         </Select>
       </FormControl>
-      {type === "out" && (
-        <FormControl fullWidth>
-          <FormLabel>From</FormLabel>
-          <ToggleButtonGroup color="primary" exclusive fullWidth>
-            <ToggleButton value="1">1</ToggleButton>
-            <ToggleButton value="2">2</ToggleButton>
-            <ToggleButton value="3">3</ToggleButton>
-          </ToggleButtonGroup>
-        </FormControl>
-      )}
       <Button type="submit" variant="contained" startIcon={<AddIcon />} sx={{ maxWidth: 120 }}>
         Add
       </Button>
