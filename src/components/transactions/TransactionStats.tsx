@@ -7,11 +7,18 @@ interface TransactionStatsProps {
   transactions: Transaction[];
 }
 
+const INCOME_CATEGORY = "I";
+const FIXED_CATEGORY = "M";
+
 export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions }) => {
   const totalSum = sum(transactions);
-  const incomeSum = sum(transactions.filter((t) => t.category?.startsWith("I")));
-  const fixedSum = sum(transactions.filter((t) => t.category?.startsWith("M")));
-  const variableSum = sum(transactions.filter((t) => !t.category?.startsWith("M") && !t.category?.startsWith("I")));
+  const incomeSum = sum(transactions.filter((t) => t.category?.startsWith(INCOME_CATEGORY)));
+  const fixedSum = sum(transactions.filter((t) => t.category?.startsWith(FIXED_CATEGORY)));
+  const variableSum = sum(
+    transactions.filter(
+      (t) => t.category && !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_CATEGORY)
+    )
+  );
 
   return (
     <Box
