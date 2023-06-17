@@ -1,3 +1,4 @@
+import { teal } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
 
@@ -8,4 +9,8 @@ export const roboto = Roboto({
   fallback: ["Helvetica", "Arial", "sans-serif"],
 });
 
-export default createTheme({});
+export default createTheme({
+  palette: {
+    primary: teal,
+  },
+});

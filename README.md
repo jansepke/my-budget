@@ -7,6 +7,9 @@
 - category label (https://mui.com/x/react-data-grid/components/#cell)
 - Form validation
 - small transaction list in add form?
+- category IDs
+- category group headers in select
+- monthly transactions from template
 
 ## License
 
