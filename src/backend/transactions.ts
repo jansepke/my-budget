@@ -1,6 +1,7 @@
 import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient, getValues } from "@/backend/google-sheets";
-import { NewTransaction, Transaction } from "@/domain";
+import { NewTransactionBackend, Transaction } from "@/domain";
 import { Session } from "next-auth";
+import { formatDate } from "./utils";
 
 export const getAllTransactions = async (session: Session): Promise<Transaction[]> => {
   try {
@@ -21,15 +22,26 @@ export const getAllTransactions = async (session: Session): Promise<Transaction[
   }
 };
 
-export const createTransaction = async (session: Session, newTransaction: NewTransaction) => {
+export const createTransaction = async (session: Session, newTransaction: NewTransactionBackend) => {
   const sheets = createSheetsClient(session);
+
+  const date = formatDate(new Date(newTransaction.date));
 
   await sheets.spreadsheets.values.append({
     spreadsheetId: SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",
     range: TRANSACTIONS_RANGE,
     requestBody: {
-      values: [[newTransaction.date, newTransaction.description, newTransaction.amount, newTransaction.category]],
+      values: [
+        [
+          newTransaction.from,
+          newTransaction.to,
+          date,
+          newTransaction.description,
+          newTransaction.amount,
+          newTransaction.category,
+        ],
+      ],
     },
   });
 };

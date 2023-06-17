@@ -37,7 +37,10 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const addTransaction = (e: FormEvent) => {
     e.preventDefault();
 
-    fetch("/api/transactions", { method: "POST", body: JSON.stringify(formData) });
+    if (!formData.amount) return;
+
+    const amount = type === "out" ? -formData.amount : formData.amount;
+    fetch("/api/transactions", { method: "POST", body: JSON.stringify({ ...formData, amount: amount }) });
   };
 
   const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });

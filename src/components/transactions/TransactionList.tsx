@@ -1,4 +1,4 @@
-import { currencyColor, formatCurrency, parseGoogleSheetsDate } from "@/backend/utils";
+import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/backend/utils";
 import { Transaction } from "@/domain";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
     field: "date",
     type: "date",
     valueGetter: ({ value }: { value: number }) => parseGoogleSheetsDate(value),
-    valueFormatter: ({ value }: { value: Date }) => value.toLocaleDateString("de-DE", { dateStyle: "medium" }),
+    valueFormatter: ({ value }: { value: Date }) => formatDate(value),
   },
   { field: "description", flex: 1 },
   {

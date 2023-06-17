@@ -22,3 +22,7 @@ export interface Transaction {
 export interface NewTransaction extends Omit<Transaction, "date"> {
   date: Dayjs;
 }
+
+export interface NewTransactionBackend extends Omit<NewTransaction, "date"> {
+  date: string;
+}
