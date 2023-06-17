@@ -5,12 +5,13 @@ import Typography from "@mui/material/Typography";
 
 interface TransactionStatsProps {
   transactions: Transaction[];
+  showFixedSum?: boolean;
 }
 
 const INCOME_CATEGORY = "I";
 const FIXED_CATEGORY = "M";
 
-export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions }) => {
+export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions, showFixedSum }) => {
   const totalSum = sum(transactions);
   const incomeSum = sum(transactions.filter((t) => t.category?.startsWith(INCOME_CATEGORY)));
   const fixedSum = sum(transactions.filter((t) => t.category?.startsWith(FIXED_CATEGORY)));
@@ -29,7 +30,7 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions
       }}
     >
       <Typography>{formatCurrency(incomeSum)} (Income)</Typography>
-      <Typography>{formatCurrency(fixedSum)} (Fixed)</Typography>
+      {showFixedSum && <Typography>{formatCurrency(fixedSum)} (Fixed)</Typography>}
       <Typography>{formatCurrency(variableSum)} (Variable)</Typography>
       <Typography>{formatCurrency(totalSum)} (Rest)</Typography>
     </Box>

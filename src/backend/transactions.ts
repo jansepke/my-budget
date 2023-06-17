@@ -9,8 +9,8 @@ export const getAllTransactions = async (session: Session): Promise<TransactionB
     const rows = await getValues(session, TRANSACTIONS_RANGE);
 
     return rows.map(([from, to, date, description, amount, category = null]) => ({
-      from,
-      to,
+      from: Number(from),
+      to: Number(to),
       date,
       description,
       amount: Number(amount),
@@ -34,6 +34,9 @@ export const filterByMonth = (year: number, month: number) => {
 };
 
 export const filterForMainAccount = (t: TransactionBackend) => t.from || t.to === 1;
+
+export const filterForOtherAccount = (accountId: number) => (t: TransactionBackend) =>
+  t.from === accountId || t.to === accountId;
 
 export const createTransaction = async (session: Session, newTransaction: Transaction) => {
   const sheets = createSheetsClient(session);
