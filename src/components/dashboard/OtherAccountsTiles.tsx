@@ -18,7 +18,7 @@ const AccountTile: React.FC<AccountTileProps> = ({ account, transactions }) => {
   const accountSum = sum(transactions.filter(filterForOtherAccount(account.id)));
 
   return (
-    <Card sx={{ minWidth: 175 }}>
+    <Card sx={{ width: "100%" }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           <MuiLink component={Link} href={`/transactions/other/${account.id}`} color="inherit" underline="hover">
@@ -48,6 +48,7 @@ export const OtherAccountsTiles: React.FC<OtherAccountsTilesProps> = ({ accounts
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          gap: 2,
         }}
       >
         {otherAccounts.map((a) => (
