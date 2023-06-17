@@ -1,9 +1,12 @@
 import { currencyColor, filterForOtherAccount, formatCurrency, sum } from "@/backend/utils";
 import { Account, Transaction } from "@/domain";
+import NorthEastIcon from "@mui/icons-material/NorthEast";
+import { Link as MuiLink } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Link from "next/link";
 import React from "react";
 
 interface AccountTileProps {
@@ -18,7 +21,9 @@ const AccountTile: React.FC<AccountTileProps> = ({ account, transactions }) => {
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {account.label}
+          <MuiLink component={Link} href={`/transactions/other/${account.id}`} color="inherit" underline="hover">
+            {account.label} <NorthEastIcon sx={{ fontSize: "inherit" }} />
+          </MuiLink>
         </Typography>
         <Typography sx={{ color: currencyColor(accountSum) }}>{formatCurrency(accountSum)}</Typography>
       </CardContent>
