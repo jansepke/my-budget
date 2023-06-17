@@ -1,14 +1,13 @@
 import { getAllCategories } from "@/backend/categories";
-import { getTransactionsForMonth } from "@/backend/transactions";
+import { filterByMonth, getAllTransactions } from "@/backend/transactions";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { Category, Transaction } from "@/domain";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getSession } from "@/pages/api/auth/[...nextauth]";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
 
 interface TransactionsPageProps {
   year: number;
@@ -30,7 +29,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
 export default TransactionsPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getServerSession(context.req, context.res, authOptions);
+  const session = await getSession(context);
 
   const yearString = context.params?.year as string;
   const year = Number(yearString === "current" ? new Date().getUTCFullYear() : yearString);
@@ -42,8 +41,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       session: session,
       year,
       month,
-      categories: session ? await getAllCategories(session) : [],
-      transactions: session ? await getTransactionsForMonth(session, year, month) : [],
+      categories: await getAllCategories(session),
+      transactions: filterByMonth(await getAllTransactions(session), year, month),
     },
   };
 };

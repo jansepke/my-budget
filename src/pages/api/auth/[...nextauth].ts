@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import NextAuth, { AuthOptions } from "next-auth";
+import assert from "node:assert/strict";
+import { GetServerSidePropsContext } from "next";
+import NextAuth, { AuthOptions, Session, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
@@ -29,6 +31,14 @@ export const authOptions: AuthOptions = {
       return token;
     },
   },
+};
+
+export const getSession = async (context: GetServerSidePropsContext): Promise<Session> => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  assert(session, "session should always be set");
+
+  return session;
 };
 
 export default NextAuth(authOptions);

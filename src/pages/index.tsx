@@ -1,12 +1,11 @@
-import { getTransactionsForMonth } from "@/backend/transactions";
+import { filterByMonth, getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Transaction } from "@/domain";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getSession } from "@/pages/api/auth/[...nextauth]";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
 
 interface IndexPageProps {
   transactions: Transaction[];
@@ -25,13 +24,13 @@ const IndexPage: React.FC<IndexPageProps> = ({ transactions }) => (
 export default IndexPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getServerSession(context.req, context.res, authOptions);
+  const session = await getSession(context);
   const now = new Date();
 
   return {
     props: {
       session: session,
-      transactions: session ? await getTransactionsForMonth(session, now.getUTCFullYear(), now.getUTCMonth() + 1) : [],
+      transactions: filterByMonth(await getAllTransactions(session), now.getUTCFullYear(), now.getUTCMonth() + 1),
     },
   };
 };

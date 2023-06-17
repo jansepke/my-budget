@@ -18,3 +18,7 @@ export interface Transaction {
   amount: number;
   category: string;
 }
+
+export interface TransactionBackend extends Omit<Transaction, "date"> {
+  date: number;
+}

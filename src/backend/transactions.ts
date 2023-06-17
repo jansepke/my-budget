@@ -1,36 +1,40 @@
 import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient, getValues } from "@/backend/google-sheets";
-import { Transaction } from "@/domain";
+import { Transaction, TransactionBackend } from "@/domain";
 import { Session } from "next-auth";
 import { parseGoogleSheetsDate } from "./utils";
 import dayjs from "dayjs";
 
-export const getTransactionsForMonth = async (
-  session: Session,
-  year: number,
-  month: number
-): Promise<Transaction[]> => {
+export const getAllTransactions = async (session: Session): Promise<TransactionBackend[]> => {
   try {
-    const startDate = dayjs(`${year}-${month}-1`);
-    const endDate = startDate.endOf("month");
-
     const rows = await getValues(session, TRANSACTIONS_RANGE);
 
-    const transactions = rows.map((row) => ({
-      date: row[0],
-      description: row[1],
-      amount: Number(row[2]),
-      category: row[3] ?? null,
+    return rows.map(([from, to, date, description, amount, category = null]) => ({
+      from,
+      to,
+      date,
+      description,
+      amount: Number(amount),
+      category,
     }));
-
-    return transactions.filter((t) => {
-      const date = parseGoogleSheetsDate(t.date);
-      return date > startDate.toDate() && date < endDate.toDate();
-    });
   } catch (error) {
     console.error(error);
 
     return [];
   }
+};
+
+export const filterByMonth = (
+  transactions: TransactionBackend[],
+  year: number,
+  month: number
+): TransactionBackend[] => {
+  const startDate = dayjs(`${year}-${month}-1`);
+  const endDate = startDate.endOf("month");
+
+  return transactions.filter((t) => {
+    const date = parseGoogleSheetsDate(t.date);
+    return date > startDate.toDate() && date < endDate.toDate();
+  });
 };
 
 export const createTransaction = async (session: Session, newTransaction: Transaction) => {
