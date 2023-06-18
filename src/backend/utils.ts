@@ -24,7 +24,7 @@ export const filterByMonth = (year: number, month: number) => {
   };
 };
 
-export const filterForMainAccount = (t: Transaction) => t.from || t.to === 1;
+export const filterForMainAccount = (t: Transaction) => (t.from && !t.to) || t.to === 1;
 
 export const filterForOtherAccounts = (t: Transaction) => t.from !== 1 || t.to !== 1;
 
