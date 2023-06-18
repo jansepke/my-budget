@@ -7,14 +7,16 @@ export const getAllTransactions = async (session: Session): Promise<Transaction[
   try {
     const rows = await getValues(session, TRANSACTIONS_RANGE);
 
-    return rows.map(([from, to, date, description, amount, category = null]) => ({
-      from: Number(from),
-      to: Number(to),
-      date,
-      description,
-      amount: Number(amount),
-      category,
-    }));
+    return rows
+      .map(([from, to, date, description, amount, category = null]) => ({
+        from: Number(from),
+        to: Number(to),
+        date,
+        description,
+        amount: Number(amount),
+        category,
+      }))
+      .sort((a, b) => a.date - b.date);
   } catch (error) {
     console.error(error);
 
