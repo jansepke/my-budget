@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface TransactionStatsProps {
+  accountId: number;
   transactions: Transaction[];
   showFixedSum?: boolean;
 }
@@ -11,8 +12,8 @@ interface TransactionStatsProps {
 const INCOME_CATEGORY = "I";
 const FIXED_CATEGORY = "M";
 
-export const TransactionStats: React.FC<TransactionStatsProps> = ({ transactions, showFixedSum }) => {
-  const totalSum = sum(transactions);
+export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, transactions, showFixedSum }) => {
+  const totalSum = sum(transactions.filter((t) => t.from === accountId || t.to === accountId));
   const incomeSum = sum(transactions.filter((t) => t.category?.startsWith(INCOME_CATEGORY)));
   const fixedSum = sum(transactions.filter((t) => t.category?.startsWith(FIXED_CATEGORY)));
   const variableSum = sum(

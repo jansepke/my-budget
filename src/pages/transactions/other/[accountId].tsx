@@ -10,14 +10,15 @@ import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
 interface TransactionsPageProps {
+  accountId: number;
   categories: Category[];
   transactions: Transaction[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ transactions }) => (
+const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <TransactionStats transactions={transactions} />
+      <TransactionStats accountId={accountId} transactions={transactions} />
       <TransactionList transactions={transactions} />
     </Container>
   </ProtectedPage>
@@ -33,6 +34,7 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
   return {
     props: {
       session: session,
+      accountId: accountId,
       categories: await getAllCategories(session),
       transactions: (await getAllTransactions(session)).filter(filterForOtherAccount(accountId)),
     },

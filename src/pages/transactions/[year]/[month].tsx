@@ -21,7 +21,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <Toolbar year={year} month={month} />
-      <TransactionStats transactions={transactions} showFixedSum />
+      <TransactionStats accountId={1} transactions={transactions} showFixedSum />
       <TransactionList transactions={transactions} />
     </Container>
   </ProtectedPage>

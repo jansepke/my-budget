@@ -17,7 +17,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
         Current Month <NorthEastIcon />
       </MuiLink>
     </Typography>
-    <TransactionStats transactions={transactions} showFixedSum />
+    <TransactionStats accountId={1} transactions={transactions} showFixedSum />
     <TransactionList transactions={transactions.slice(-5)} />
   </>
 );
