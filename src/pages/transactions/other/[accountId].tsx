@@ -19,7 +19,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transact
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <TransactionStats accountId={accountId} transactions={transactions} />
-      <TransactionList transactions={transactions} />
+      <TransactionList accountId={accountId} transactions={transactions} />
     </Container>
   </ProtectedPage>
 );

@@ -22,7 +22,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <Toolbar year={year} month={month} />
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-      <TransactionList transactions={transactions} />
+      <TransactionList accountId={1} transactions={transactions} />
     </Container>
   </ProtectedPage>
 );

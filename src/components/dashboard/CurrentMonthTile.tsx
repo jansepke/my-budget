@@ -18,6 +18,6 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
       </MuiLink>
     </Typography>
     <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-    <TransactionList transactions={transactions.slice(-5)} />
+    <TransactionList accountId={1} transactions={transactions.slice(-5)} />
   </>
 );
