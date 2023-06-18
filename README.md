@@ -12,6 +12,7 @@
 - monthly transactions from template
 - breadcrumps
 - reports
+- replace DataGrid
 
 ## License
 

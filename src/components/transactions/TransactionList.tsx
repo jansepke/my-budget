@@ -43,7 +43,6 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
     <DataGrid
       rows={transactions.map((t, idx) => ({ id: idx, ...t }))}
       columns={columns}
-      hideFooter
       autoHeight
       disableColumnMenu
       // density="compact"
