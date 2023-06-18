@@ -10,6 +10,8 @@
 - category IDs
 - category group headers in select
 - monthly transactions from template
+- breadcrumps
+- reports
 
 ## License
 

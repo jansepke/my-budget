@@ -10,6 +10,10 @@ export interface Category {
   label: string;
 }
 
+export interface CategoryStats extends Category {
+  sum: number;
+}
+
 export interface Transaction {
   from: number;
   to: number;
