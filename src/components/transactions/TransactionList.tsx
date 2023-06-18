@@ -1,8 +1,13 @@
 import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/backend/utils";
 import { Transaction } from "@/domain";
-import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import React from "react";
 
 interface TransactionListProps {
@@ -10,42 +15,33 @@ interface TransactionListProps {
   transactions: Transaction[];
 }
 
-export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions }) => {
-  const columns: GridColDef[] = [
-    {
-      field: "date",
-      type: "date",
-      valueGetter: ({ value }: { value: number }) => parseGoogleSheetsDate(value),
-      valueFormatter: ({ value }: { value: Date }) => formatDate(value),
-    },
-    {
-      field: "description",
-      flex: 1,
-      renderCell: (params: GridRenderCellParams) => (
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-          {params.value}
-          {params.row.from !== 0 && params.row.from !== accountId && <Chip label="X" color="primary" size="small" />}
-        </Box>
-      ),
-    },
-    {
-      field: "amount",
-      type: "number",
-      width: 90,
-      renderCell: (params: GridRenderCellParams) => (
-        <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
-      ),
-    },
-    { field: "category", headerName: "cat.", width: 50 },
-  ].map((cd) => ({ ...cd, sortable: false }));
-
-  return (
-    <DataGrid
-      rows={transactions.map((t, idx) => ({ id: idx, ...t }))}
-      columns={columns}
-      autoHeight
-      disableColumnMenu
-      // density="compact"
-    />
-  );
-};
+export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions }) => (
+  <TableContainer component={Paper}>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell width={75}>date</TableCell>
+          <TableCell>description</TableCell>
+          <TableCell width={90} align="right">
+            amount
+          </TableCell>
+          <TableCell width={50}>cat.</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {transactions.map((t, idx) => (
+          <TableRow key={idx} hover>
+            <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
+            <TableCell sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+              {t.description} {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
+            </TableCell>
+            <TableCell align="right" sx={{ color: currencyColor(t.amount) }}>
+              {formatCurrency(t.amount)}
+            </TableCell>
+            <TableCell>{t.category}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
