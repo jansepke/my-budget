@@ -10,7 +10,17 @@ export const roboto = Roboto({
 });
 
 export default createTheme({
+  typography: { fontFamily: roboto.style.fontFamily },
   palette: {
     primary: teal,
+  },
+  components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          padding: 10,
+        },
+      },
+    },
   },
 });
