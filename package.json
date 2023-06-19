@@ -23,7 +23,7 @@
     "@googleapis/sheets": "^4.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
-    "@mui/x-data-grid": "^6.7.0",
+    "@mui/x-data-grid": "^6.8.0",
     "@mui/x-date-pickers": "^6.7.0",
     "@vercel/edge-config": "^0.2.1",
     "dayjs": "^1.11.8",
