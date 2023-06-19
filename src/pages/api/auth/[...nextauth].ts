@@ -14,6 +14,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET!,
       authorization: {
         params: {
+          access_type: "offline",
           scope: "openid email profile https://www.googleapis.com/auth/spreadsheets",
         },
       },
@@ -30,7 +31,7 @@ export const authOptions: AuthOptions = {
         token.expiresAt = account.expires_at!;
 
         if (account.refresh_token) {
-          await saveRefreshToken(account);
+          await saveRefreshToken(account, token);
         }
       } else if (!token.expiresAt || Date.now() >= token.expiresAt * 1000) {
         await refreshToken(token);
@@ -51,8 +52,12 @@ export const getSession = async (context: GetServerSidePropsContext): Promise<Se
 
 export default NextAuth(authOptions);
 
+function getConfigKey(token: JWT) {
+  return `refresh_token_${token.sub}`;
+}
+
 async function refreshToken(token: JWT) {
-  const refreshToken: string | undefined = await get("refresh_token_jansepke");
+  const refreshToken: string | undefined = await get(getConfigKey(token));
 
   const tokens = await customFetchJson("https://oauth2.googleapis.com/token", {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -69,7 +74,7 @@ async function refreshToken(token: JWT) {
   token.expiresAt = Math.floor(Date.now() / 1000 + tokens.expires_in);
 }
 
-async function saveRefreshToken(account: Account) {
+async function saveRefreshToken(account: Account, token: JWT) {
   await customFetch(process.env.EDGE_CONFIG_API!, {
     method: "PATCH",
     headers: {
@@ -79,8 +84,8 @@ async function saveRefreshToken(account: Account) {
     body: JSON.stringify({
       items: [
         {
-          operation: "update",
-          key: "refresh_token_jansepke",
+          operation: "upsert",
+          key: getConfigKey(token),
           value: account.refresh_token,
         },
       ],
