@@ -1,5 +1,6 @@
 import { AccountSelector } from "@/components/transactions/AccountSelector";
 import { Account, Category, NewTransaction } from "@/domain";
+import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
@@ -42,7 +43,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
     const amount = type === "out" ? -formData.amount : formData.amount;
     const body = JSON.stringify({ ...formData, amount: amount });
 
-    await fetch("/api/transactions", { method: "POST", body });
+    await customFetch("/api/transactions", { method: "POST", body });
 
     setFormData(defaultFormData["out"]);
   };

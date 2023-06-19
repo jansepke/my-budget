@@ -30,3 +30,20 @@ export const filterForOtherAccounts = (t: Transaction) => t.from !== 1 || t.to !
 
 export const filterForOtherAccount = (accountId: number) => (t: Transaction) =>
   t.from === accountId || t.to === accountId;
+
+export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+  const response = await fetch(input, init);
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`HTTP error ${response.status} with body ${body}`);
+  }
+
+  return response;
+};
+
+export const customFetchJson = async (input: RequestInfo | URL, init?: RequestInit) => {
+  const response = await customFetch(input, init);
+
+  return response.json();
+};
