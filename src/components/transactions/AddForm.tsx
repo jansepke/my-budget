@@ -17,7 +17,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 type TransactionType = "out" | "in";
 
@@ -34,6 +34,12 @@ const defaultFormData = {
 export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData["out"]);
   const [type, setType] = useState<TransactionType>("out");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!inputRef.current) return;
+    inputRef.current.focus();
+  }, []);
 
   const addTransaction = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,6 +52,8 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
     await customFetch("/api/transactions", { method: "POST", body });
 
     setFormData(defaultFormData["out"]);
+
+    inputRef.current?.focus();
   };
 
   const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
@@ -104,6 +112,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       <TextField
         label="Description"
         fullWidth
+        inputRef={inputRef}
         value={formData.description || ""}
         onChange={(e) => changeHandler("description", e.target.value)}
         InputProps={buildIconStartAdornment(<TitleIcon />)}
