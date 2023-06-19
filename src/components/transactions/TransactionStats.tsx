@@ -1,4 +1,4 @@
-import { formatCurrency, sum } from "@/backend/utils";
+import { formatCurrency, sum } from "@/utils";
 import { Transaction } from "@/domain";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";

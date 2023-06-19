@@ -1,4 +1,4 @@
-import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/backend/utils";
+import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
 import { Transaction } from "@/domain";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";

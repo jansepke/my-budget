@@ -1,6 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterByMonth, filterForMainAccount } from "@/backend/utils";
+import { filterByMonth, filterForMainAccount } from "@/utils";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";

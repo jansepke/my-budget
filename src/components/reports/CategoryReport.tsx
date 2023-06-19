@@ -1,4 +1,4 @@
-import { currencyColor, formatCurrency } from "@/backend/utils";
+import { currencyColor, formatCurrency } from "@/utils";
 import { CategoryStats } from "@/domain";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";

@@ -1,6 +1,6 @@
 import { getAllAccounts } from "@/backend/accounts";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/backend/utils";
+import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";

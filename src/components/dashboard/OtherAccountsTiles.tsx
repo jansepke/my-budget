@@ -1,4 +1,4 @@
-import { currencyColor, filterForOtherAccount, formatCurrency, sum } from "@/backend/utils";
+import { currencyColor, filterForOtherAccount, formatCurrency, sum } from "@/utils";
 import { Account, Transaction } from "@/domain";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import { Link as MuiLink } from "@mui/material";

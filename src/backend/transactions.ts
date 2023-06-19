@@ -1,7 +1,7 @@
 import { SPREADSHEET_ID, TRANSACTIONS_RANGE, createSheetsClient, getValues } from "@/backend/google-sheets";
 import { NewTransactionBackend, Transaction } from "@/domain";
 import { Session } from "next-auth";
-import { formatDate } from "./utils";
+import { formatDate } from "@/utils";
 
 export const getAllTransactions = async (session: Session): Promise<Transaction[]> => {
   try {

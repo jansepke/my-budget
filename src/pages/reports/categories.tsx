@@ -1,6 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterForMainAccount, sum } from "@/backend/utils";
+import { filterForMainAccount, sum } from "@/utils";
 import { CategoryReport } from "@/components/reports/CategoryReport";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { CategoryStats } from "@/domain";
