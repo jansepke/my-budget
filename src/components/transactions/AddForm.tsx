@@ -113,7 +113,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         fullWidth
         value={formData.amount || ""}
         onChange={(e) => changeHandler("amount", Number(e.target.value))}
-        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+        type="number"
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
       <FormControl fullWidth>
