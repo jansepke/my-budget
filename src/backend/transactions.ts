@@ -29,21 +29,28 @@ export const createTransaction = async (session: Session, newTransaction: NewTra
 
   const date = formatDate(new Date(newTransaction.date));
 
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SPREADSHEET_ID,
-    valueInputOption: "USER_ENTERED",
-    range: TRANSACTIONS_RANGE,
-    requestBody: {
-      values: [
-        [
-          newTransaction.from,
-          newTransaction.to,
-          date,
-          newTransaction.description,
-          newTransaction.amount,
-          newTransaction.category,
-        ],
-      ],
-    },
-  });
+  const row = [
+    newTransaction.from,
+    newTransaction.to,
+    date,
+    newTransaction.description,
+    newTransaction.amount,
+    newTransaction.category,
+  ];
+
+  console.log("appending transaction", row);
+
+  try {
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      valueInputOption: "USER_ENTERED",
+      range: TRANSACTIONS_RANGE,
+      requestBody: {
+        values: [row],
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
