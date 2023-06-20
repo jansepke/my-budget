@@ -5,5 +5,5 @@ import { Session } from "next-auth";
 export const getAllAccounts = async (session: Session): Promise<Account[]> => {
   const rows = await getValues(session, ACCOUNTS_RANGE);
 
-  return rows.map(([id, label]) => ({ id: Number(id), label }));
+  return rows.map(([id, label]) => ({ id: Number(id), label: label as string }));
 };

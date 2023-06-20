@@ -12,9 +12,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "POST") {
-    const newTransaction = JSON.parse(req.body) as NewTransactionBackend;
+    const newTransaction = JSON.parse(req.body as string) as NewTransactionBackend;
 
-    createTransaction(session, newTransaction);
+    await createTransaction(session, newTransaction);
 
     res.end();
   } else {

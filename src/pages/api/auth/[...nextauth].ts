@@ -21,7 +21,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    session({ session, token }) {
       session.accessToken = token.accessToken;
       return session;
     },
@@ -53,13 +53,18 @@ export const getSession = async (context: GetServerSidePropsContext): Promise<Se
 export default NextAuth(authOptions);
 
 function getConfigKey(token: JWT) {
-  return `refresh_token_${token.sub}`;
+  return `refresh_token_${token.sub as string}`;
+}
+
+interface TokenResponse {
+  access_token: string;
+  expires_in: number;
 }
 
 async function refreshToken(token: JWT) {
   const refreshToken: string | undefined = await get(getConfigKey(token));
 
-  const tokens = await customFetchJson("https://oauth2.googleapis.com/token", {
+  const tokens = await customFetchJson<TokenResponse>("https://oauth2.googleapis.com/token", {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       client_id: process.env.GOOGLE_ID!,
@@ -78,7 +83,7 @@ async function saveRefreshToken(account: Account, token: JWT) {
   await customFetch(process.env.EDGE_CONFIG_API!, {
     method: "PATCH",
     headers: {
-      Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN!}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

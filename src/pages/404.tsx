@@ -7,7 +7,7 @@ const Error404 = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/");
+      void router.replace("/");
     }, 1500);
 
     return () => clearTimeout(timer);

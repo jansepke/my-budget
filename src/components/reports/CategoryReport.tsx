@@ -8,7 +8,7 @@ interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
-const columns: GridColDef[] = [
+const columns: GridColDef<CategoryStats>[] = [
   {
     field: "value",
   },
@@ -17,9 +17,12 @@ const columns: GridColDef[] = [
     field: "sum",
     type: "number",
     width: 90,
-    renderCell: (params: GridRenderCellParams) => (
-      <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
-    ),
+    renderCell: (params: GridRenderCellParams<CategoryStats, number>) =>
+      params.value === undefined ? (
+        "-"
+      ) : (
+        <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
+      ),
   },
 ].map((cd) => ({ ...cd, sortable: false }));
 

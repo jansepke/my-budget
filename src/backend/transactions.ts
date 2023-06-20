@@ -11,10 +11,10 @@ export const getAllTransactions = async (session: Session): Promise<Transaction[
       .map(([from, to, date, description, amount, category = null]) => ({
         from: Number(from),
         to: Number(to),
-        date,
-        description,
+        date: date as number,
+        description: description as string,
         amount: Number(amount),
-        category,
+        category: category as string,
       }))
       .sort((a, b) => a.date - b.date);
   } catch (error) {

@@ -5,5 +5,7 @@ import { Session } from "next-auth";
 export const getAllCategories = async (session: Session): Promise<Category[]> => {
   const rows = await getValues(session, CATEGORIES_RANGE);
 
-  return rows.map(([value, label]) => ({ value, label })).filter(({ value }) => value);
+  return rows
+    .map(([value, label]) => ({ value: value as string, label: label as string }))
+    .filter(({ value }) => value);
 };

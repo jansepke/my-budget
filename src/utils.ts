@@ -42,8 +42,8 @@ export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) 
   return response;
 };
 
-export const customFetchJson = async (input: RequestInfo | URL, init?: RequestInit) => {
+export const customFetchJson = async <T>(input: RequestInfo | URL, init?: RequestInit) => {
   const response = await customFetch(input, init);
 
-  return response.json();
+  return (await response.json()) as T;
 };
