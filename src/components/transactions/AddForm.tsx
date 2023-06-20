@@ -4,6 +4,7 @@ import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
+import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
@@ -35,6 +36,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData["out"]);
   const [type, setType] = useState<TransactionType>("out");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!inputRef.current) return;
@@ -49,11 +51,18 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
     const amount = type === "out" ? -formData.amount : formData.amount;
     const body = JSON.stringify({ ...formData, amount: amount });
 
-    await customFetch("/api/transactions", { method: "POST", body });
+    try {
+      await customFetch("/api/transactions", { method: "POST", body });
 
-    setFormData(defaultFormData["out"]);
+      setError("");
+      setFormData(defaultFormData["out"]);
 
-    inputRef.current?.focus();
+      inputRef.current?.focus();
+    } catch (error) {
+      console.log(error);
+
+      setError((error as Error).toString());
+    }
   };
 
   const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
@@ -143,6 +152,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       <Button type="submit" variant="contained" startIcon={<AddIcon />} sx={{ maxWidth: 120 }}>
         Add
       </Button>
+      {error && <Alert severity="error">{error}</Alert>}
     </Stack>
   );
 };
