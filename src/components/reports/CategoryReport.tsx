@@ -8,21 +8,29 @@ interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
+const renderCurrency = (params: GridRenderCellParams<CategoryStats, number>) =>
+  params.value === undefined ? (
+    "-"
+  ) : (
+    <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
+  );
+
 const columns: GridColDef<CategoryStats>[] = [
   {
     field: "value",
   },
   { field: "label", flex: 1 },
   {
-    field: "sum",
+    field: "yearAverage",
     type: "number",
     width: 90,
-    renderCell: (params: GridRenderCellParams<CategoryStats, number>) =>
-      params.value === undefined ? (
-        "-"
-      ) : (
-        <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
-      ),
+    renderCell: renderCurrency,
+  },
+  {
+    field: "currentSum",
+    type: "number",
+    width: 90,
+    renderCell: renderCurrency,
   },
 ].map((cd) => ({ ...cd, sortable: false }));
 

@@ -14,14 +14,16 @@ export function sum(transactions: Pick<Transaction, "amount">[]) {
   return transactions.reduce((sum, t) => sum + t.amount, 0);
 }
 
+export const filterBetweenDates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => (t: Transaction) => {
+  const date = parseGoogleSheetsDate(t.date);
+  return date > startDate.toDate() && date < endDate.toDate();
+};
+
 export const filterByMonth = (year: number, month: number) => {
   const startDate = dayjs(`${year}-${month}-1`);
   const endDate = startDate.endOf("month");
 
-  return (t: Transaction) => {
-    const date = parseGoogleSheetsDate(t.date);
-    return date > startDate.toDate() && date < endDate.toDate();
-  };
+  return filterBetweenDates(startDate, endDate);
 };
 
 export const filterForMainAccount = (t: Transaction) => (t.from && !t.to) || (t.to === 1 && !t.from);
@@ -30,6 +32,8 @@ export const filterForOtherAccounts = (t: Transaction) => t.from !== 1 || t.to !
 
 export const filterForOtherAccount = (accountId: number) => (t: Transaction) =>
   t.from === accountId || t.to === accountId;
+
+export const filterByCategory = (category: string) => (t: Transaction) => t.category === category;
 
 export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
   const response = await fetch(input, init);
