@@ -55,6 +55,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       await customFetch("/api/transactions", { method: "POST", body });
 
       setError("");
+      setType("out");
       setFormData(defaultFormData["out"]);
 
       inputRef.current?.focus();
