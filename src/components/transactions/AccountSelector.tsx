@@ -18,6 +18,7 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({ accounts, labe
       value={value}
       onChange={(e: unknown, value: number) => value && onChange(value)}
       color="primary"
+      size="small"
       exclusive
       fullWidth
     >

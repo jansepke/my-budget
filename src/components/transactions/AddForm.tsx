@@ -88,6 +88,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
           value={type}
           onChange={(e: unknown, value: TransactionType) => value && handleTypeChange(value)}
           color="primary"
+          size="small"
           exclusive
           fullWidth
         >
