@@ -49,6 +49,8 @@ export const createTransaction = async (session: Session, newTransaction: NewTra
         values: [row],
       },
     });
+
+    console.log("appended transaction", row);
   } catch (error) {
     console.error(error);
     throw error;
