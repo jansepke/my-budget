@@ -1,12 +1,13 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterByMonth, filterForMainAccount } from "@/utils";
+import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { Category, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
+import { filterByMonth, filterForMainAccount } from "@/utils";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
@@ -23,6 +24,8 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
       <Toolbar year={year} month={month} />
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
       <TransactionList accountId={1} transactions={transactions} />
+
+      <AddTransactionButton />
     </Container>
   </ProtectedPage>
 );
