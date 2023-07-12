@@ -4,3 +4,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      emotion:
+        patterns:
+          - "@emotion/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      eslint:
+        patterns:
+          - "*eslint*"
