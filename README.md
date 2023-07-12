@@ -10,6 +10,8 @@
 - category group headers in select
 - monthly transactions from template
 - reports
+- add button in transaction list
+- open category combobox on typing
 
 ## License
 

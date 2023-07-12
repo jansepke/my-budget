@@ -56,7 +56,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
 
       setError("");
       setType("out");
-      setFormData(defaultFormData["out"]);
+      setFormData({ ...defaultFormData["out"], date: formData.date });
 
       inputRef.current?.focus();
     } catch (error) {
