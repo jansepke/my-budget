@@ -18,8 +18,8 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, t
   const fixedSum = sum(transactions.filter((t) => t.category?.startsWith(FIXED_CATEGORY)));
   const variableSum = sum(
     transactions.filter(
-      (t) => t.category && !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_CATEGORY)
-    )
+      (t) => t.category && !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_CATEGORY),
+    ),
   );
 
   return (
