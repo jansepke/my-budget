@@ -53,7 +53,7 @@ export const getSession = async (context: GetServerSidePropsContext): Promise<Se
 export default NextAuth(authOptions);
 
 function getConfigKey(token: JWT) {
-  return `refresh_token_${token.sub as string}`;
+  return `refresh_token_${token.sub!}`;
 }
 
 interface TokenResponse {

@@ -33,7 +33,7 @@ const defaultFormData = {
 };
 
 export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
-  const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData["out"]);
+  const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData.out);
   const [type, setType] = useState<TransactionType>("out");
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
@@ -56,7 +56,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
 
       setError("");
       setType("out");
-      setFormData({ ...defaultFormData["out"], date: formData.date });
+      setFormData({ ...defaultFormData.out, date: formData.date });
 
       inputRef.current?.focus();
     } catch (error) {
@@ -124,14 +124,14 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         label="Description"
         fullWidth
         inputRef={inputRef}
-        value={formData.description || ""}
+        value={formData.description ?? ""}
         onChange={(e) => changeHandler("description", e.target.value)}
         InputProps={buildIconStartAdornment(<TitleIcon />)}
       />
       <TextField
         label="Amount"
         fullWidth
-        value={formData.amount || ""}
+        value={formData.amount ?? ""}
         onChange={(e) => changeHandler("amount", Number(e.target.value))}
         type="number"
         InputProps={buildIconStartAdornment(<EuroIcon />)}
@@ -141,7 +141,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         <Select
           labelId="category"
           label="Category"
-          value={formData.category || ""}
+          value={formData.category ?? ""}
           onChange={(e) => changeHandler("category", e.target.value)}
         >
           {categories.map((c) => (
