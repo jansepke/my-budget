@@ -21,7 +21,7 @@
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@googleapis/sheets": "^4.0.2",
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.14.0",
     "@mui/x-data-grid": "^6.9.2",
     "@mui/x-date-pickers": "^6.9.2",
