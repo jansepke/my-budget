@@ -8,6 +8,7 @@ import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { Category, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
@@ -23,7 +24,9 @@ const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transa
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <Toolbar year={year} month={month} />
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-      <TransactionList accountId={1} transactions={transactions} />
+      <Box mb={10}>
+        <TransactionList accountId={1} transactions={transactions} />
+      </Box>
 
       <AddTransactionButton />
     </Container>
