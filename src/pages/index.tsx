@@ -1,14 +1,17 @@
 import { getAllAccounts } from "@/backend/accounts";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Account, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
+import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
+import { Link as MuiLink } from "@mui/material";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 interface IndexPageProps {
   accounts: Account[];
@@ -24,6 +27,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, other
       <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
 
       <AddTransactionButton />
+
+      <Typography variant="h5" mt={1}>
+        <MuiLink component={Link} href="/reports/categories" color="inherit" underline="hover">
+          Reports
+        </MuiLink>
+      </Typography>
     </Container>
   </ProtectedPage>
 );
