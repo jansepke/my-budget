@@ -13,8 +13,8 @@ interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
-export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => (
-  <>
+export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
+  return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
@@ -47,5 +47,5 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
         </TableBody>
       </Table>
     </TableContainer>
-  </>
-);
+  );
+};

@@ -1,5 +1,5 @@
 import { getAllAccounts } from "@/backend/accounts";
-import { getAllCategories } from "@/backend/categories";
+import { getSelectableCategories } from "@/backend/categories";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { AddForm } from "@/components/transactions/AddForm";
 import { Account, Category } from "@/domain";
@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps<NewTransactionPageProps> = a
     props: {
       session: session,
       accounts: await getAllAccounts(session),
-      categories: await getAllCategories(session),
+      categories: await getSelectableCategories(session),
     },
   };
 };

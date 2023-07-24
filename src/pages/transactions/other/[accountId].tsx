@@ -1,17 +1,15 @@
-import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import { filterForOtherAccount } from "@/utils";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Category, Transaction } from "@/domain";
+import { Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
+import { filterForOtherAccount } from "@/utils";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
 interface TransactionsPageProps {
   accountId: number;
-  categories: Category[];
   transactions: Transaction[];
 }
 
@@ -35,7 +33,6 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
     props: {
       session: session,
       accountId: accountId,
-      categories: await getAllCategories(session),
       transactions: (await getAllTransactions(session)).filter(filterForOtherAccount(accountId)),
     },
   };

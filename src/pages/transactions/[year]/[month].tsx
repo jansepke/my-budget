@@ -1,11 +1,10 @@
-import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Category, Transaction } from "@/domain";
+import { Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
 import Box from "@mui/material/Box";
@@ -15,7 +14,6 @@ import { GetServerSideProps } from "next";
 interface TransactionsPageProps {
   year: number;
   month: number;
-  categories: Category[];
   transactions: Transaction[];
 }
 
@@ -48,7 +46,6 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
       session: session,
       year,
       month,
-      categories: await getAllCategories(session),
       transactions: (await getAllTransactions(session)).filter(filterByMonth(year, month)).filter(filterForMainAccount),
     },
   };
