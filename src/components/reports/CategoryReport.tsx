@@ -1,45 +1,51 @@
-import { currencyColor, formatCurrency } from "@/utils";
 import { CategoryStats } from "@/domain";
-import Box from "@mui/material/Box";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { currencyColor, formatCurrency } from "@/utils";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import React from "react";
 
 interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
-const renderCurrency = (params: GridRenderCellParams<CategoryStats, number>) =>
-  params.value === undefined ? (
-    "-"
-  ) : (
-    <Box sx={{ color: currencyColor(params.value) }}>{formatCurrency(params.value)}</Box>
-  );
-
-const columns: GridColDef<CategoryStats>[] = [
-  {
-    field: "value",
-  },
-  { field: "label", flex: 1 },
-  {
-    field: "yearAverage",
-    type: "number",
-    width: 90,
-    renderCell: renderCurrency,
-  },
-  {
-    field: "currentSum",
-    type: "number",
-    width: 90,
-    renderCell: renderCurrency,
-  },
-].map((cd) => ({ ...cd, sortable: false }));
-
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => (
-  <DataGrid
-    rows={categoryStats.map((t) => ({ id: t.value, ...t }))}
-    columns={columns}
-    hideFooter
-    autoHeight
-    disableColumnMenu
-  />
+  <>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell width={75}>value</TableCell>
+            <TableCell>label</TableCell>
+            <TableCell width={90} align="right">
+              yearAverage
+            </TableCell>
+            <TableCell width={90} align="right">
+              currentSum
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {categoryStats.map((stat, idx) => (
+            <TableRow key={idx} hover>
+              <TableCell>{stat.value}</TableCell>
+              <TableCell sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                {stat.label}
+              </TableCell>
+              <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
+                {formatCurrency(stat.yearAverage)}
+              </TableCell>
+              <TableCell align="right" sx={{ color: currencyColor(stat.currentSum) }}>
+                {formatCurrency(stat.currentSum)}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </>
 );

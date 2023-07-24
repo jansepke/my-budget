@@ -3,7 +3,7 @@
 ## TODO
 
 - API validation (https://npmtrends.com/ajv-vs-joi-vs-yup-vs-zod)
-- category label (https://mui.com/x/react-data-grid/components/#cell)
+- category label on hover
 - Form validation
 - small transaction list in add form?
 - category IDs
