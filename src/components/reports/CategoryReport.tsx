@@ -34,6 +34,19 @@ const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children, expan
   );
 };
 
+const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
+  <>
+    <TableCell>{stat.value}</TableCell>
+    <TableCell width="100%">{stat.label}</TableCell>
+    <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
+      {formatCurrency(stat.yearAverage)}
+    </TableCell>
+    <TableCell align="right" sx={{ color: currencyColor(stat.currentSum) }}>
+      {formatCurrency(stat.currentSum)}
+    </TableCell>
+  </>
+);
+
 interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
@@ -68,27 +81,13 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
                     .map((subStat, idx) => (
                       <TableRow key={idx}>
                         <TableCell />
-                        <TableCell>{subStat.value}</TableCell>
-                        <TableCell width="100%">{subStat.label}</TableCell>
-                        <TableCell align="right" sx={{ color: currencyColor(subStat.yearAverage) }}>
-                          {formatCurrency(subStat.yearAverage)}
-                        </TableCell>
-                        <TableCell align="right" sx={{ color: currencyColor(subStat.currentSum) }}>
-                          {formatCurrency(subStat.currentSum)}
-                        </TableCell>
+                        <TableRowCells stat={subStat} />
                       </TableRow>
                     ))}
                 </>
               }
             >
-              <TableCell>{stat.value}</TableCell>
-              <TableCell width="100%">{stat.label}</TableCell>
-              <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
-                {formatCurrency(stat.yearAverage)}
-              </TableCell>
-              <TableCell align="right" sx={{ color: currencyColor(stat.currentSum) }}>
-                {formatCurrency(stat.currentSum)}
-              </TableCell>
+              <TableRowCells stat={stat} />
             </ExpandableTableRow>
           ))}
         </TableBody>
