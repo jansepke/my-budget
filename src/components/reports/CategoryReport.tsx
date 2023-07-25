@@ -36,8 +36,9 @@ const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children, expan
 
 const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
   <>
-    <TableCell>{stat.value}</TableCell>
-    <TableCell width="100%">{stat.label}</TableCell>
+    <TableCell width="100%">
+      {stat.value} - {stat.label}
+    </TableCell>
     <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
       {formatCurrency(stat.yearAverage)}
     </TableCell>
@@ -59,14 +60,13 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell width={75}>value</TableCell>
-            <TableCell width="100%">label</TableCell>
+            <TableCell />
+            <TableCell width="100%">Category</TableCell>
             <TableCell width={90} align="right">
-              yearAverage
+              Year Ø
             </TableCell>
             <TableCell width={90} align="right">
-              currentSum
+              curr. Σ
             </TableCell>
           </TableRow>
         </TableHead>
