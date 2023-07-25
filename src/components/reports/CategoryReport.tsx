@@ -42,6 +42,9 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
       {formatCurrency(stat.yearAverage)}
     </TableCell>
+    <TableCell align="right" sx={{ color: currencyColor(stat.lastSum) }}>
+      {formatCurrency(stat.lastSum)}
+    </TableCell>
     <TableCell align="right" sx={{ color: currencyColor(stat.currentSum) }}>
       {formatCurrency(stat.currentSum)}
     </TableCell>
@@ -64,6 +67,9 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
             <TableCell width="100%">Category</TableCell>
             <TableCell width={90} align="right">
               Year Ø
+            </TableCell>
+            <TableCell width={90} align="right">
+              last. Σ
             </TableCell>
             <TableCell width={90} align="right">
               curr. Σ
@@ -105,6 +111,7 @@ function calculateTopCategoryStats(categoryStats: CategoryStats[]) {
     const group = all.find((g) => g.value === stat.value[0])!;
 
     group.yearAverage += stat.yearAverage;
+    group.lastSum += stat.lastSum;
     group.currentSum += stat.currentSum;
 
     return all;

@@ -12,6 +12,7 @@ export interface Category {
 
 export interface CategoryStats extends Category {
   yearAverage: number;
+  lastSum: number;
   currentSum: number;
 }
 
