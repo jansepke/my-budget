@@ -1,5 +1,5 @@
-import { formatCurrency, sum } from "@/utils";
 import { Transaction } from "@/domain";
+import { FIXED_CATEGORY, INCOME_CATEGORY, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -8,9 +8,6 @@ interface TransactionStatsProps {
   transactions: Transaction[];
   showFixedSum?: boolean;
 }
-
-const INCOME_CATEGORY = "I";
-const FIXED_CATEGORY = "M";
 
 export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, transactions, showFixedSum }) => {
   const totalSum = sum(transactions.filter((t) => t.from === accountId || t.to === accountId));

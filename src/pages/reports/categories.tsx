@@ -8,6 +8,7 @@ import { getSession } from "@/pages/api/auth/[...nextauth]";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 import dayjs from "dayjs";
+import { YearStats } from "@/components/reports/YearStats";
 
 interface CategoriesPageProps {
   categoryStats: CategoryStats[];
@@ -16,6 +17,7 @@ interface CategoriesPageProps {
 const CategoriesPage: React.FC<CategoriesPageProps> = ({ categoryStats }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
+      <YearStats categoryStats={categoryStats} />
       <CategoryReport categoryStats={categoryStats} />
     </Container>
   </ProtectedPage>

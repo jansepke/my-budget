@@ -2,6 +2,9 @@ import { Transaction } from "@/domain";
 import { green, red } from "@mui/material/colors";
 import dayjs from "dayjs";
 
+export const INCOME_CATEGORY = "I";
+export const FIXED_CATEGORY = "M";
+
 // https://stackoverflow.com/a/53107408/1453662
 export const parseGoogleSheetsDate = (value: number) => new Date(value * 86400000 - 2209132800000);
 export const formatDate = (value: Date) => value.toLocaleDateString("de-DE", { dateStyle: "medium" });
