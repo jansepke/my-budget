@@ -1,25 +1,26 @@
 import { getAllAccounts } from "@/backend/accounts";
+import { getAllCategories } from "@/backend/categories";
+import { calculateCategoryStats } from "@/backend/category-stats";
 import { getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
+import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
-import { Account, Transaction } from "@/domain";
+import { Account, CategoryStats, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
-import { Link as MuiLink } from "@mui/material";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 
 interface IndexPageProps {
   accounts: Account[];
   mainTransactions: Transaction[];
   otherTransactions: Transaction[];
+  categoryStats: CategoryStats[];
 }
 
-const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, otherTransactions }) => (
+const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, otherTransactions, categoryStats }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <CurrentMonthTile transactions={mainTransactions} />
@@ -28,11 +29,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, other
 
       <AddTransactionButton />
 
-      <Typography variant="h5" mt={1}>
-        <MuiLink component={Link} href="/reports/categories" color="inherit" underline="hover">
-          Reports
-        </MuiLink>
-      </Typography>
+      <ReportsTile categoryStats={categoryStats} />
     </Container>
   </ProtectedPage>
 );
@@ -43,6 +40,7 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (con
   const session = await getSession(context);
   const now = new Date();
 
+  const categories = await getAllCategories(session);
   const allTransactions = await getAllTransactions(session);
 
   return {
@@ -53,6 +51,7 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (con
         .filter(filterByMonth(now.getUTCFullYear(), now.getUTCMonth() + 1))
         .filter(filterForMainAccount),
       otherTransactions: allTransactions.filter(filterForOtherAccounts),
+      categoryStats: calculateCategoryStats(categories, allTransactions),
     },
   };
 };
