@@ -24,9 +24,9 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
         m: 1,
       }}
     >
-      <Typography color="text.secondary">{formatCurrency(averageVariable)} (var. Ø)</Typography>
-      <Typography color="text.secondary">{formatCurrency(lastFix)} (last fix Σ)</Typography>
-      <Typography color="text.secondary">= {formatCurrency(averageVariable + lastFix)}</Typography>
+      <Typography color="text.secondary">{formatCurrency(averageVariable)} (var.&nbsp;Ø)</Typography>
+      <Typography color="text.secondary">{formatCurrency(lastFix)} (last&nbsp;fix&nbsp;Σ)</Typography>
+      <Typography color="text.secondary">=&nbsp;{formatCurrency(averageVariable + lastFix)}</Typography>
     </Box>
   );
 };
