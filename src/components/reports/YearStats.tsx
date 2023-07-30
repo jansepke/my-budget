@@ -9,9 +9,12 @@ interface YearStatsProps {
 }
 
 export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
-  const variableAverage = categoryStats
+  const averageVariable = categoryStats
     .filter((cs) => !cs.value.startsWith(INCOME_CATEGORY) && !cs.value.startsWith(FIXED_CATEGORY))
     .reduce((all, cs) => all + cs.yearAverage, 0);
+  const lastFix = categoryStats
+    .filter((cs) => cs.value.startsWith(FIXED_CATEGORY))
+    .reduce((all, cs) => all + cs.lastSum, 0);
 
   return (
     <Box
@@ -21,7 +24,9 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
         m: 1,
       }}
     >
-      <Typography color="text.secondary">{formatCurrency(variableAverage)} (var. Ø)</Typography>
+      <Typography color="text.secondary">{formatCurrency(averageVariable)} (var. Ø)</Typography>
+      <Typography color="text.secondary">{formatCurrency(lastFix)} (last fix Σ)</Typography>
+      <Typography color="text.secondary">= {formatCurrency(averageVariable + lastFix)}</Typography>
     </Box>
   );
 };
