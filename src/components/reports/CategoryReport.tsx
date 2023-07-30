@@ -56,7 +56,6 @@ interface CategoryReportProps {
 // TODO: drill down
 // TODO: expandable only for categories with subcategories
 // TODO: colorcoding compared to average
-// TODO: last fix + average variable
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const topCategoryStats = calculateTopCategoryStats(categoryStats);
 
