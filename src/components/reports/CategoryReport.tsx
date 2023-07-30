@@ -21,11 +21,9 @@ const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children, expan
 
   return (
     <>
-      <TableRow hover>
+      <TableRow hover onClick={() => setIsExpanded(!isExpanded)}>
         <TableCell>
-          <IconButton onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+          <IconButton>{isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
         </TableCell>
         {children}
       </TableRow>
