@@ -1,5 +1,6 @@
-import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
 import { Transaction } from "@/domain";
+import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
+import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -39,9 +40,11 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
           transactions.map((t, idx) => (
             <TableRow key={idx} hover>
               <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
-              <TableCell sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-                {t.description}{" "}
-                {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
+              <TableCell>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  {t.description}{" "}
+                  {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
+                </Box>
               </TableCell>
               <TableCell align="right" sx={{ color: currencyColor(t.amount) }}>
                 {formatCurrency(t.amount)}
