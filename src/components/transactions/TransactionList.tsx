@@ -29,18 +29,27 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
         </TableRow>
       </TableHead>
       <TableBody>
-        {transactions.map((t, idx) => (
-          <TableRow key={idx} hover>
-            <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
-            <TableCell sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
-              {t.description} {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
+        {transactions.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={5} align="center">
+              no transactions
             </TableCell>
-            <TableCell align="right" sx={{ color: currencyColor(t.amount) }}>
-              {formatCurrency(t.amount)}
-            </TableCell>
-            <TableCell>{t.category}</TableCell>
           </TableRow>
-        ))}
+        ) : (
+          transactions.map((t, idx) => (
+            <TableRow key={idx} hover>
+              <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
+              <TableCell sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+                {t.description}{" "}
+                {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
+              </TableCell>
+              <TableCell align="right" sx={{ color: currencyColor(t.amount) }}>
+                {formatCurrency(t.amount)}
+              </TableCell>
+              <TableCell>{t.category}</TableCell>
+            </TableRow>
+          ))
+        )}
       </TableBody>
     </Table>
   </TableContainer>
