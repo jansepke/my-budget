@@ -22,14 +22,14 @@ interface IndexPageProps {
 
 const IndexPage: React.FC<IndexPageProps> = ({ accounts, mainTransactions, otherTransactions, categoryStats }) => (
   <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
+    <Container maxWidth="md" sx={{ "> *": { marginTop: 3 } }}>
       <CurrentMonthTile transactions={mainTransactions} />
 
       <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
 
-      <AddTransactionButton />
-
       <ReportsTile categoryStats={categoryStats} />
+
+      <AddTransactionButton />
     </Container>
   </ProtectedPage>
 );

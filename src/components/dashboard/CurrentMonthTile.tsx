@@ -14,7 +14,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
   const currentMonth = new Date().toLocaleString(undefined, { month: "long" });
 
   return (
-    <>
+    <div>
       <Typography variant="h5">
         <MuiLink component={Link} href="/transactions/current/current" color="inherit" underline="hover">
           Your Budget in {currentMonth} <NorthEastIcon />
@@ -22,6 +22,6 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
       </Typography>
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
       <TransactionList accountId={1} transactions={transactions.slice(-5)} />
-    </>
+    </div>
   );
 };

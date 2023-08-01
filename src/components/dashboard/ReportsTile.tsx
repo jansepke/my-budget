@@ -10,12 +10,12 @@ interface ReportsTileProps {
 }
 
 export const ReportsTile: React.FC<ReportsTileProps> = ({ categoryStats }) => (
-  <>
-    <Typography variant="h5" mt={1}>
+  <div>
+    <Typography variant="h5">
       <MuiLink component={Link} href="/reports/categories" color="inherit" underline="hover">
         Reports <NorthEastIcon />
       </MuiLink>
     </Typography>
     <YearStats categoryStats={categoryStats} />
-  </>
+  </div>
 );

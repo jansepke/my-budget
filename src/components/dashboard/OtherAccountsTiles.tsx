@@ -40,7 +40,7 @@ export const OtherAccountsTiles: React.FC<OtherAccountsTilesProps> = ({ accounts
   const otherAccounts = accounts.filter((a) => a.id !== 1);
 
   return (
-    <Box mt={1}>
+    <div>
       <Typography variant="h5" gutterBottom>
         Other Accounts
       </Typography>
@@ -55,6 +55,6 @@ export const OtherAccountsTiles: React.FC<OtherAccountsTilesProps> = ({ accounts
           <AccountTile key={a.id} account={a} transactions={transactions} />
         ))}
       </Box>
-    </Box>
+    </div>
   );
 };
