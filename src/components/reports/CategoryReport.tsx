@@ -1,8 +1,6 @@
+import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import { CategoryStats, GroupStats } from "@/domain";
 import { currencyColor, formatCurrency } from "@/utils";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,29 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import React, { useState } from "react";
-
-interface ExpandableTableRowProps extends React.PropsWithChildren {
-  expandComponent: React.ReactNode;
-}
-
-const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children, expandComponent }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <>
-      <TableRow hover onClick={() => setIsExpanded(!isExpanded)}>
-        <TableCell>
-          <IconButton sx={{ p: 0 }}>
-            {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon sx={{ fontSize: "15px" }} />}
-          </IconButton>
-        </TableCell>
-        {children}
-      </TableRow>
-      {isExpanded && expandComponent}
-    </>
-  );
-};
+import React from "react";
 
 const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
   <>
@@ -50,6 +26,29 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     </TableCell>
   </>
 );
+
+const GroupStatsRows: React.FC<{ stat: GroupStats }> = ({ stat }) =>
+  stat.categories.length > 0 ? (
+    <ExpandableTableRow
+      expandComponent={
+        <>
+          {stat.categories.map((subStat) => (
+            <TableRow key={subStat.value}>
+              <TableCell />
+              <TableRowCells stat={subStat} />
+            </TableRow>
+          ))}
+        </>
+      }
+    >
+      <TableRowCells stat={stat} />
+    </ExpandableTableRow>
+  ) : (
+    <TableRow>
+      <TableCell />
+      <TableRowCells stat={stat} />
+    </TableRow>
+  );
 
 interface CategoryReportProps {
   categoryStats: CategoryStats[];
@@ -79,30 +78,9 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
           </TableRow>
         </TableHead>
         <TableBody>
-          {groupStats.map((stat) =>
-            stat.categories.length > 0 ? (
-              <ExpandableTableRow
-                key={stat.value}
-                expandComponent={
-                  <>
-                    {stat.categories.map((subStat) => (
-                      <TableRow key={subStat.value}>
-                        <TableCell />
-                        <TableRowCells stat={subStat} />
-                      </TableRow>
-                    ))}
-                  </>
-                }
-              >
-                <TableRowCells stat={stat} />
-              </ExpandableTableRow>
-            ) : (
-              <TableRow key={stat.value}>
-                <TableCell />
-                <TableRowCells stat={stat} />
-              </TableRow>
-            ),
-          )}
+          {groupStats.map((stat) => (
+            <GroupStatsRows key={stat.value} stat={stat} />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
