@@ -16,7 +16,11 @@ export const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children
       <TableRow hover onClick={() => setIsExpanded(!isExpanded)}>
         <TableCell>
           <IconButton sx={{ p: 0 }}>
-            {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon sx={{ fontSize: "15px" }} />}
+            {isExpanded ? (
+              <KeyboardArrowUpIcon sx={{ fontSize: "15px" }} />
+            ) : (
+              <KeyboardArrowDownIcon sx={{ fontSize: "15px" }} />
+            )}
           </IconButton>
         </TableCell>
         {children}

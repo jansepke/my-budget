@@ -56,6 +56,7 @@ interface CategoryReportProps {
 
 // TODO: drill down
 // TODO: colorcoding compared to average
+// TODO: see more months
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const groupStats = calculateGroupStats(categoryStats);
 
