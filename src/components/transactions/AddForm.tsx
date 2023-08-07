@@ -18,7 +18,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useState } from "react";
+import { useFocus } from "../shared/useFocus";
 
 type TransactionType = "out" | "in";
 
@@ -35,13 +36,8 @@ const defaultFormData = {
 export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData.out);
   const [type, setType] = useState<TransactionType>("out");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { inputRef, focus } = useFocus();
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!inputRef.current) return;
-    inputRef.current.focus();
-  }, []);
 
   const addTransaction = async (e: FormEvent) => {
     e.preventDefault();
@@ -58,7 +54,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       setType("out");
       setFormData({ ...defaultFormData.out, date: formData.date });
 
-      inputRef.current?.focus();
+      focus();
     } catch (error) {
       console.log(error);
 
