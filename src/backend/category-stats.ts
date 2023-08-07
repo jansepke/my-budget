@@ -1,22 +1,32 @@
 import { Category, CategoryStats, Transaction } from "@/domain";
-import { filterBetweenDates, filterByCategory, sum } from "@/utils";
+import { filterBetweenDates, filterByCategory, parseGoogleSheetsDate, sum } from "@/utils";
 import dayjs from "dayjs";
+
+const calculateSumsForCategory = (category: string, transactionsByMonth: Transaction[][]): number[] =>
+  transactionsByMonth.map((transactions) => sum(transactions.filter(filterByCategory(category))));
 
 export const calculateCategoryStats = (categories: Category[], transactions: Transaction[]): CategoryStats[] => {
   const today = dayjs();
   const startOfYear = today.startOf("year");
-  const startOfLastMonth = today.subtract(1, "month").startOf("month");
   const endOfLastMonth = today.subtract(1, "month").endOf("month");
-  const startOfCurrentMonth = today.startOf("month");
 
   const currentYear = transactions.filter(filterBetweenDates(startOfYear, endOfLastMonth));
-  const lastMonth = transactions.filter(filterBetweenDates(startOfLastMonth, endOfLastMonth));
-  const currentMonth = transactions.filter(filterBetweenDates(startOfCurrentMonth, today));
+
+  const transactionsByMonth = transactions.reduce((all, transaction) => {
+    const date = parseGoogleSheetsDate(transaction.date);
+    const month = date.getMonth();
+    if (all[month] === undefined) {
+      all[month] = [];
+    }
+
+    all[month].push(transaction);
+
+    return all;
+  }, [] as Transaction[][]);
 
   return categories.map((c) => ({
     ...c,
     yearAverage: sum(currentYear.filter(filterByCategory(c.value))) / (endOfLastMonth.month() + 1),
-    lastSum: sum(lastMonth.filter(filterByCategory(c.value))),
-    currentSum: sum(currentMonth.filter(filterByCategory(c.value))),
+    sums: calculateSumsForCategory(c.value, transactionsByMonth),
   }));
 };

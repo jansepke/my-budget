@@ -14,7 +14,7 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
     .reduce((all, cs) => all + cs.yearAverage, 0);
   const lastFix = categoryStats
     .filter((cs) => cs.value.startsWith(FIXED_CATEGORY))
-    .reduce((all, cs) => all + cs.lastSum, 0);
+    .reduce((all, cs) => all + cs.sums.at(-1)!, 0);
 
   return (
     <Box

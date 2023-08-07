@@ -18,11 +18,11 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
       {formatCurrency(stat.yearAverage)}
     </TableCell>
-    <TableCell align="right" sx={{ color: currencyColor(stat.lastSum) }}>
-      {formatCurrency(stat.lastSum)}
+    <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(-2)!) }}>
+      {formatCurrency(stat.sums.at(-2)!)}
     </TableCell>
-    <TableCell align="right" sx={{ color: currencyColor(stat.currentSum) }}>
-      {formatCurrency(stat.currentSum)}
+    <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(-1)!) }}>
+      {formatCurrency(stat.sums.at(-1)!)}
     </TableCell>
   </>
 );
@@ -97,8 +97,7 @@ function calculateGroupStats(categoryStats: CategoryStats[]) {
     const group = all.find((g) => g.value === stat.value[0])!;
 
     group.yearAverage += stat.yearAverage;
-    group.lastSum += stat.lastSum;
-    group.currentSum += stat.currentSum;
+    group.sums = group.sums.map((sum, idx) => sum + stat.sums[idx]);
     group.categories.push(stat);
 
     return all;
