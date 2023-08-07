@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/en-gb";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
@@ -25,7 +26,7 @@ export default function MyApp({
   return (
     <SessionProvider session={session}>
       <CacheProvider value={emotionCache}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-GB">
           <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
           </Head>
