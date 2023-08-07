@@ -16,6 +16,10 @@ export interface CategoryStats extends Category {
   currentSum: number;
 }
 
+export interface GroupStats extends CategoryStats {
+  categories: CategoryStats[];
+}
+
 export interface Transaction {
   from: number;
   to: number;

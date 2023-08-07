@@ -1,5 +1,7 @@
-import { CategoryStats } from "@/domain";
+import { CategoryStats, GroupStats } from "@/domain";
 import { currencyColor, formatCurrency } from "@/utils";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -9,8 +11,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import React, { useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 interface ExpandableTableRowProps extends React.PropsWithChildren {
   expandComponent: React.ReactNode;
@@ -23,7 +23,9 @@ const ExpandableTableRow: React.FC<ExpandableTableRowProps> = ({ children, expan
     <>
       <TableRow hover onClick={() => setIsExpanded(!isExpanded)}>
         <TableCell>
-          <IconButton>{isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
+          <IconButton sx={{ p: 0 }}>
+            {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon sx={{ fontSize: "15px" }} />}
+          </IconButton>
         </TableCell>
         {children}
       </TableRow>
@@ -54,10 +56,9 @@ interface CategoryReportProps {
 }
 
 // TODO: drill down
-// TODO: expandable only for categories with subcategories
 // TODO: colorcoding compared to average
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
-  const topCategoryStats = calculateTopCategoryStats(categoryStats);
+  const groupStats = calculateGroupStats(categoryStats);
 
   return (
     <TableContainer component={Paper}>
@@ -78,35 +79,40 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
           </TableRow>
         </TableHead>
         <TableBody>
-          {topCategoryStats.map((stat, idx) => (
-            <ExpandableTableRow
-              key={idx}
-              expandComponent={
-                <>
-                  {categoryStats
-                    .filter((subStat) => subStat.value.length > 1 && subStat.value.startsWith(stat.value))
-                    .map((subStat, idx) => (
-                      <TableRow key={idx}>
+          {groupStats.map((stat) =>
+            stat.categories.length > 0 ? (
+              <ExpandableTableRow
+                key={stat.value}
+                expandComponent={
+                  <>
+                    {stat.categories.map((subStat) => (
+                      <TableRow key={subStat.value}>
                         <TableCell />
                         <TableRowCells stat={subStat} />
                       </TableRow>
                     ))}
-                </>
-              }
-            >
-              <TableRowCells stat={stat} />
-            </ExpandableTableRow>
-          ))}
+                  </>
+                }
+              >
+                <TableRowCells stat={stat} />
+              </ExpandableTableRow>
+            ) : (
+              <TableRow key={stat.value}>
+                <TableCell />
+                <TableRowCells stat={stat} />
+              </TableRow>
+            ),
+          )}
         </TableBody>
       </Table>
     </TableContainer>
   );
 };
 
-function calculateTopCategoryStats(categoryStats: CategoryStats[]) {
-  return categoryStats.reduce((all, stat) => {
+function calculateGroupStats(categoryStats: CategoryStats[]) {
+  return categoryStats.reduce<GroupStats[]>((all, stat) => {
     if (stat.value.length < 2) {
-      return [...all, { ...stat }];
+      return [...all, { ...stat, categories: [] }];
     }
 
     const group = all.find((g) => g.value === stat.value[0])!;
@@ -114,7 +120,8 @@ function calculateTopCategoryStats(categoryStats: CategoryStats[]) {
     group.yearAverage += stat.yearAverage;
     group.lastSum += stat.lastSum;
     group.currentSum += stat.currentSum;
+    group.categories.push(stat);
 
     return all;
-  }, [] as CategoryStats[]);
+  }, []);
 }
