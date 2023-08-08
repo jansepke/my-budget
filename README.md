@@ -10,6 +10,7 @@
 - category group headers in select
 - monthly transactions from template
 - reports
+- screenshoot upload
 
 ## License
 

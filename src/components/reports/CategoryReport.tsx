@@ -8,7 +8,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import dayjs from "dayjs";
 import React from "react";
+
+const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 
 const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
   <>
@@ -18,12 +21,11 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
       {formatCurrency(stat.yearAverage)}
     </TableCell>
-    <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(-2)!) }}>
-      {formatCurrency(stat.sums.at(-2)!)}
-    </TableCell>
-    <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(-1)!) }}>
-      {formatCurrency(stat.sums.at(-1)!)}
-    </TableCell>
+    {monthArray.map((month) => (
+      <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(month)!) }} key={month}>
+        {formatCurrency(stat.sums.at(month)!)}
+      </TableCell>
+    ))}
   </>
 );
 
@@ -56,7 +58,7 @@ interface CategoryReportProps {
 
 // TODO: drill down
 // TODO: colorcoding compared to average
-// TODO: see more months
+// TODO: next fixed costs
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const groupStats = calculateGroupStats(categoryStats);
 
@@ -70,12 +72,11 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
             <TableCell width={90} align="right">
               Year Ø
             </TableCell>
-            <TableCell width={90} align="right">
-              last. Σ
-            </TableCell>
-            <TableCell width={90} align="right">
-              curr. Σ
-            </TableCell>
+            {monthArray.map((month) => (
+              <TableCell width={90} align="right" key={month}>
+                {getMonthName(month)}. Σ
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -102,4 +103,11 @@ function calculateGroupStats(categoryStats: CategoryStats[]) {
 
     return all;
   }, []);
+}
+
+function getMonthName(month: number) {
+  const date = new Date();
+  date.setMonth(month);
+
+  return date.toLocaleString(undefined, { month: "short" });
 }
