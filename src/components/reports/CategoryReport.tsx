@@ -14,7 +14,12 @@ import React from "react";
 
 const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 
-const TableRowCells: React.FC<{ stat: CategoryStats; drilldown?: boolean }> = ({ stat, drilldown }) => (
+interface TableRowCellsProps {
+  stat: CategoryStats;
+  drilldown?: boolean;
+}
+
+const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
   <>
     <TableCell sx={{ fontWeight: 500 }} width="100%">
       {stat.value ? stat.value + " - " : ""}
@@ -41,7 +46,11 @@ const TableRowCells: React.FC<{ stat: CategoryStats; drilldown?: boolean }> = ({
   </>
 );
 
-const GroupStatsRows: React.FC<{ stat: GroupStats }> = ({ stat }) =>
+interface GroupStatsRowsProps {
+  stat: GroupStats;
+}
+
+const GroupStatsRows: React.FC<GroupStatsRowsProps> = ({ stat }) =>
   stat.categories.length > 0 ? (
     <ExpandableTableRow
       expandComponent={
