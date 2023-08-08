@@ -10,6 +10,7 @@ import { filterByMonth, filterForMainAccount } from "@/utils";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
+import { useSearchParams } from "next/navigation";
 
 interface TransactionsPageProps {
   year: number;
@@ -17,19 +18,26 @@ interface TransactionsPageProps {
   transactions: Transaction[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transactions }) => (
-  <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <Toolbar year={year} month={month} />
-      <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-      <Box mb={10}>
-        <TransactionList accountId={1} transactions={transactions} />
-      </Box>
+const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transactions }) => {
+  const searchParams = useSearchParams();
+  const filterCategory = searchParams.get("category");
 
-      <AddTransactionButton />
-    </Container>
-  </ProtectedPage>
-);
+  const filteredTransactions = transactions.filter((t) => filterCategory === null || t.category === filterCategory);
+
+  return (
+    <ProtectedPage headline="My Budget">
+      <Container maxWidth="md" sx={{ marginTop: 3 }}>
+        <Toolbar year={year} month={month} />
+        <TransactionStats accountId={1} transactions={transactions} showFixedSum />
+        <Box mb={10}>
+          <TransactionList accountId={1} transactions={filteredTransactions} />
+        </Box>
+
+        <AddTransactionButton />
+      </Container>
+    </ProtectedPage>
+  );
+};
 
 export default TransactionsPage;
 

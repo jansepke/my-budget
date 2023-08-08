@@ -1,4 +1,5 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
+import Link from "@/components/shared/Link";
 import { CategoryStats, GroupStats } from "@/domain";
 import { FIXED_CATEGORY, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
@@ -13,7 +14,7 @@ import React from "react";
 
 const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 
-const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
+const TableRowCells: React.FC<{ stat: CategoryStats; drilldown?: boolean }> = ({ stat, drilldown }) => (
   <>
     <TableCell sx={{ fontWeight: 500 }} width="100%">
       {stat.value ? stat.value + " - " : ""}
@@ -24,7 +25,17 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     </TableCell>
     {monthArray.map((month) => (
       <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, stat.yearAverage) }} key={month}>
-        {formatCurrency(stat.sums.at(month)!)}
+        {drilldown ? (
+          <Link
+            href={`/transactions/2023/${String(month + 1).padStart(2, "0")}?category=${stat.value}`}
+            color="inherit"
+            underline="hover"
+          >
+            {formatCurrency(stat.sums.at(month)!)}
+          </Link>
+        ) : (
+          formatCurrency(stat.sums.at(month)!)
+        )}
       </TableCell>
     ))}
   </>
@@ -38,7 +49,7 @@ const GroupStatsRows: React.FC<{ stat: GroupStats }> = ({ stat }) =>
           {stat.categories.map((subStat) => (
             <TableRow key={subStat.value}>
               <TableCell />
-              <TableRowCells stat={subStat} />
+              <TableRowCells stat={subStat} drilldown />
             </TableRow>
           ))}
         </>
@@ -49,7 +60,7 @@ const GroupStatsRows: React.FC<{ stat: GroupStats }> = ({ stat }) =>
   ) : (
     <TableRow>
       <TableCell />
-      <TableRowCells stat={stat} />
+      <TableRowCells stat={stat} drilldown />
     </TableRow>
   );
 
@@ -57,7 +68,6 @@ interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
-// TODO: drill down
 // TODO: next fixed costs
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const groupStats = calculateGroupStats(categoryStats);
