@@ -1,6 +1,6 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import { CategoryStats, GroupStats } from "@/domain";
-import { currencyDiffColor, formatCurrency } from "@/utils";
+import { FIXED_CATEGORY, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,8 +15,9 @@ const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 
 const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
   <>
-    <TableCell width="100%">
-      {stat.value} - {stat.label}
+    <TableCell sx={{ fontWeight: 500 }} width="100%">
+      {stat.value ? stat.value + " - " : ""}
+      {stat.label}
     </TableCell>
     <TableCell align="right" sx={{ color: "text.secondary" }}>
       {formatCurrency(stat.yearAverage)}
@@ -79,9 +80,12 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
           </TableRow>
         </TableHead>
         <TableBody>
-          {groupStats.map((stat) => (
-            <GroupStatsRows key={stat.value} stat={stat} />
-          ))}
+          {groupStats
+            .filter((g) => g.value)
+            .map((stat) => (
+              <GroupStatsRows key={stat.value} stat={stat} />
+            ))}
+          <GroupStatsRows stat={groupStats.find((g) => g.value === "")!} />
         </TableBody>
       </Table>
     </TableContainer>
@@ -89,19 +93,28 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
 };
 
 function calculateGroupStats(categoryStats: CategoryStats[]) {
-  return categoryStats.reduce<GroupStats[]>((all, stat) => {
-    if (stat.value.length < 2) {
-      return [...all, { ...stat, categories: [] }];
-    }
+  return categoryStats.reduce<GroupStats[]>(
+    (all, stat) => {
+      if (!stat.value.startsWith(INCOME_CATEGORY) && !stat.value.startsWith(FIXED_CATEGORY)) {
+        const varAverage = all.find((g) => g.value === "")!;
+        varAverage.yearAverage += stat.yearAverage;
+        varAverage.sums = varAverage.sums.map((sum, idx) => sum + stat.sums[idx]);
+      }
 
-    const group = all.find((g) => g.value === stat.value[0])!;
+      if (stat.value.length < 2) {
+        return [...all, { ...stat, categories: [] }];
+      }
 
-    group.yearAverage += stat.yearAverage;
-    group.sums = group.sums.map((sum, idx) => sum + stat.sums[idx]);
-    group.categories.push(stat);
+      const group = all.find((g) => g.value === stat.value[0])!;
 
-    return all;
-  }, []);
+      group.yearAverage += stat.yearAverage;
+      group.sums = group.sums.map((sum, idx) => sum + stat.sums[idx]);
+      group.categories.push(stat);
+
+      return all;
+    },
+    [{ label: "var. Σ", value: "", sums: monthArray.map(() => 0), yearAverage: 0, categories: [] }],
+  );
 }
 
 function getMonthName(month: number) {
