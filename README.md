@@ -11,6 +11,7 @@
 - monthly transactions from template
 - reports
 - screenshoot upload
+- transaction category filter selector
 
 ## License
 
