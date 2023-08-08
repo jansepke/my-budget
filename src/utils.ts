@@ -11,7 +11,8 @@ export const formatDate = (value: Date) => value.toLocaleDateString("de-DE", { d
 
 const numberFormat = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
 export const formatCurrency = (value: number) => numberFormat.format(value);
-export const currencyColor = (value: number) => (value < 0 ? red[400] : green[700]);
+export const currencyColor = (value: number) => currencyDiffColor(value, 0);
+export const currencyDiffColor = (value: number, to: number) => (value < to ? red[400] : green[700]);
 
 export function sum(transactions: Pick<Transaction, "amount">[]) {
   return transactions.reduce((sum, t) => sum + t.amount, 0);

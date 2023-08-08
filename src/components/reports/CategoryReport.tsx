@@ -1,6 +1,6 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import { CategoryStats, GroupStats } from "@/domain";
-import { currencyColor, formatCurrency } from "@/utils";
+import { currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -18,11 +18,11 @@ const TableRowCells: React.FC<{ stat: CategoryStats }> = ({ stat }) => (
     <TableCell width="100%">
       {stat.value} - {stat.label}
     </TableCell>
-    <TableCell align="right" sx={{ color: currencyColor(stat.yearAverage) }}>
+    <TableCell align="right" sx={{ color: "text.secondary" }}>
       {formatCurrency(stat.yearAverage)}
     </TableCell>
     {monthArray.map((month) => (
-      <TableCell align="right" sx={{ color: currencyColor(stat.sums.at(month)!) }} key={month}>
+      <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, stat.yearAverage) }} key={month}>
         {formatCurrency(stat.sums.at(month)!)}
       </TableCell>
     ))}
@@ -57,7 +57,6 @@ interface CategoryReportProps {
 }
 
 // TODO: drill down
-// TODO: colorcoding compared to average
 // TODO: next fixed costs
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const groupStats = calculateGroupStats(categoryStats);
