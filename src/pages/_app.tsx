@@ -26,7 +26,7 @@ export default function MyApp({
   return (
     <SessionProvider session={session}>
       <CacheProvider value={emotionCache}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-GB">
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
           </Head>
