@@ -9,9 +9,6 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -20,6 +17,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
 import { useFocus } from "../shared/useFocus";
+import { CategorySelector } from "./CategorySelector";
 
 type TransactionType = "out" | "in";
 
@@ -132,21 +130,11 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         type="number"
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
-      <FormControl fullWidth>
-        <InputLabel id="category">Category</InputLabel>
-        <Select
-          labelId="category"
-          label="Category"
-          value={formData.category ?? ""}
-          onChange={(e) => changeHandler("category", e.target.value)}
-        >
-          {categories.map((c) => (
-            <MenuItem key={c.value} value={c.value}>
-              {c.value} - {c.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <CategorySelector
+        value={formData.category}
+        onChange={(v) => changeHandler("category", v)}
+        categories={categories}
+      />
       <Button type="submit" variant="contained" startIcon={<AddIcon />} sx={{ maxWidth: 120 }}>
         Add
       </Button>
