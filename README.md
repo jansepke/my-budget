@@ -9,7 +9,6 @@
 - category IDs
 - category group headers in select
 - monthly transactions from template
-- reports
 - screenshoot upload
 - transaction category filter selector
 - support , as decimal seperator in amount input https://www.npmjs.com/package/react-number-format
