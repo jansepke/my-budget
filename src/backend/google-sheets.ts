@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as google from "@googleapis/sheets";
-import assert from "node:assert/strict";
 import { Session } from "next-auth";
+import assert from "node:assert/strict";
 
 export const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 assert(SPREADSHEET_ID, "SPREADSHEET_ID missing");
@@ -11,6 +11,8 @@ export const CATEGORIES_RANGE = process.env.CATEGORIES_RANGE!;
 assert(CATEGORIES_RANGE, "CATEGORIES_RANGE missing");
 export const TRANSACTIONS_RANGE = process.env.TRANSACTIONS_RANGE!;
 assert(TRANSACTIONS_RANGE, "TRANSACTIONS_RANGE missing");
+export const TEMPLATE_RANGE = process.env.TEMPLATE_RANGE!;
+assert(TEMPLATE_RANGE, "TEMPLATE_RANGE missing");
 
 export const createSheetsClient = (session: Session) => {
   const auth = new google.auth.OAuth2({

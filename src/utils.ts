@@ -3,7 +3,7 @@ import { green, red } from "@mui/material/colors";
 import dayjs from "dayjs";
 
 export const INCOME_CATEGORY = "I";
-export const FIXED_CATEGORY = "M";
+export const FIXED_GROUP = "M";
 
 // https://stackoverflow.com/a/53107408/1453662
 export const parseGoogleSheetsDate = (value: number) => new Date(value * 86400000 - 2209132800000);
@@ -38,6 +38,7 @@ export const filterForOtherAccount = (accountId: number) => (t: Transaction) =>
   t.from === accountId || t.to === accountId;
 
 export const filterByCategory = (category: string) => (t: Transaction) => t.category === category;
+export const filterByGroup = (group: string) => (t: Transaction) => t.category?.startsWith(group);
 
 export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
   const response = await fetch(input, init);

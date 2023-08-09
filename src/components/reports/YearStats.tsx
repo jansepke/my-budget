@@ -1,20 +1,19 @@
-import { CategoryStats } from "@/domain";
-import { FIXED_CATEGORY, INCOME_CATEGORY, formatCurrency } from "@/utils";
+import { CategoryStats, Transaction } from "@/domain";
+import { FIXED_GROUP, INCOME_CATEGORY, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
 interface YearStatsProps {
   categoryStats: CategoryStats[];
+  templateTransactions: Transaction[];
 }
 
-export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
+export const YearStats: React.FC<YearStatsProps> = ({ categoryStats, templateTransactions }) => {
   const averageVariable = categoryStats
-    .filter((cs) => !cs.value.startsWith(INCOME_CATEGORY) && !cs.value.startsWith(FIXED_CATEGORY))
+    .filter((cs) => !cs.value.startsWith(INCOME_CATEGORY) && !cs.value.startsWith(FIXED_GROUP))
     .reduce((all, cs) => all + cs.yearAverage, 0);
-  const lastFix = categoryStats
-    .filter((cs) => cs.value.startsWith(FIXED_CATEGORY))
-    .reduce((all, cs) => all + cs.sums.at(-1)!, 0);
+  const nextFixed = sum(templateTransactions);
 
   return (
     <Box
@@ -25,8 +24,8 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats }) => {
       }}
     >
       <Typography color="text.secondary">{formatCurrency(averageVariable)} (var.&nbsp;Ø)</Typography>
-      <Typography color="text.secondary">{formatCurrency(lastFix)} (last&nbsp;fix&nbsp;Σ)</Typography>
-      <Typography color="text.secondary">=&nbsp;{formatCurrency(averageVariable + lastFix)}</Typography>
+      <Typography color="text.secondary">{formatCurrency(nextFixed)} (next&nbsp;fix&nbsp;Σ)</Typography>
+      <Typography color="text.secondary">=&nbsp;{formatCurrency(averageVariable + nextFixed)}</Typography>
     </Box>
   );
 };

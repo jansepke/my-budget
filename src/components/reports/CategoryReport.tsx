@@ -1,7 +1,7 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import Link from "@/components/shared/Link";
 import { CategoryStats, GroupStats } from "@/domain";
-import { FIXED_CATEGORY, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
+import { FIXED_GROUP, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -77,7 +77,6 @@ interface CategoryReportProps {
   categoryStats: CategoryStats[];
 }
 
-// TODO: next fixed costs
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
   const groupStats = calculateGroupStats(categoryStats);
 
@@ -114,7 +113,7 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
 function calculateGroupStats(categoryStats: CategoryStats[]) {
   return categoryStats.reduce<GroupStats[]>(
     (all, stat) => {
-      if (!stat.value.startsWith(INCOME_CATEGORY) && !stat.value.startsWith(FIXED_CATEGORY)) {
+      if (!stat.value.startsWith(INCOME_CATEGORY) && !stat.value.startsWith(FIXED_GROUP)) {
         const varAverage = all.find((g) => g.value === "")!;
         varAverage.yearAverage += stat.yearAverage;
         varAverage.sums = varAverage.sums.map((sum, idx) => sum + stat.sums[idx]);
