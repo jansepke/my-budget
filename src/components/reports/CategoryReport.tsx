@@ -26,7 +26,7 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
       {stat.label}
     </TableCell>
     <TableCell align="right" sx={{ color: "text.secondary" }}>
-      {formatCurrency(stat.yearAverage)}
+      {formatCurrency(stat.yearAverage, false)}
     </TableCell>
     {monthArray.map((month) => (
       <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, stat.yearAverage) }} key={month}>
@@ -36,10 +36,10 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
             color="inherit"
             underline="hover"
           >
-            {formatCurrency(stat.sums.at(month)!)}
+            {formatCurrency(stat.sums.at(month)!, false)}
           </Link>
         ) : (
-          formatCurrency(stat.sums.at(month)!)
+          formatCurrency(stat.sums.at(month)!, false)
         )}
       </TableCell>
     ))}

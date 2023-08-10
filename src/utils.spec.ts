@@ -12,10 +12,18 @@ describe("sum", () => {
 });
 
 describe("formatCurrency", () => {
-  it("formats in EUR", () => {
-    const result = formatCurrency(123);
+  // https://github.com/testing-library/jest-dom/issues/376#issuecomment-885012111
+  const fixResult = (result: string) => result.replace(/\u00a0/g, " ");
 
-    // https://github.com/testing-library/jest-dom/issues/376#issuecomment-885012111
-    expect(result.replace(/\u00a0/g, " ")).toBe("123,00 €");
+  it("formats in EUR", () => {
+    const result = formatCurrency(123.12);
+
+    expect(fixResult(result)).toBe("123,12 €");
+  });
+
+  it("formats without decimals", () => {
+    const result = formatCurrency(123.12, false);
+
+    expect(fixResult(result)).toBe("123 €");
   });
 });

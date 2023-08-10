@@ -10,7 +10,15 @@ export const parseGoogleSheetsDate = (value: number) => new Date(value * 8640000
 export const formatDate = (value: Date) => value.toLocaleDateString("de-DE", { dateStyle: "medium" });
 
 const numberFormat = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
-export const formatCurrency = (value: number) => numberFormat.format(value);
+const numberFormatNoDecimal = new Intl.NumberFormat("de-DE", {
+  style: "currency",
+  currency: "EUR",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+export const formatCurrency = (value: number, decimals = true) =>
+  (decimals ? numberFormat : numberFormatNoDecimal).format(value);
+
 export const currencyColor = (value: number) => currencyDiffColor(value, 0);
 export const currencyDiffColor = (value: number, to: number) => (value < to ? red[400] : green[700]);
 
