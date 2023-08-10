@@ -24,7 +24,6 @@ interface TransactionsPageProps {
 const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   const router = useRouter();
   const filterCategory = router.query.category as string | null;
-  console.log(filterCategory);
 
   const filteredTransactions = props.transactions.filter(
     (t) =>
