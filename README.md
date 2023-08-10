@@ -5,7 +5,6 @@
 - API validation (https://npmtrends.com/ajv-vs-joi-vs-yup-vs-zod)
 - category label on hover
 - Form validation
-- small transaction list in add form?
 - category group headers in select
 - monthly transactions from template
 - screenshot upload

@@ -27,9 +27,10 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   console.log(filterCategory);
 
   const filteredTransactions = props.transactions.filter(
-    (t) => filterCategory === undefined || t.category === filterCategory,
+    (t) =>
+      filterCategory === undefined || t.category === filterCategory || (filterCategory === "none" && t.category === ""),
   );
-  const categories: Category[] = [...props.categories, { value: "", label: "none" }];
+  const categories: Category[] = [...props.categories, { value: "none", label: "none" }];
 
   const path = router.asPath.split("?")[0];
   const handleFilterCategory = (v: string | undefined) =>
