@@ -42,8 +42,8 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
 
     if (!formData.amount) return;
 
-    const amount = type === "out" ? -formData.amount : formData.amount;
-    const body = JSON.stringify({ ...formData, amount: amount });
+    const amount = Number(formData.amount.toString().replace(",", "."));
+    const body = JSON.stringify({ ...formData, amount: type === "out" ? -amount : amount });
 
     try {
       await customFetch("/api/transactions", { method: "POST", body });
@@ -126,8 +126,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         label="Amount"
         fullWidth
         value={formData.amount ?? ""}
-        onChange={(e) => changeHandler("amount", Number(e.target.value))}
-        type="number"
+        onChange={(e) => changeHandler("amount", e.target.value)}
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
       <CategorySelector

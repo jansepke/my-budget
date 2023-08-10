@@ -9,7 +9,6 @@
 - category group headers in select
 - monthly transactions from template
 - screenshot upload
-- support , as decimal seperator in amount input (string replace)
 - automatically archive transaction after one year
 - playwright tests
 
