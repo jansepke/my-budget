@@ -131,6 +131,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
       <CategorySelector
+        fullWidth
         value={formData.category}
         onChange={(v) => changeHandler("category", v)}
         categories={categories}

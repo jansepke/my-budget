@@ -1,34 +1,48 @@
+import { getSelectableCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import ProtectedPage from "@/components/shared/ProtectedPage";
+import { CategorySelector } from "@/components/transactions/CategorySelector";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Transaction } from "@/domain";
+import { Category, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 interface TransactionsPageProps {
   year: number;
   month: number;
   transactions: Transaction[];
+  categories: Category[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ year, month, transactions }) => {
-  const searchParams = useSearchParams();
-  const filterCategory = searchParams.get("category");
+const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
+  const router = useRouter();
+  const filterCategory = router.query.category as string | null;
+  console.log(filterCategory);
 
-  const filteredTransactions = transactions.filter((t) => filterCategory === null || t.category === filterCategory);
+  const filteredTransactions = props.transactions.filter(
+    (t) => filterCategory === undefined || t.category === filterCategory,
+  );
+  const categories: Category[] = [...props.categories, { value: "", label: "none" }];
+
+  const path = router.asPath.split("?")[0];
+  const handleFilterCategory = (v: string | undefined) =>
+    router.push(`${path}${v == undefined ? "" : `?category=${v}`}`);
 
   return (
     <ProtectedPage headline="My Budget">
       <Container maxWidth="md" sx={{ marginTop: 3 }}>
-        <Toolbar year={year} month={month} />
-        <TransactionStats accountId={1} transactions={transactions} showFixedSum />
+        <Toolbar year={props.year} month={props.month} />
+        <TransactionStats accountId={1} transactions={props.transactions} showFixedSum />
+        <Box display="flex" justifyContent="center" alignItems="center" m={2}>
+          <CategorySelector value={filterCategory} onChange={handleFilterCategory} categories={categories} />
+        </Box>
         <Box mb={10}>
           <TransactionList accountId={1} transactions={filteredTransactions} />
         </Box>
@@ -49,12 +63,15 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
   const monthString = context.params?.month as string;
   const month = Number(monthString === "current" ? new Date().getUTCMonth() + 1 : monthString);
 
+  const categories = await getSelectableCategories(session);
+
   return {
     props: {
       session: session,
       year,
       month,
       transactions: (await getAllTransactions(session)).filter(filterByMonth(year, month)).filter(filterForMainAccount),
+      categories,
     },
   };
 };

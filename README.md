@@ -6,12 +6,12 @@
 - category label on hover
 - Form validation
 - small transaction list in add form?
-- category IDs
 - category group headers in select
 - monthly transactions from template
-- screenshoot upload
-- transaction category filter selector
-- support , as decimal seperator in amount input https://www.npmjs.com/package/react-number-format
+- screenshot upload
+- support , as decimal seperator in amount input (string replace)
+- automatically archive transaction after one year
+- playwright tests
 
 ## License
 

@@ -15,7 +15,7 @@ const rowsToTransactions = ([from, to, date, description, amount, category = nul
   date: date as number,
   description: description as string,
   amount: Number(amount),
-  category: category as string,
+  category: (category as string | null) ?? "",
 });
 
 export const getAllTransactions = async (session: Session): Promise<Transaction[]> => {
