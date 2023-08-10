@@ -14,6 +14,8 @@ import React from "react";
 
 const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 
+const formatReportCurrency = (value: number) => (value === 0 ? "-" : formatCurrency(value, false));
+
 interface TableRowCellsProps {
   stat: CategoryStats;
   drilldown?: boolean;
@@ -26,7 +28,7 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
       {stat.label}
     </TableCell>
     <TableCell align="right" sx={{ color: "text.secondary" }}>
-      {formatCurrency(stat.yearAverage, false)}
+      {formatReportCurrency(stat.yearAverage)}
     </TableCell>
     {monthArray.map((month) => (
       <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, stat.yearAverage) }} key={month}>
@@ -36,10 +38,10 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
             color="inherit"
             underline="hover"
           >
-            {formatCurrency(stat.sums.at(month)!, false)}
+            {formatReportCurrency(stat.sums.at(month)!)}
           </Link>
         ) : (
-          formatCurrency(stat.sums.at(month)!, false)
+          formatReportCurrency(stat.sums.at(month)!)
         )}
       </TableCell>
     ))}
