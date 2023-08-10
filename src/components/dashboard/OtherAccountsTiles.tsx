@@ -43,13 +43,7 @@ export const OtherAccountsTiles: React.FC<OtherAccountsTilesProps> = ({ accounts
       <Typography variant="h5" gutterBottom>
         Other Accounts
       </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 2,
-        }}
-      >
+      <Box display="flex" justifyContent="space-between" gap={2}>
         {otherAccounts.map((a) => (
           <AccountTile key={a.id} account={a} transactions={transactions} />
         ))}

@@ -41,7 +41,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
             <TableRow key={idx} hover>
               <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
               <TableCell>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box display="flex" justifyContent="space-between">
                   {t.description}{" "}
                   {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
                 </Box>

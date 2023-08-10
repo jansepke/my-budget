@@ -20,13 +20,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ year, month }) => {
   const nextMonth = date.add(1, "month");
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        m: 1,
-      }}
-    >
+    <Box display="flex" justifyContent="space-between" m={2} gap={1}>
       <Button component={Link} variant="contained" href={buildHref(prevMonth)}>
         <NavigateBeforeIcon />
       </Button>

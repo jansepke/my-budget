@@ -20,13 +20,7 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, t
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        m: 1,
-      }}
-    >
+    <Box display="flex" justifyContent="space-between" m={2}>
       <Typography color="text.secondary">{formatCurrency(incomeSum)} (Income)</Typography>
       {showFixedSum && <Typography color="text.secondary">{formatCurrency(fixedSum)} (Fixed)</Typography>}
       <Typography color="text.secondary">{formatCurrency(variableSum)} (Variable)</Typography>

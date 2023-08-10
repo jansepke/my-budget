@@ -16,13 +16,7 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats, templateTra
   const nextFixed = sum(templateTransactions);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        m: 1,
-      }}
-    >
+    <Box display="flex" justifyContent="space-between" m={2}>
       <Typography color="text.secondary">{formatCurrency(averageVariable)} (var.&nbsp;Ø)</Typography>
       <Typography color="text.secondary">{formatCurrency(nextFixed)} (next&nbsp;fix&nbsp;Σ)</Typography>
       <Typography color="text.secondary">=&nbsp;{formatCurrency(averageVariable + nextFixed)}</Typography>
