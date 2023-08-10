@@ -9,7 +9,7 @@
 - monthly transactions from template
 - screenshot upload
 - automatically archive transaction after one year
-- playwright tests
+- unit tests
 
 ## License
 
