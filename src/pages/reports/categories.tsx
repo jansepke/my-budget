@@ -6,7 +6,7 @@ import { YearStats } from "@/components/reports/YearStats";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { CategoryStats, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { FIXED_GROUP, filterByGroup, filterForMainAccount } from "@/utils";
+import { filterForMainAccount } from "@/utils";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<CategoriesPageProps> = async
 
   const categories = await getAllCategories(session);
   const transactions = (await getAllTransactions(session)).filter(filterForMainAccount);
-  const templateTransactions = (await getTemplateTransactions(session)).filter(filterByGroup(FIXED_GROUP));
+  const templateTransactions = await getTemplateTransactions(session);
 
   return {
     props: {

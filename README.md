@@ -11,6 +11,7 @@
 - automatically archive transaction after one year
 - unit tests
 - filter by groups
+- refunds
 
 ## License
 

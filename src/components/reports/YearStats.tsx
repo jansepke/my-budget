@@ -1,5 +1,5 @@
 import { CategoryStats, Transaction } from "@/domain";
-import { FIXED_GROUP, INCOME_CATEGORY, formatCurrency, sum } from "@/utils";
+import { FIXED_GROUP, INCOME_CATEGORY, filterByGroup, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -13,7 +13,7 @@ export const YearStats: React.FC<YearStatsProps> = ({ categoryStats, templateTra
   const averageVariable = categoryStats
     .filter((cs) => !cs.value.startsWith(INCOME_CATEGORY) && !cs.value.startsWith(FIXED_GROUP))
     .reduce((all, cs) => all + cs.yearAverage, 0);
-  const nextFixed = sum(templateTransactions);
+  const nextFixed = sum(templateTransactions.filter(filterByGroup(FIXED_GROUP)));
 
   return (
     <Box display="flex" justifyContent="space-between" m={2}>

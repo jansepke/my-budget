@@ -9,7 +9,7 @@ import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Account, CategoryStats, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { FIXED_GROUP, filterByGroup, filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
+import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (con
 
   const categories = await getAllCategories(session);
   const allTransactions = await getAllTransactions(session);
-  const templateTransactions = (await getTemplateTransactions(session)).filter(filterByGroup(FIXED_GROUP));
+  const templateTransactions = await getTemplateTransactions(session);
 
   return {
     props: {
