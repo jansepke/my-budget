@@ -1,5 +1,5 @@
 import { YearStats } from "@/components/reports/YearStats";
-import { createCustomRender, mockTransaction } from "@/test-utils";
+import { createCustomRender, mockTransactions } from "@/test-utils";
 import { screen } from "@testing-library/react";
 import { expect, it } from "vitest";
 
@@ -15,11 +15,11 @@ it("should show 0 sums without transactions", () => {
 
 it("should calculate next fix sum", () => {
   renderYearStats({
-    templateTransactions: [
-      mockTransaction({ amount: 1.23, category: "Ma" }),
-      mockTransaction({ amount: 3.21, category: "Mb" }),
-      mockTransaction({ amount: 5, category: "Xx" }),
-    ],
+    templateTransactions: mockTransactions(
+      { amount: 1.23, category: "Ma" },
+      { amount: 3.21, category: "Mb" },
+      { amount: 5, category: "Xx" },
+    ),
   });
 
   expect(screen.getByText(/next fix Σ/)).toHaveTextContent("4,44 €");

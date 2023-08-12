@@ -11,12 +11,15 @@ export const createCustomRender =
     return { unmount, ...mergedProps };
   };
 
-export const mockTransaction = (t: Partial<Transaction>): Transaction => ({
+export const mockTransaction = (transaction: Partial<Transaction>): Transaction => ({
   amount: 0,
   category: "",
   date: 1,
   description: "",
   from: 1,
   to: 0,
-  ...t,
+  ...transaction,
 });
+
+export const mockTransactions = (...transactions: Partial<Transaction>[]): Transaction[] =>
+  transactions.map(mockTransaction);
