@@ -1,4 +1,4 @@
-import { getSelectableCategories } from "@/backend/categories";
+import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import ProtectedPage from "@/components/shared/ProtectedPage";
@@ -27,7 +27,9 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
 
   const filteredTransactions = props.transactions.filter(
     (t) =>
-      filterCategory === undefined || t.category === filterCategory || (filterCategory === "none" && t.category === ""),
+      filterCategory == null ||
+      t.category.startsWith(filterCategory) ||
+      (filterCategory === "none" && t.category === ""),
   );
   const categories: Category[] = [...props.categories, { value: "none", label: "none" }];
 
@@ -63,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
   const monthString = context.params?.month as string;
   const month = Number(monthString === "current" ? new Date().getUTCMonth() + 1 : monthString);
 
-  const categories = await getSelectableCategories(session);
+  const categories = await getAllCategories(session);
 
   return {
     props: {
