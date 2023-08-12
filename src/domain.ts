@@ -10,13 +10,13 @@ export interface Category {
   label: string;
 }
 
-export interface CategoryStats extends Category {
+export interface CategoryStat extends Category {
   yearAverage: number;
   sums: number[];
 }
 
-export interface GroupStats extends CategoryStats {
-  categories: CategoryStats[];
+export interface GroupStat extends CategoryStat {
+  categories: CategoryStat[];
 }
 
 export interface Transaction {

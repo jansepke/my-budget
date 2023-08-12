@@ -1,11 +1,11 @@
 import Link from "@/components/shared/Link";
-import { CategoryStats, Transaction } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Typography from "@mui/material/Typography";
 import { YearStats } from "../reports/YearStats";
 
 interface ReportsTileProps {
-  categoryStats: CategoryStats[];
+  categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
 }
 

@@ -1,6 +1,6 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import Link from "@/components/shared/Link";
-import { CategoryStats, GroupStats } from "@/domain";
+import { CategoryStat, GroupStat } from "@/domain";
 import { FIXED_GROUP, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -17,7 +17,7 @@ const monthArray = Array.from(Array(dayjs().month() + 1).keys()).reverse();
 const formatReportCurrency = (value: number) => (value === 0 ? "-" : formatCurrency(value, false));
 
 interface TableRowCellsProps {
-  stat: CategoryStats;
+  stat: CategoryStat;
   drilldown?: boolean;
 }
 
@@ -49,7 +49,7 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
 );
 
 interface GroupStatsRowsProps {
-  stat: GroupStats;
+  stat: GroupStat;
 }
 
 const GroupStatsRows: React.FC<GroupStatsRowsProps> = ({ stat }) =>
@@ -76,7 +76,7 @@ const GroupStatsRows: React.FC<GroupStatsRowsProps> = ({ stat }) =>
   );
 
 interface CategoryReportProps {
-  categoryStats: CategoryStats[];
+  categoryStats: CategoryStat[];
 }
 
 export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats }) => {
@@ -112,8 +112,8 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
   );
 };
 
-function calculateGroupStats(categoryStats: CategoryStats[]) {
-  return categoryStats.reduce<GroupStats[]>(
+function calculateGroupStats(categoryStats: CategoryStat[]) {
+  return categoryStats.reduce<GroupStat[]>(
     (all, stat) => {
       if (!stat.value.startsWith(INCOME_CATEGORY) && !stat.value.startsWith(FIXED_GROUP)) {
         const varAverage = all.find((g) => g.value === "")!;

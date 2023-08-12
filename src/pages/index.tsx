@@ -7,7 +7,7 @@ import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
-import { Account, CategoryStats, Transaction } from "@/domain";
+import { Account, CategoryStat, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import Container from "@mui/material/Container";
@@ -17,7 +17,7 @@ interface IndexPageProps {
   accounts: Account[];
   mainTransactions: Transaction[];
   otherTransactions: Transaction[];
-  categoryStats: CategoryStats[];
+  categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
 }
 

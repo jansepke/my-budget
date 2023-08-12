@@ -1,11 +1,11 @@
-import { CategoryStats, Transaction } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import { FIXED_GROUP, INCOME_CATEGORY, filterByGroup, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
 interface YearStatsProps {
-  categoryStats: CategoryStats[];
+  categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
 }
 

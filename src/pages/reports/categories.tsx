@@ -4,14 +4,14 @@ import { getAllTransactions, getTemplateTransactions } from "@/backend/transacti
 import { CategoryReport } from "@/components/reports/CategoryReport";
 import { YearStats } from "@/components/reports/YearStats";
 import ProtectedPage from "@/components/shared/ProtectedPage";
-import { CategoryStats, Transaction } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterForMainAccount } from "@/utils";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 
 interface CategoriesPageProps {
-  categoryStats: CategoryStats[];
+  categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
 }
 

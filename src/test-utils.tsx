@@ -1,4 +1,4 @@
-import { CategoryStats, Transaction } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import { render } from "@testing-library/react";
 
 export const createCustomRender =
@@ -24,7 +24,7 @@ export const mockTransaction = (transaction: Partial<Transaction>): Transaction 
 export const mockTransactions = (...transactions: Partial<Transaction>[]): Transaction[] =>
   transactions.map(mockTransaction);
 
-export const mockCategoryStat = (categoryStat: Partial<CategoryStats>): CategoryStats => ({
+export const mockCategoryStat = (categoryStat: Partial<CategoryStat>): CategoryStat => ({
   value: "",
   label: "",
   sums: [],
@@ -32,5 +32,5 @@ export const mockCategoryStat = (categoryStat: Partial<CategoryStats>): Category
   ...categoryStat,
 });
 
-export const mockCategoryStats = (...categoryStats: Partial<CategoryStats>[]): CategoryStats[] =>
+export const mockCategoryStats = (...categoryStats: Partial<CategoryStat>[]): CategoryStat[] =>
   categoryStats.map(mockCategoryStat);

@@ -12,6 +12,7 @@
 - unit tests
 - filter by groups
 - refunds
+- add expected average income
 
 ## License
 

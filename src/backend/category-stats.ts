@@ -1,11 +1,11 @@
-import { Category, CategoryStats, Transaction } from "@/domain";
+import { Category, CategoryStat, Transaction } from "@/domain";
 import { filterBetweenDates, filterByCategory, parseGoogleSheetsDate, sum } from "@/utils";
 import dayjs from "dayjs";
 
 const calculateSumsForCategory = (category: string, transactionsByMonth: Transaction[][]): number[] =>
   transactionsByMonth.map((transactions) => sum(transactions.filter(filterByCategory(category))));
 
-export const calculateCategoryStats = (categories: Category[], transactions: Transaction[]): CategoryStats[] => {
+export const calculateCategoryStats = (categories: Category[], transactions: Transaction[]): CategoryStat[] => {
   const today = dayjs();
   const startOfYear = today.startOf("year");
   const endOfLastMonth = today.subtract(1, "month").endOf("month");
