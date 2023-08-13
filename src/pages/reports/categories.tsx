@@ -1,5 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
 import { calculateCategoryStats } from "@/backend/category-stats";
+import { getAverageIncome } from "@/backend/income";
 import { getAllTransactions, getTemplateTransactions } from "@/backend/transactions";
 import { CategoryReport } from "@/components/reports/CategoryReport";
 import { YearStats } from "@/components/reports/YearStats";
@@ -13,12 +14,17 @@ import { GetServerSideProps } from "next";
 interface CategoriesPageProps {
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
+  averageIncome: number;
 }
 
-const CategoriesPage: React.FC<CategoriesPageProps> = ({ categoryStats, templateTransactions }) => (
+const CategoriesPage: React.FC<CategoriesPageProps> = ({ categoryStats, templateTransactions, averageIncome }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <YearStats categoryStats={categoryStats} templateTransactions={templateTransactions} />
+      <YearStats
+        categoryStats={categoryStats}
+        templateTransactions={templateTransactions}
+        averageIncome={averageIncome}
+      />
       <CategoryReport categoryStats={categoryStats} />
     </Container>
   </ProtectedPage>
@@ -38,6 +44,7 @@ export const getServerSideProps: GetServerSideProps<CategoriesPageProps> = async
       session: session,
       categoryStats: calculateCategoryStats(categories, transactions),
       templateTransactions: templateTransactions,
+      averageIncome: await getAverageIncome(session),
     },
   };
 };

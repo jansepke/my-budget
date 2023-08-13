@@ -11,7 +11,6 @@
 - automatically archive transaction after one year
 - unit tests
 - refunds
-- add expected average income
 
 ## License
 

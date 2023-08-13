@@ -9,6 +9,8 @@ export const ACCOUNTS_RANGE = process.env.ACCOUNTS_RANGE!;
 assert(ACCOUNTS_RANGE, "ACCOUNTS_RANGE missing");
 export const CATEGORIES_RANGE = process.env.CATEGORIES_RANGE!;
 assert(CATEGORIES_RANGE, "CATEGORIES_RANGE missing");
+export const INCOME_RANGE = process.env.INCOME_RANGE!;
+assert(INCOME_RANGE, "INCOME_RANGE missing");
 export const TRANSACTIONS_RANGE = process.env.TRANSACTIONS_RANGE!;
 assert(TRANSACTIONS_RANGE, "TRANSACTIONS_RANGE missing");
 export const TEMPLATE_RANGE = process.env.TEMPLATE_RANGE!;

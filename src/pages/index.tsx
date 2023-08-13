@@ -1,6 +1,7 @@
 import { getAllAccounts } from "@/backend/accounts";
 import { getAllCategories } from "@/backend/categories";
 import { calculateCategoryStats } from "@/backend/category-stats";
+import { getAverageIncome } from "@/backend/income";
 import { getAllTransactions, getTemplateTransactions } from "@/backend/transactions";
 import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
@@ -19,6 +20,7 @@ interface IndexPageProps {
   otherTransactions: Transaction[];
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
+  averageIncome: number;
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({
@@ -27,6 +29,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
   otherTransactions,
   categoryStats,
   templateTransactions,
+  averageIncome,
 }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
@@ -34,7 +37,11 @@ const IndexPage: React.FC<IndexPageProps> = ({
 
       <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
 
-      <ReportsTile categoryStats={categoryStats} templateTransactions={templateTransactions} />
+      <ReportsTile
+        categoryStats={categoryStats}
+        templateTransactions={templateTransactions}
+        averageIncome={averageIncome}
+      />
     </Container>
 
     <AddTransactionButton />
@@ -61,6 +68,7 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (con
       otherTransactions: allTransactions.filter(filterForOtherAccounts),
       categoryStats: calculateCategoryStats(categories, allTransactions),
       templateTransactions: templateTransactions,
+      averageIncome: await getAverageIncome(session),
     },
   };
 };

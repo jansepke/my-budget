@@ -7,15 +7,20 @@ import { YearStats } from "../reports/YearStats";
 interface ReportsTileProps {
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
+  averageIncome: number;
 }
 
-export const ReportsTile: React.FC<ReportsTileProps> = ({ categoryStats, templateTransactions }) => (
+export const ReportsTile: React.FC<ReportsTileProps> = ({ categoryStats, templateTransactions, averageIncome }) => (
   <div>
     <Typography variant="h5">
       <Link href="/reports/categories" color="inherit" underline="hover">
         Reports <NorthEastIcon />
       </Link>
     </Typography>
-    <YearStats categoryStats={categoryStats} templateTransactions={templateTransactions} />
+    <YearStats
+      categoryStats={categoryStats}
+      templateTransactions={templateTransactions}
+      averageIncome={averageIncome}
+    />
   </div>
 );
