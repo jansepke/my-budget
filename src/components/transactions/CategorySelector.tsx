@@ -23,7 +23,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ value, onCha
       value={value ?? ""}
       onChange={(e) => onChange(e.target.value)}
       endAdornment={
-        <IconButton onClick={() => onChange(undefined)}>
+        <IconButton onClick={() => onChange(undefined)} tabIndex={-1}>
           <ClearIcon />
         </IconButton>
       }
