@@ -3,7 +3,11 @@ import { createCustomRender, mockCategoryStats, mockTransactions } from "@/test-
 import { screen } from "@testing-library/react";
 import { expect, it } from "vitest";
 
-const renderYearStats = createCustomRender(YearStats, { categoryStats: [], templateTransactions: [] });
+const renderYearStats = createCustomRender(YearStats, {
+  categoryStats: [],
+  templateTransactions: [],
+  averageIncome: 0,
+});
 
 it("shows 0 sums without transactions", () => {
   renderYearStats();
@@ -11,6 +15,12 @@ it("shows 0 sums without transactions", () => {
   expect(screen.getByText(/next fix Σ/)).toHaveTextContent("0,00 €");
   expect(screen.getByText(/var. Ø/)).toHaveTextContent("0,00 €");
   expect(screen.getByText(/=/)).toHaveTextContent("0,00 €");
+});
+
+it("shows average income", () => {
+  renderYearStats({ averageIncome: 3.21 });
+
+  expect(screen.getByText(/Income Ø/)).toHaveTextContent("3,21 €");
 });
 
 it("calculates next fix sum", () => {
@@ -41,9 +51,10 @@ it("calculates variable average", () => {
 
 it("calculates sum", () => {
   renderYearStats({
-    categoryStats: mockCategoryStats({ value: "Fa", yearAverage: 1.23 }),
-    templateTransactions: mockTransactions({ amount: 3.21, category: "Mb" }),
+    averageIncome: 5.32,
+    categoryStats: mockCategoryStats({ value: "Fa", yearAverage: -1.23 }),
+    templateTransactions: mockTransactions({ amount: -3.21, category: "Mb" }),
   });
 
-  expect(screen.getByText(/=/)).toHaveTextContent("4,44 €");
+  expect(screen.getByText(/=/)).toHaveTextContent("0,88 €");
 });
