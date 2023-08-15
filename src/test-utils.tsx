@@ -1,12 +1,13 @@
 import { CategoryStat, Transaction } from "@/domain";
 import { render } from "@testing-library/react";
+import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
 
 export const createCustomRender =
   <T,>(Comp: React.FC<T>, defaultProps: T) =>
   (props: Partial<T> = {}) => {
     const mergedProps = { ...defaultProps, ...props };
 
-    const { unmount } = render(<Comp {...mergedProps} />);
+    const { unmount } = render(<Comp {...mergedProps} />, { wrapper: MemoryRouterProvider });
 
     return { unmount, ...mergedProps };
   };
