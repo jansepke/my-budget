@@ -23,6 +23,7 @@ export const currencyColor = (value: number) => currencyDiffColor(value, 0);
 export const currencyDiffColor = (value: number, to: number) => (value < to ? red[400] : green[700]);
 
 export const sum = (transactions: Pick<Transaction, "amount">[]) => transactions.reduce((sum, t) => sum + t.amount, 0);
+export const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
 export const filterBetweenDates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => (t: Transaction) => {
   const date = parseGoogleSheetsDate(t.date);

@@ -29,7 +29,6 @@ export const mockCategoryStat = (categoryStat: Partial<CategoryStat>): CategoryS
   value: "",
   label: "",
   sums: [],
-  yearAverage: 0,
   ...categoryStat,
 });
 

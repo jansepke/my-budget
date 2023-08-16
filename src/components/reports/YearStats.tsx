@@ -1,5 +1,5 @@
 import { CategoryStat, Transaction } from "@/domain";
-import { FIXED_GROUP, INCOME_CATEGORY, filterByGroup, formatCurrency, sum } from "@/utils";
+import { FIXED_GROUP, INCOME_CATEGORY, average, filterByGroup, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -13,7 +13,7 @@ interface YearStatsProps {
 export const YearStats: React.FC<YearStatsProps> = ({ categoryStats, templateTransactions, averageIncome }) => {
   const averageVariable = categoryStats
     .filter((cs) => !cs.value.startsWith(INCOME_CATEGORY) && !cs.value.startsWith(FIXED_GROUP))
-    .reduce((all, cs) => all + cs.yearAverage, 0);
+    .reduce((all, cs) => all + average(cs.sums), 0);
   const nextFixed = sum(templateTransactions.filter(filterByGroup(FIXED_GROUP)));
 
   return (

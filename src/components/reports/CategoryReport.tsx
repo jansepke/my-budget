@@ -1,7 +1,7 @@
 import { ExpandableTableRow } from "@/components/reports/ExpandableTableRow";
 import Link from "@/components/shared/Link";
 import { CategoryStat, GroupStat } from "@/domain";
-import { FIXED_GROUP, INCOME_CATEGORY, currencyDiffColor, formatCurrency } from "@/utils";
+import { FIXED_GROUP, INCOME_CATEGORY, average, currencyDiffColor, formatCurrency } from "@/utils";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -28,10 +28,10 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
       {stat.label}
     </TableCell>
     <TableCell align="right" sx={{ color: "text.secondary" }}>
-      {formatReportCurrency(stat.yearAverage)}
+      {formatReportCurrency(average(stat.sums))}
     </TableCell>
     {monthArray().map((month) => (
-      <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, stat.yearAverage) }} key={month}>
+      <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, average(stat.sums)) }} key={month}>
         {drilldown ? (
           <Link
             href={`/transactions/2023/${String(month + 1).padStart(2, "0")}?category=${stat.value}`}
@@ -117,7 +117,6 @@ function calculateGroupStats(categoryStats: CategoryStat[]) {
     (all, stat) => {
       if (!stat.value.startsWith(INCOME_CATEGORY) && !stat.value.startsWith(FIXED_GROUP)) {
         const varAverage = all.find((g) => g.value === "")!;
-        varAverage.yearAverage += stat.yearAverage;
         varAverage.sums = varAverage.sums.map((sum, idx) => sum + stat.sums[idx]);
       }
 
@@ -127,13 +126,12 @@ function calculateGroupStats(categoryStats: CategoryStat[]) {
 
       const group = all.find((g) => g.value === stat.value[0])!;
 
-      group.yearAverage += stat.yearAverage;
       group.sums = group.sums.map((sum, idx) => sum + stat.sums[idx]);
       group.categories.push(stat);
 
       return all;
     },
-    [{ label: "var. Σ", value: "", sums: monthArray().map(() => 0), yearAverage: 0, categories: [] }],
+    [{ label: "var. Σ", value: "", sums: monthArray().map(() => 0), categories: [] }],
   );
 }
 

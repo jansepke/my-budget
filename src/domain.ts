@@ -11,7 +11,6 @@ export interface Category {
 }
 
 export interface CategoryStat extends Category {
-  yearAverage: number;
   sums: number[];
 }
 

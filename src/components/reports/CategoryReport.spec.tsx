@@ -39,8 +39,8 @@ it("shows column per month of current year", () => {
 it("shows year average per category", () => {
   renderCategoryReport({
     categoryStats: mockCategoryStats(
-      { value: "A", label: "CatA", yearAverage: 1.23 },
-      { value: "B", label: "CatB", yearAverage: 3.51 },
+      { value: "A", label: "CatA", sums: [1.23] },
+      { value: "B", label: "CatB", sums: [3.51] },
     ),
   });
 
@@ -76,12 +76,12 @@ it("shows - for 0", () => {
 it("shows variable sum", () => {
   renderCategoryReport({
     categoryStats: mockCategoryStats(
-      { value: "A", label: "CatA", sums: [0, 0], yearAverage: 0 },
-      { value: "Aa", label: "CatAa", sums: [2, 7], yearAverage: 4.5 },
-      { value: "Ab", label: "CatAb", sums: [1, 3], yearAverage: 2 },
-      { value: "I", label: "CatI", sums: [4, 1], yearAverage: 2.5 },
-      { value: "M", label: "CatMa", sums: [3, 5], yearAverage: 4 },
-      { value: "Ma", label: "CatMa", sums: [3, 5], yearAverage: 4 },
+      { value: "A", label: "CatA", sums: [0, 0] },
+      { value: "Aa", label: "CatAa", sums: [2, 7] },
+      { value: "Ab", label: "CatAb", sums: [1, 3] },
+      { value: "I", label: "CatI", sums: [4, 1] },
+      { value: "M", label: "CatMa", sums: [3, 5] },
+      { value: "Ma", label: "CatMa", sums: [3, 5] },
     ),
   });
 

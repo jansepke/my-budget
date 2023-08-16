@@ -38,11 +38,11 @@ it("calculates next fix sum", () => {
 it("calculates variable average", () => {
   renderYearStats({
     categoryStats: mockCategoryStats(
-      { value: "I", yearAverage: 4 },
-      { value: "Ma", yearAverage: 5 },
-      { value: "Mb", yearAverage: 6 },
-      { value: "Fa", yearAverage: 1.23 },
-      { value: "Ga", yearAverage: 3.21 },
+      { value: "I", sums: [4] },
+      { value: "Ma", sums: [5] },
+      { value: "Mb", sums: [6] },
+      { value: "Fa", sums: [1.23] },
+      { value: "Ga", sums: [3.21] },
     ),
   });
 
@@ -52,7 +52,7 @@ it("calculates variable average", () => {
 it("calculates sum", () => {
   renderYearStats({
     averageIncome: 5.32,
-    categoryStats: mockCategoryStats({ value: "Fa", yearAverage: -1.23 }),
+    categoryStats: mockCategoryStats({ value: "Fa", sums: [-1.23] }),
     templateTransactions: mockTransactions({ amount: -3.21, category: "Mb" }),
   });
 
