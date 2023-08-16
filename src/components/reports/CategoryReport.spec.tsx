@@ -64,3 +64,28 @@ it("shows sums per month per category", () => {
   expect(rowB.getAllByRole("cell")[3]).toHaveTextContent("7 €");
   expect(rowB.getAllByRole("cell")[4]).toHaveTextContent("2 €");
 });
+
+it("shows - for 0", () => {
+  renderCategoryReport({
+    categoryStats: mockCategoryStats({ value: "A", label: "CatA", sums: [1.23, 0] }),
+  });
+
+  expect(getRow("A - CatA").getAllByRole("cell")[3]).toHaveTextContent("-");
+});
+
+it("shows variable sum", () => {
+  renderCategoryReport({
+    categoryStats: mockCategoryStats(
+      { value: "A", label: "CatA", sums: [1, 3], yearAverage: 2 },
+      { value: "Aa", label: "CatBa", sums: [2, 7], yearAverage: 4.5 },
+      { value: "I", label: "CatI", sums: [4, 1], yearAverage: 2.5 },
+      { value: "M", label: "CatMa", sums: [3, 5], yearAverage: 4 },
+      { value: "Ma", label: "CatMa", sums: [3, 5], yearAverage: 4 },
+    ),
+  });
+
+  const row = getRow("var. Σ");
+  expect(row.getAllByRole("cell")[2]).toHaveTextContent("7 €");
+  expect(row.getAllByRole("cell")[3]).toHaveTextContent("10 €");
+  expect(row.getAllByRole("cell")[4]).toHaveTextContent("3 €");
+});

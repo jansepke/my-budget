@@ -11,6 +11,7 @@
 - automatically archive transaction after one year
 - unit tests
 - refunds
+- calculate year average from sums
 
 ## License
 
