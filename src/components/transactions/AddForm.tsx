@@ -125,7 +125,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       <TextField
         label="Amount"
         fullWidth
-        inputMode="decimal"
+        inputProps={{ inputMode: "decimal" }}
         value={formData.amount ?? ""}
         onChange={(e) => changeHandler("amount", e.target.value)}
         InputProps={buildIconStartAdornment(<EuroIcon />)}
