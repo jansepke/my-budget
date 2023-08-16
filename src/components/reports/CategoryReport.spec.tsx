@@ -1,6 +1,6 @@
 import { CategoryReport } from "@/components/reports/CategoryReport";
 import { createCustomRender, mockCategoryStats } from "@/test-utils";
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
 const renderCategoryReport = createCustomRender(CategoryReport, {
@@ -76,8 +76,9 @@ it("shows - for 0", () => {
 it("shows variable sum", () => {
   renderCategoryReport({
     categoryStats: mockCategoryStats(
-      { value: "A", label: "CatA", sums: [1, 3], yearAverage: 2 },
-      { value: "Aa", label: "CatBa", sums: [2, 7], yearAverage: 4.5 },
+      { value: "A", label: "CatA", sums: [0, 0], yearAverage: 0 },
+      { value: "Aa", label: "CatAa", sums: [2, 7], yearAverage: 4.5 },
+      { value: "Ab", label: "CatAb", sums: [1, 3], yearAverage: 2 },
       { value: "I", label: "CatI", sums: [4, 1], yearAverage: 2.5 },
       { value: "M", label: "CatMa", sums: [3, 5], yearAverage: 4 },
       { value: "Ma", label: "CatMa", sums: [3, 5], yearAverage: 4 },
@@ -88,4 +89,31 @@ it("shows variable sum", () => {
   expect(row.getAllByRole("cell")[2]).toHaveTextContent("7 €");
   expect(row.getAllByRole("cell")[3]).toHaveTextContent("10 €");
   expect(row.getAllByRole("cell")[4]).toHaveTextContent("3 €");
+});
+
+it("groups categories", () => {
+  renderCategoryReport({
+    categoryStats: mockCategoryStats(
+      { value: "A", label: "CatA", sums: [0, 0] },
+      { value: "Aa", label: "CatAa", sums: [2, 7] },
+    ),
+  });
+
+  const rowA = getRow("A - CatA");
+  expect(rowA.getAllByRole("cell")[3]).toHaveTextContent("7 €");
+  expect(rowA.getAllByRole("cell")[4]).toHaveTextContent("2 €");
+
+  expect(screen.queryByRole("cell", { name: "Aa - CatAa" })).not.toBeInTheDocument();
+
+  fireEvent.click(rowA.getByRole("button"));
+
+  expect(screen.queryByRole("cell", { name: "Aa - CatAa" })).toBeVisible();
+
+  const rowAa = getRow("Aa - CatAa");
+  expect(rowAa.getAllByRole("cell")[3]).toHaveTextContent("7 €");
+  expect(rowAa.getAllByRole("cell")[4]).toHaveTextContent("2 €");
+
+  fireEvent.click(rowA.getByRole("button"));
+
+  expect(screen.queryByRole("cell", { name: "Aa - CatAa" })).not.toBeInTheDocument();
 });
