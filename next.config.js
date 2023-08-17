@@ -24,7 +24,7 @@ module.exports = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; style-src 'unsafe-inline';",
+            value: "default-src 'self'; style-src 'self' 'unsafe-inline';",
           },
         ],
       },
