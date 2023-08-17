@@ -7,7 +7,8 @@ const renderCategoryReport = createCustomRender(CategoryReport, {
   categoryStats: [],
 });
 
-const getRow = (category: string) => within(screen.getByRole("cell", { name: category }).closest("tr")!);
+// eslint-disable-next-line testing-library/no-node-access
+const getRow = (category: string) => screen.getByRole("cell", { name: category }).closest("tr")!;
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -44,8 +45,8 @@ it("shows year average per category", () => {
     ),
   });
 
-  expect(getRow("A - CatA").getAllByRole("cell")[2]).toHaveTextContent("1 €");
-  expect(getRow("B - CatB").getAllByRole("cell")[2]).toHaveTextContent("4 €");
+  expect(within(getRow("A - CatA")).getAllByRole("cell")[2]).toHaveTextContent("1 €");
+  expect(within(getRow("B - CatB")).getAllByRole("cell")[2]).toHaveTextContent("4 €");
 });
 
 it("shows sums per month per category", () => {
@@ -56,11 +57,11 @@ it("shows sums per month per category", () => {
     ),
   });
 
-  const rowA = getRow("A - CatA");
+  const rowA = within(getRow("A - CatA"));
   expect(rowA.getAllByRole("cell")[3]).toHaveTextContent("5 €");
   expect(rowA.getAllByRole("cell")[4]).toHaveTextContent("1 €");
 
-  const rowB = getRow("B - CatB");
+  const rowB = within(getRow("B - CatB"));
   expect(rowB.getAllByRole("cell")[3]).toHaveTextContent("7 €");
   expect(rowB.getAllByRole("cell")[4]).toHaveTextContent("2 €");
 });
@@ -70,7 +71,7 @@ it("shows - for 0", () => {
     categoryStats: mockCategoryStats({ value: "A", label: "CatA", sums: [1.23, 0] }),
   });
 
-  expect(getRow("A - CatA").getAllByRole("cell")[3]).toHaveTextContent("-");
+  expect(within(getRow("A - CatA")).getAllByRole("cell")[3]).toHaveTextContent("-");
 });
 
 it("shows variable sum", () => {
@@ -85,7 +86,7 @@ it("shows variable sum", () => {
     ),
   });
 
-  const row = getRow("var. Σ");
+  const row = within(getRow("var. Σ"));
   expect(row.getAllByRole("cell")[2]).toHaveTextContent("7 €");
   expect(row.getAllByRole("cell")[3]).toHaveTextContent("10 €");
   expect(row.getAllByRole("cell")[4]).toHaveTextContent("3 €");
@@ -99,7 +100,7 @@ it("groups categories", () => {
     ),
   });
 
-  const rowA = getRow("A - CatA");
+  const rowA = within(getRow("A - CatA"));
   expect(rowA.getAllByRole("cell")[3]).toHaveTextContent("7 €");
   expect(rowA.getAllByRole("cell")[4]).toHaveTextContent("2 €");
 
@@ -109,7 +110,7 @@ it("groups categories", () => {
 
   expect(screen.queryByRole("cell", { name: "Aa - CatAa" })).toBeVisible();
 
-  const rowAa = getRow("Aa - CatAa");
+  const rowAa = within(getRow("Aa - CatAa"));
   expect(rowAa.getAllByRole("cell")[3]).toHaveTextContent("7 €");
   expect(rowAa.getAllByRole("cell")[4]).toHaveTextContent("2 €");
 

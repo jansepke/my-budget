@@ -36,5 +36,12 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ["**/*.spec.[jt]s?(x)"],
+      extends: ["plugin:testing-library/react", "plugin:jest-dom/recommended"],
+      rules: {
+        "testing-library/render-result-naming-convention": "off",
+      },
+    },
   ],
 };
