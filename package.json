@@ -23,7 +23,7 @@
     "@emotion/styled": "^11.11.0",
     "@googleapis/sheets": "^5.0.5",
     "@mui/icons-material": "^5.14.16",
-    "@mui/material": "^5.14.13",
+    "@mui/material": "^5.14.18",
     "@mui/x-date-pickers": "^6.18.0",
     "@vercel/edge-config": "^0.4.1",
     "dayjs": "^1.11.10",
