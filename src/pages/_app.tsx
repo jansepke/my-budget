@@ -1,6 +1,5 @@
-import createEmotionCache from "@/next/createEmotionCache";
 import theme from "@/next/theme";
-import { CacheProvider, EmotionCache } from "@emotion/react";
+import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -11,21 +10,10 @@ import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-// Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
-
-export interface MyAppProps extends AppProps<{ session: Session }> {
-  emotionCache?: EmotionCache;
-}
-
-export default function MyApp({
-  Component,
-  emotionCache = clientSideEmotionCache,
-  pageProps: { session, ...pageProps },
-}: MyAppProps) {
+export default function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={session}>
-      <CacheProvider value={emotionCache}>
+      <AppCacheProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
           <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
@@ -36,7 +24,7 @@ export default function MyApp({
             <Component {...pageProps} />
           </ThemeProvider>
         </LocalizationProvider>
-      </CacheProvider>
+      </AppCacheProvider>
     </SessionProvider>
   );
 }
