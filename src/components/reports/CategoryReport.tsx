@@ -9,10 +9,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import dayjs from "dayjs";
 import React from "react";
 
-const monthArray = () => Array.from(Array(dayjs().month() + 1).keys()).reverse();
+const monthArray = (categoryStat: CategoryStat) => Array.from(Array(categoryStat.sums.length).keys()).reverse();
 
 const formatReportCurrency = (value: number) => (value === 0 ? "-" : formatCurrency(value, false));
 
@@ -30,7 +29,7 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
     <TableCell align="right" sx={{ color: "text.secondary" }}>
       {formatReportCurrency(average(stat.sums))}
     </TableCell>
-    {monthArray().map((month) => (
+    {monthArray(stat).map((month) => (
       <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, average(stat.sums)) }} key={month}>
         {drilldown ? (
           <Link
@@ -92,7 +91,7 @@ export const CategoryReport: React.FC<CategoryReportProps> = ({ categoryStats })
             <TableCell width={90} align="right">
               Year Ø
             </TableCell>
-            {monthArray().map((month) => (
+            {monthArray(categoryStats[0]).map((month) => (
               <TableCell width={90} align="right" key={month}>
                 {getMonthName(month)}. Σ
               </TableCell>
@@ -131,7 +130,7 @@ function calculateGroupStats(categoryStats: CategoryStat[]) {
 
       return all;
     },
-    [{ label: "var. Σ", value: "", sums: monthArray().map(() => 0), categories: [] }],
+    [{ label: "var. Σ", value: "", sums: monthArray(categoryStats[0]).map(() => 0), categories: [] }],
   );
 }
 

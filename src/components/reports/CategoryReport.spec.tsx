@@ -1,23 +1,14 @@
 import { CategoryReport } from "@/components/reports/CategoryReport";
 import { createCustomRender, mockCategoryStats } from "@/test-utils";
 import { fireEvent, screen, within } from "@testing-library/react";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { expect, it } from "vitest";
 
 const renderCategoryReport = createCustomRender(CategoryReport, {
-  categoryStats: [],
+  categoryStats: [{ label: "A", value: "A", sums: [1, 2] }],
 });
 
 // eslint-disable-next-line testing-library/no-node-access
 const getRow = (category: string) => screen.getByRole("cell", { name: category }).closest("tr")!;
-
-beforeEach(() => {
-  vi.useFakeTimers();
-  vi.setSystemTime(new Date(2000, 1, 1));
-});
-
-afterEach(() => {
-  vi.useRealTimers();
-});
 
 it("shows default column headers", () => {
   renderCategoryReport();

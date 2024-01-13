@@ -11,6 +11,8 @@
 - automatically archive transaction after one year
 - unit tests
 - refunds
+- saving indicator
+- category combobox
 
 ## License
 

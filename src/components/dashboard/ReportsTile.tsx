@@ -13,7 +13,7 @@ interface ReportsTileProps {
 export const ReportsTile: React.FC<ReportsTileProps> = ({ categoryStats, templateTransactions, averageIncome }) => (
   <div>
     <Typography variant="h5">
-      <Link href="/reports/categories" color="inherit" underline="hover">
+      <Link href="/reports/categories/current" color="inherit" underline="hover">
         Reports <NorthEastIcon />
       </Link>
     </Typography>
