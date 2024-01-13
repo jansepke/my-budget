@@ -137,7 +137,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       <CategorySelector
         fullWidth
         value={formData.category}
-        onChange={(v) => changeHandler("category", v)}
+        onChange={(v) => changeHandler("category", v?.value)}
         categories={categories}
       />
       <LoadingButton

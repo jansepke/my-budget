@@ -24,7 +24,7 @@ interface TransactionsPageProps {
 
 const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   const router = useRouter();
-  const filterCategory = router.query.category as string | null;
+  const filterCategory = router.query.category as string | undefined;
 
   const filteredTransactions = props.transactions.filter(
     (t) =>
@@ -35,8 +35,8 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   const categories: Category[] = [...props.categories, { value: "none", label: "none" }];
 
   const path = router.asPath.split("?")[0];
-  const handleFilterCategory = (v: string | undefined) =>
-    router.push(`${path}${v == undefined ? "" : `?category=${v}`}`);
+  const handleFilterCategory = (c: Category | null) =>
+    router.push(`${path}${c == undefined ? "" : `?category=${c.value}`}`);
 
   return (
     <ProtectedPage headline="My Budget">
