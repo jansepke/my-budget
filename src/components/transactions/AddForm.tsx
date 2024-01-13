@@ -4,8 +4,8 @@ import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -36,6 +36,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
   const [type, setType] = useState<TransactionType>("out");
   const { inputRef, focus } = useFocus();
   const [error, setError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const addTransaction = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
     const body = JSON.stringify({ ...formData, amount: type === "out" ? -amount : amount });
 
     try {
+      setIsSaving(true);
       await customFetch("/api/transactions", { method: "POST", body });
 
       setError("");
@@ -57,6 +59,8 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
       console.log(error);
 
       setError((error as Error).toString());
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -136,9 +140,16 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
         onChange={(v) => changeHandler("category", v)}
         categories={categories}
       />
-      <Button type="submit" variant="contained" startIcon={<AddIcon />} sx={{ maxWidth: 120 }}>
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        startIcon={<AddIcon />}
+        loading={isSaving}
+        loadingPosition="start"
+        sx={{ maxWidth: 120 }}
+      >
         Add
-      </Button>
+      </LoadingButton>
       {error && <Alert severity="error">{error}</Alert>}
     </Stack>
   );
