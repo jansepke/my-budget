@@ -18,6 +18,9 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ value, onCha
       value={categories.find((c) => c.value === value) ?? null}
       onChange={(e, c) => onChange(c)}
       getOptionLabel={(c) => `${c.value} - ${c.label}`}
+      filterOptions={(options, state) =>
+        options.filter((o) => o.value.toLowerCase().includes(state.inputValue.toLowerCase()))
+      }
       options={categories}
       selectOnFocus
       clearOnBlur
