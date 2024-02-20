@@ -1,15 +1,16 @@
 import Link from "@/components/shared/Link";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Transaction } from "@/domain";
+import { Category, Transaction } from "@/domain";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Typography from "@mui/material/Typography";
 
 interface CurrentMonthTileProps {
   transactions: Transaction[];
+  categories: Category[];
 }
 
-export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions }) => {
+export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions, categories }) => {
   const currentMonth = new Date().toLocaleString(undefined, { month: "long" });
 
   return (
@@ -20,7 +21,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
         </Link>
       </Typography>
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-      <TransactionList accountId={1} transactions={transactions.slice(-5)} />
+      <TransactionList accountId={1} transactions={transactions.slice(-5)} categories={categories} />
     </div>
   );
 };

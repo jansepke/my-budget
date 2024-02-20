@@ -1,59 +1,61 @@
-import { Transaction } from "@/domain";
+import { Category, Transaction } from "@/domain";
 import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
 import React from "react";
 
 interface TransactionListProps {
   accountId: number;
   transactions: Transaction[];
+  categories: Category[];
 }
 
-export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions }) => (
-  <TableContainer component={Paper}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell width={75}>date</TableCell>
-          <TableCell>description</TableCell>
-          <TableCell width={90} align="right">
-            amount
-          </TableCell>
-          <TableCell width={50}>cat.</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {transactions.length === 0 ? (
-          <TableRow>
-            <TableCell colSpan={5} align="center">
-              no transactions
-            </TableCell>
-          </TableRow>
-        ) : (
-          transactions.map((t, idx) => (
-            <TableRow key={idx} hover>
-              <TableCell>{formatDate(parseGoogleSheetsDate(t.date))}</TableCell>
-              <TableCell>
-                <Box display="flex" justifyContent="space-between">
-                  {t.description}{" "}
-                  {t.from !== 0 && t.from !== accountId && <Chip label="X" color="primary" size="small" />}
-                </Box>
-              </TableCell>
-              <TableCell align="right" sx={{ color: currencyColor(t.amount) }}>
-                {formatCurrency(t.amount)}
-              </TableCell>
-              <TableCell>{t.category}</TableCell>
-            </TableRow>
-          ))
-        )}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions, categories }) => {
+  const transactionsByDate = transactions.reduce(
+    (all, t) => {
+      if (!all[t.date]) {
+        all[t.date] = [];
+      }
+      all[t.date].push(t);
+      return all;
+    },
+    {} as Record<number, Transaction[]>,
+  );
+
+  return (
+    <List dense>
+      {Object.entries(transactionsByDate).map(([date, trans]) => (
+        <>
+          <ListSubheader key={`item-${date}`} disableGutters>
+            {formatDate(parseGoogleSheetsDate(Number(date)))}
+          </ListSubheader>
+          {trans.map((t, idx) => (
+            <ListItem disableGutters key={`item-${date}-${idx}`}>
+              <ListItemAvatar>
+                <Avatar>{t.category || "-"}</Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Box display="flex" justifyContent="space-between">
+                    {t.description} <Box sx={{ color: currencyColor(t.amount) }}>{formatCurrency(t.amount)}</Box>
+                  </Box>
+                }
+                secondary={
+                  <>
+                    {categories.find((c) => c.value === t.category)?.label}{" "}
+                    {t.from !== 0 && t.from !== accountId && "X"}
+                  </>
+                }
+              />
+            </ListItem>
+          ))}
+        </>
+      ))}
+    </List>
+  );
+};

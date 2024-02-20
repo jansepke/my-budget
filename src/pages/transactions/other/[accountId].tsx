@@ -1,8 +1,9 @@
+import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Transaction } from "@/domain";
+import { Category, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterForOtherAccount } from "@/utils";
 import Container from "@mui/material/Container";
@@ -11,13 +12,14 @@ import { GetServerSideProps } from "next";
 interface TransactionsPageProps {
   accountId: number;
   transactions: Transaction[];
+  categories: Category[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions }) => (
+const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions, categories }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ marginTop: 3 }}>
       <TransactionStats accountId={accountId} transactions={transactions} />
-      <TransactionList accountId={accountId} transactions={transactions} />
+      <TransactionList accountId={accountId} transactions={transactions} categories={categories} />
     </Container>
   </ProtectedPage>
 );
@@ -34,6 +36,7 @@ export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = asy
       session: session,
       accountId: accountId,
       transactions: (await getAllTransactions(session)).filter(filterForOtherAccount(accountId)),
+      categories: await getAllCategories(session),
     },
   };
 };

@@ -50,7 +50,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           )}
         </Box>
         <Box mb={10}>
-          <TransactionList accountId={1} transactions={filteredTransactions} />
+          <TransactionList accountId={1} transactions={filteredTransactions} categories={categories} />
         </Box>
 
         <AddTransactionButton />
