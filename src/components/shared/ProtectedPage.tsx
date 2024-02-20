@@ -1,10 +1,9 @@
 import { Navigation } from "@/components/shared/Navigation";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React from "react";
 
@@ -28,24 +27,12 @@ const ProtectedPage: React.FC<PageProps> = ({ headline, children }) => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Budget
             </Typography>
-            {session ? (
-              <>
-                <Typography sx={{ display: { xs: "none", md: "inherit" } }}>{session.user?.email}&nbsp;</Typography>
-                <Button color="inherit" onClick={() => signOut()} size="small">
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <Button color="inherit" onClick={() => signIn("google")}>
-                Login
-              </Button>
-            )}
           </Toolbar>
         </AppBar>
       </Box>
       {session ? (
         <>
-          {children}
+          <Box mb={6}>{children}</Box>
           <Navigation />
         </>
       ) : null}

@@ -7,7 +7,6 @@ import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -35,9 +34,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
         <Toolbar year={props.year} month={props.month} filteredTransactions={filteredTransactions} />
         <TransactionStats accountId={1} transactions={props.transactions} showFixedSum />
 
-        <Box mb={10}>
-          <TransactionList accountId={1} transactions={filteredTransactions} />
-        </Box>
+        <TransactionList accountId={1} transactions={filteredTransactions} />
       </Container>
     </ProtectedPage>
   );
