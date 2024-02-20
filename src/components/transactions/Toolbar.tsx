@@ -25,7 +25,6 @@ export const Toolbar: React.FC<ToolbarProps> = ({ year, month, categories, filte
   const filterCategory = router.query.category as string | undefined;
 
   const [showFilter, setShowFilter] = useState(Boolean(filterCategory));
-  console.log(filterCategory, showFilter);
 
   const date = dayjs(`${year}-${month}-1`);
   const prevMonth = date.subtract(1, "month");
