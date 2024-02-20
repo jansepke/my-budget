@@ -1,6 +1,5 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
@@ -39,8 +38,6 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
         <Box mb={10}>
           <TransactionList accountId={1} transactions={filteredTransactions} />
         </Box>
-
-        <AddTransactionButton />
       </Container>
     </ProtectedPage>
   );

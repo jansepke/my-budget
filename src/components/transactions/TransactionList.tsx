@@ -32,10 +32,8 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
   return (
     <List dense>
       {Object.entries(transactionsByDate).map(([date, trans]) => (
-        <>
-          <ListSubheader key={`item-${date}`} disableGutters>
-            {formatDate(parseGoogleSheetsDate(Number(date)))}
-          </ListSubheader>
+        <React.Fragment key={`item-${date}`}>
+          <ListSubheader disableGutters>{formatDate(parseGoogleSheetsDate(Number(date)))}</ListSubheader>
           {trans.map((t, idx) => {
             const category = categories.find((c) => c.value === t.category);
 
@@ -59,7 +57,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
               </ListItem>
             );
           })}
-        </>
+        </React.Fragment>
       ))}
     </List>
   );

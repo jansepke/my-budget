@@ -3,7 +3,6 @@ import { getAllCategories } from "@/backend/categories";
 import { calculateCategoryStats } from "@/backend/category-stats";
 import { getAverageIncome } from "@/backend/income";
 import { getAllTransactions, getTemplateTransactions } from "@/backend/transactions";
-import { AddTransactionButton } from "@/components/dashboard/AddTransactionButton";
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
@@ -43,8 +42,6 @@ const IndexPage: React.FC<IndexPageProps> = ({
         averageIncome={averageIncome}
       />
     </Container>
-
-    <AddTransactionButton />
   </ProtectedPage>
 );
 

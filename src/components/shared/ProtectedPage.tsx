@@ -1,13 +1,11 @@
-import HomeIcon from "@mui/icons-material/Home";
+import { Navigation } from "@/components/shared/Navigation";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import React from "react";
 
 interface PageProps extends React.PropsWithChildren {
@@ -27,9 +25,6 @@ const ProtectedPage: React.FC<PageProps> = ({ headline, children }) => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton component={Link} href="/" color="inherit">
-              <HomeIcon />
-            </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               My Budget
             </Typography>
@@ -48,7 +43,12 @@ const ProtectedPage: React.FC<PageProps> = ({ headline, children }) => {
           </Toolbar>
         </AppBar>
       </Box>
-      {session ? children : null}
+      {session ? (
+        <>
+          {children}
+          <Navigation />
+        </>
+      ) : null}
     </>
   );
 };
