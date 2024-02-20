@@ -27,6 +27,10 @@ export interface Transaction {
   category: string;
 }
 
+export interface TransactionWithRow extends Transaction {
+  row: number;
+}
+
 export interface NewTransaction extends Omit<Transaction, "date"> {
   date: Dayjs;
 }

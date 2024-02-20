@@ -28,21 +28,30 @@ export const createSheetsClient = (session: Session) => {
   return google.sheets({ version: "v4", auth });
 };
 
-export const getValues = async (session: Session, range: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const valueCache: Record<string, any[][]> = {};
+
+export const getValues = async (session: Session, range: string, cache = true) => {
   try {
-    const sheets = createSheetsClient(session);
+    const cacheKey = `${session.user?.email}-${range}`;
 
-    const { data } = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: range,
-      valueRenderOption: "UNFORMATTED_VALUE",
-    });
+    if (!valueCache[cacheKey] || !cache) {
+      const sheets = createSheetsClient(session);
 
-    if (!data.values) {
-      throw new Error("no values");
+      const { data } = await sheets.spreadsheets.values.get({
+        spreadsheetId: SPREADSHEET_ID,
+        range: range,
+        valueRenderOption: "UNFORMATTED_VALUE",
+      });
+
+      if (!data.values) {
+        throw new Error("no values");
+      }
+
+      valueCache[cacheKey] = data.values;
     }
 
-    return data.values;
+    return valueCache[cacheKey];
   } catch (error) {
     console.error(error);
 
