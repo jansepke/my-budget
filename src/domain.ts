@@ -8,6 +8,7 @@ export interface Account {
 export interface Category {
   value: string;
   label: string;
+  icon?: string;
 }
 
 export interface CategoryStat extends Category {

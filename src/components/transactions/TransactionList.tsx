@@ -1,6 +1,6 @@
+import { CategoryIcon } from "@/components/transactions/CategoryIcon";
 import { Category, Transaction } from "@/domain";
 import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -34,26 +34,29 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
           <ListSubheader key={`item-${date}`} disableGutters>
             {formatDate(parseGoogleSheetsDate(Number(date)))}
           </ListSubheader>
-          {trans.map((t, idx) => (
-            <ListItem disableGutters key={`item-${date}-${idx}`}>
-              <ListItemAvatar>
-                <Avatar>{t.category || "-"}</Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Box display="flex" justifyContent="space-between">
-                    {t.description} <Box sx={{ color: currencyColor(t.amount) }}>{formatCurrency(t.amount)}</Box>
-                  </Box>
-                }
-                secondary={
-                  <>
-                    {categories.find((c) => c.value === t.category)?.label}{" "}
-                    {t.from !== 0 && t.from !== accountId && "X"}
-                  </>
-                }
-              />
-            </ListItem>
-          ))}
+          {trans.map((t, idx) => {
+            const category = categories.find((c) => c.value === t.category);
+
+            return (
+              <ListItem disableGutters key={`item-${date}-${idx}`}>
+                <ListItemAvatar>
+                  <CategoryIcon category={category} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Box display="flex" justifyContent="space-between">
+                      {t.description} <Box sx={{ color: currencyColor(t.amount) }}>{formatCurrency(t.amount)}</Box>
+                    </Box>
+                  }
+                  secondary={
+                    <>
+                      {category?.label} {t.from !== 0 && t.from !== accountId && "X"}
+                    </>
+                  }
+                />
+              </ListItem>
+            );
+          })}
         </>
       ))}
     </List>
