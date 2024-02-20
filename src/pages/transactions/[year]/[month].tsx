@@ -5,7 +5,7 @@ import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { Category, Transaction } from "@/domain";
+import { PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
 import Box from "@mui/material/Box";
@@ -17,7 +17,6 @@ interface TransactionsPageProps {
   year: number;
   month: number;
   transactions: Transaction[];
-  categories: Category[];
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
@@ -30,21 +29,15 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
       t.category.startsWith(filterCategory) ||
       (filterCategory === "none" && t.category === ""),
   );
-  const categories: Category[] = [...props.categories, { value: "none", label: "none" }];
 
   return (
     <ProtectedPage headline="My Budget">
       <Container maxWidth="md" sx={{ marginTop: 3 }}>
-        <Toolbar
-          year={props.year}
-          month={props.month}
-          categories={props.categories}
-          filteredTransactions={filteredTransactions}
-        />
+        <Toolbar year={props.year} month={props.month} filteredTransactions={filteredTransactions} />
         <TransactionStats accountId={1} transactions={props.transactions} showFixedSum />
 
         <Box mb={10}>
-          <TransactionList accountId={1} transactions={filteredTransactions} categories={categories} />
+          <TransactionList accountId={1} transactions={filteredTransactions} />
         </Box>
 
         <AddTransactionButton />
@@ -55,7 +48,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
 
 export default TransactionsPage;
 
-export const getServerSideProps: GetServerSideProps<TransactionsPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<TransactionsPageProps & PageProps> = async (context) => {
   const session = await getSession(context);
 
   const yearString = context.params?.year as string;

@@ -1,5 +1,6 @@
+import { useCategories } from "@/components/shared/CategoriesProvider";
 import { AccountSelector } from "@/components/transactions/AccountSelector";
-import { Account, Category, NewTransaction } from "@/domain";
+import { Account, NewTransaction } from "@/domain";
 import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
@@ -23,7 +24,6 @@ type TransactionType = "out" | "in";
 
 interface AddFormProps {
   accounts: Account[];
-  categories: Category[];
 }
 
 const defaultFormData = {
@@ -31,7 +31,8 @@ const defaultFormData = {
   in: { date: dayjs() },
 };
 
-export const AddForm: React.FC<AddFormProps> = ({ accounts, categories }) => {
+export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
+  const { categories } = useCategories();
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData.out);
   const [type, setType] = useState<TransactionType>("out");
   const { inputRef, focus } = useFocus();

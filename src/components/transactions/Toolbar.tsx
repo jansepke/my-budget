@@ -1,3 +1,4 @@
+import { useCategories } from "@/components/shared/CategoriesProvider";
 import { CategorySelector } from "@/components/transactions/CategorySelector";
 import { Category, Transaction } from "@/domain";
 import { formatCurrency, sum } from "@/utils";
@@ -16,11 +17,13 @@ import { useState } from "react";
 interface ToolbarProps {
   year: number;
   month: number;
-  categories: Category[];
   filteredTransactions: Transaction[];
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ year, month, categories, filteredTransactions }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransactions }) => {
+  const { categories: baseCategories } = useCategories();
+  const categories: Category[] = [...baseCategories, { value: "none", label: "none" }];
+
   const router = useRouter();
   const filterCategory = router.query.category as string | undefined;
 

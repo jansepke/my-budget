@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { Session } from "next-auth";
 
 export interface Account {
   id: number;
@@ -38,4 +39,9 @@ export interface NewTransaction extends Omit<Transaction, "date"> {
 
 export interface NewTransactionBackend extends Omit<NewTransaction, "date"> {
   date: string;
+}
+
+export interface PageProps {
+  session: Session;
+  categories: Category[];
 }

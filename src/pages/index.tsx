@@ -8,7 +8,7 @@ import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import ProtectedPage from "@/components/shared/ProtectedPage";
-import { Account, Category, CategoryStat, Transaction } from "@/domain";
+import { Account, CategoryStat, PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import Container from "@mui/material/Container";
@@ -21,7 +21,6 @@ interface IndexPageProps {
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
   averageIncome: number;
-  categories: Category[];
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({
@@ -31,11 +30,10 @@ const IndexPage: React.FC<IndexPageProps> = ({
   categoryStats,
   templateTransactions,
   averageIncome,
-  categories,
 }) => (
   <ProtectedPage headline="My Budget">
     <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
-      <CurrentMonthTile transactions={mainTransactions} categories={categories} />
+      <CurrentMonthTile transactions={mainTransactions} />
 
       <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
 
@@ -52,7 +50,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
 
 export default IndexPage;
 
-export const getServerSideProps: GetServerSideProps<IndexPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<IndexPageProps & PageProps> = async (context) => {
   const session = await getSession(context);
   const now = new Date();
 

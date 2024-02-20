@@ -1,5 +1,6 @@
+import { useCategories } from "@/components/shared/CategoriesProvider";
 import { CategoryIcon } from "@/components/transactions/CategoryIcon";
-import { Category, Transaction } from "@/domain";
+import { Transaction } from "@/domain";
 import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -12,10 +13,11 @@ import React from "react";
 interface TransactionListProps {
   accountId: number;
   transactions: Transaction[];
-  categories: Category[];
 }
 
-export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions, categories }) => {
+export const TransactionList: React.FC<TransactionListProps> = ({ accountId, transactions }) => {
+  const { categories } = useCategories();
+
   const transactionsByDate = transactions.reduce(
     (all, t) => {
       if (!all[t.date]) {
