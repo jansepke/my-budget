@@ -2,7 +2,6 @@ import { useCategories } from "@/components/shared/CategoriesProvider";
 import { CategorySelector } from "@/components/transactions/CategorySelector";
 import { Category, Transaction } from "@/domain";
 import { formatCurrency, sum } from "@/utils";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Box from "@mui/material/Box";
@@ -12,22 +11,20 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 interface ToolbarProps {
   year: number;
   month: number;
   filteredTransactions: Transaction[];
+  showFilter: boolean;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransactions }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransactions, showFilter }) => {
   const { categories: baseCategories } = useCategories();
   const categories: Category[] = [...baseCategories, { value: "none", label: "none" }];
 
   const router = useRouter();
   const filterCategory = router.query.category as string | undefined;
-
-  const [showFilter, setShowFilter] = useState(Boolean(filterCategory));
 
   const date = dayjs(`${year}-${month}-1`);
   const prevMonth = date.subtract(1, "month");
@@ -55,9 +52,6 @@ export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransacti
 
         <Button component={Link} variant="contained" href={buildHref(nextMonth)} disabled={dayjs() < nextMonth}>
           <NavigateNextIcon />
-        </Button>
-        <Button variant="text" onClick={() => setShowFilter(!showFilter)}>
-          <FilterAltIcon />
         </Button>
       </Box>
       {showFilter && (

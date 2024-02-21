@@ -1,6 +1,5 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
-import ProtectedPage from "@/components/shared/ProtectedPage";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { PageProps, Transaction } from "@/domain";
@@ -15,12 +14,10 @@ interface TransactionsPageProps {
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions }) => (
-  <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <TransactionStats accountId={accountId} transactions={transactions} />
-      <TransactionList accountId={accountId} transactions={transactions} />
-    </Container>
-  </ProtectedPage>
+  <Container maxWidth="md" sx={{ marginTop: 1 }}>
+    <TransactionStats accountId={accountId} transactions={transactions} />
+    <TransactionList accountId={accountId} transactions={transactions} />
+  </Container>
 );
 
 export default TransactionsPage;

@@ -2,7 +2,6 @@ import { getAllCategories } from "@/backend/categories";
 import { calculateCategoryStats } from "@/backend/category-stats";
 import { getAllTransactions } from "@/backend/transactions";
 import { CategoryReport } from "@/components/reports/CategoryReport";
-import ProtectedPage from "@/components/shared/ProtectedPage";
 import { CategoryStat } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterBetweenDates, filterForMainAccount } from "@/utils";
@@ -32,15 +31,13 @@ interface CategoriesPageProps {
 }
 
 const CategoriesPage: React.FC<CategoriesPageProps> = ({ categoryStats }) => (
-  <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <Box display="flex" justifyContent="space-between" m={2} gap={1}>
-        <YearButton targetYear={currentYear - 1}>{currentYear - 1}</YearButton>
-        <YearButton targetYear="current">{currentYear}</YearButton>
-      </Box>
-      <CategoryReport categoryStats={categoryStats} />
-    </Container>
-  </ProtectedPage>
+  <Container maxWidth="md" sx={{ marginTop: 1 }}>
+    <Box display="flex" justifyContent="space-between" m={2} gap={1}>
+      <YearButton targetYear={currentYear - 1}>{currentYear - 1}</YearButton>
+      <YearButton targetYear="current">{currentYear}</YearButton>
+    </Box>
+    <CategoryReport categoryStats={categoryStats} />
+  </Container>
 );
 
 export default CategoriesPage;

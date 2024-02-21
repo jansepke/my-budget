@@ -6,7 +6,6 @@ import { getAllTransactions, getTemplateTransactions } from "@/backend/transacti
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
-import ProtectedPage from "@/components/shared/ProtectedPage";
 import { Account, CategoryStat, PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
@@ -30,19 +29,17 @@ const IndexPage: React.FC<IndexPageProps> = ({
   templateTransactions,
   averageIncome,
 }) => (
-  <ProtectedPage headline="My Budget">
-    <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
-      <CurrentMonthTile transactions={mainTransactions} />
+  <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
+    <CurrentMonthTile transactions={mainTransactions} />
 
-      <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
+    <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
 
-      <ReportsTile
-        categoryStats={categoryStats}
-        templateTransactions={templateTransactions}
-        averageIncome={averageIncome}
-      />
-    </Container>
-  </ProtectedPage>
+    <ReportsTile
+      categoryStats={categoryStats}
+      templateTransactions={templateTransactions}
+      averageIncome={averageIncome}
+    />
+  </Container>
 );
 
 export default IndexPage;
