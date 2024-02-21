@@ -10,7 +10,9 @@ import { Account, CategoryStat, PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
+import { useSession } from "next-auth/react";
 
 interface IndexPageProps {
   accounts: Account[];
@@ -28,19 +30,27 @@ const IndexPage: React.FC<IndexPageProps> = ({
   categoryStats,
   templateTransactions,
   averageIncome,
-}) => (
-  <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
-    <CurrentMonthTile transactions={mainTransactions} />
+}) => {
+  const { data: session } = useSession();
+  const firstName = session?.user?.name?.split(" ")[0];
 
-    <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
+  return (
+    <Container maxWidth="md" sx={{ "> *": { marginTop: 3 }, marginBottom: 10 }}>
+      <Typography variant="h4" mt={3} color="primary">
+        Hello {firstName}
+      </Typography>
+      <CurrentMonthTile transactions={mainTransactions} />
 
-    <ReportsTile
-      categoryStats={categoryStats}
-      templateTransactions={templateTransactions}
-      averageIncome={averageIncome}
-    />
-  </Container>
-);
+      <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
+
+      <ReportsTile
+        categoryStats={categoryStats}
+        templateTransactions={templateTransactions}
+        averageIncome={averageIncome}
+      />
+    </Container>
+  );
+};
 
 export default IndexPage;
 
