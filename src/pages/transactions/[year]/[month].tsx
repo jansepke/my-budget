@@ -17,8 +17,6 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const formatter = new Intl.DateTimeFormat("de", { month: "long", timeZone: "UTC" });
-
 interface TransactionsPageProps {
   year: number;
   month: number;
@@ -47,7 +45,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
       <AppBar position="relative">
         <MuiToolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {formatter.format(monthDate)} {props.year}
+            {monthDate.toLocaleDateString(undefined, { month: "long" })} {props.year}
           </Typography>
           <IconButton onClick={() => setShowPicker(!showPicker)}>
             <CalendarMonthIcon />
