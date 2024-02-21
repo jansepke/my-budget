@@ -17,9 +17,10 @@ interface ToolbarProps {
   month: number;
   filteredTransactions: Transaction[];
   showFilter: boolean;
+  showPicker: boolean;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransactions, showFilter }) => {
+export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransactions, showFilter, showPicker }) => {
   const { categories: baseCategories } = useCategories();
   const categories: Category[] = [...baseCategories, { value: "none", label: "none" }];
 
@@ -36,24 +37,28 @@ export const Toolbar: React.FC<ToolbarProps> = ({ year, month, filteredTransacti
 
   return (
     <>
-      <Box display="flex" justifyContent="space-between" m={2} gap={1}>
-        <Button component={Link} variant="contained" href={buildHref(prevMonth)}>
-          <NavigateBeforeIcon />
-        </Button>
+      {showPicker && (
+        <>
+          <Box display="flex" justifyContent="space-between" m={2} gap={1}>
+            <Button component={Link} variant="contained" href={buildHref(prevMonth)}>
+              <NavigateBeforeIcon />
+            </Button>
 
-        <DatePicker
-          label="month"
-          views={["year", "month"]}
-          openTo="month"
-          value={date}
-          disableFuture
-          onChange={(value) => value && router.push(buildHref(value))}
-        />
+            <DatePicker
+              label="month"
+              views={["year", "month"]}
+              openTo="month"
+              value={date}
+              disableFuture
+              onChange={(value) => value && router.push(buildHref(value))}
+            />
 
-        <Button component={Link} variant="contained" href={buildHref(nextMonth)} disabled={dayjs() < nextMonth}>
-          <NavigateNextIcon />
-        </Button>
-      </Box>
+            <Button component={Link} variant="contained" href={buildHref(nextMonth)} disabled={dayjs() < nextMonth}>
+              <NavigateNextIcon />
+            </Button>
+          </Box>
+        </>
+      )}
       {showFilter && (
         <Box display="flex" justifyContent="center" alignItems="center" gap={2} m={2}>
           <CategorySelector value={filterCategory} onChange={handleFilterCategory} categories={categories} />

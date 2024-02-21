@@ -6,6 +6,7 @@ import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { PageProps, Transaction } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
@@ -29,6 +30,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   const filterCategory = router.query.category as string | undefined;
 
   const [showFilter, setShowFilter] = useState(Boolean(filterCategory));
+  const [showPicker, setShowPicker] = useState(false);
 
   const monthDate = new Date();
   monthDate.setMonth(props.month - 1);
@@ -47,6 +49,9 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             {formatter.format(monthDate)} {props.year}
           </Typography>
+          <IconButton onClick={() => setShowPicker(!showPicker)}>
+            <CalendarMonthIcon />
+          </IconButton>
           <IconButton onClick={() => setShowFilter(!showFilter)}>
             <FilterAltIcon />
           </IconButton>
@@ -58,6 +63,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           month={props.month}
           filteredTransactions={filteredTransactions}
           showFilter={showFilter}
+          showPicker={showPicker}
         />
         <TransactionStats accountId={1} transactions={props.transactions} showFixedSum />
 
