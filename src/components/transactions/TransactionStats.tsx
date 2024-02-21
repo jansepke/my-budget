@@ -14,17 +14,14 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, t
   const incomeSum = sum(transactions.filter((t) => t.category?.startsWith(INCOME_CATEGORY)));
   const fixedSum = sum(transactions.filter((t) => t.category?.startsWith(FIXED_GROUP)));
   const variableSum = sum(
-    transactions.filter(
-      (t) => t.category && !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_GROUP),
-    ),
+    transactions.filter((t) => !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_GROUP)),
   );
 
   return (
     <Box display="flex" justifyContent="space-between" m={2}>
-      <Typography color="text.secondary">{formatCurrency(incomeSum)} (Income)</Typography>
-      {showFixedSum && <Typography color="text.secondary">{formatCurrency(fixedSum)} (Fixed)</Typography>}
-      <Typography color="text.secondary">{formatCurrency(variableSum)} (Variable)</Typography>
-      <Typography color="text.secondary">{formatCurrency(totalSum)} (Rest)</Typography>
+      <Typography color="text.secondary">{formatCurrency(incomeSum)}</Typography>
+      {showFixedSum && <Typography color="text.secondary">{formatCurrency(fixedSum + variableSum)}</Typography>}
+      <Typography color="text.secondary">= {formatCurrency(totalSum)}</Typography>
     </Box>
   );
 };
