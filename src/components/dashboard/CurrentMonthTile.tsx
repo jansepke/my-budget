@@ -23,8 +23,6 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
     .map((c) => ({ ...c, sum: Math.round(c.sums[now.getMonth()]) }))
     .filter((c) => c.sum < 0 && !c.value.startsWith(FIXED_GROUP));
 
-  console.log(stats);
-
   return (
     <div>
       <Typography variant="h5">
