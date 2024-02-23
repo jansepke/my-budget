@@ -2,7 +2,7 @@ import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { PageProps, Transaction } from "@/domain";
+import { PageProps, TransactionWithRow } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterForOtherAccount } from "@/utils";
 import Container from "@mui/material/Container";
@@ -10,7 +10,7 @@ import { GetServerSideProps } from "next";
 
 interface TransactionsPageProps {
   accountId: number;
-  transactions: Transaction[];
+  transactions: TransactionWithRow[];
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions }) => (

@@ -5,7 +5,7 @@ import {
   createSheetsClient,
   getValues,
 } from "@/backend/google-sheets";
-import { NewTransactionBackend, Transaction, TransactionWithRow } from "@/domain";
+import { NewTransactionBackend, Transaction, TransactionWithRow, UpdateTransactionBackend } from "@/domain";
 import { formatDate } from "@/utils";
 import { Session } from "next-auth";
 
@@ -27,7 +27,7 @@ export const getAllTransactions = async (session: Session): Promise<TransactionW
     const rows = await getValues(session, TRANSACTIONS_RANGE, false);
 
     const transactions = rows.map(rowsToTransactions);
-    const transactionsWithRow = transactions.map((t, idx) => ({ ...t, row: idx }));
+    const transactionsWithRow = transactions.map((t, idx) => ({ ...t, row: idx + 1 }));
     return transactionsWithRow.sort((a, b) => a.date - b.date);
   } catch (error) {
     console.error(error);
@@ -81,35 +81,37 @@ export const createTransaction = async (session: Session, newTransaction: NewTra
   }
 };
 
-// export const updateTransaction = async (session: Session, newTransaction: NewTransactionBackend) => {
-//   const sheets = createSheetsClient(session);
+export const updateTransaction = async (session: Session, row: string, transaction: UpdateTransactionBackend) => {
+  const sheets = createSheetsClient(session);
 
-//   const date = formatDate(new Date(newTransaction.date));
+  const date = formatDate(new Date(transaction.date));
 
-//   const row = [
-//     newTransaction.from,
-//     newTransaction.to,
-//     date,
-//     newTransaction.description,
-//     newTransaction.amount,
-//     newTransaction.category,
-//   ];
+  const updateRow = [
+    transaction.from > 0 ? transaction.from : "",
+    transaction.to > 0 ? transaction.to : "",
+    date,
+    transaction.description,
+    transaction.amount,
+    transaction.category,
+  ];
 
-//   console.log("updating transaction", row);
+  const range = TRANSACTIONS_RANGE.replace("1", row) + row;
 
-//   try {
-//     await sheets.spreadsheets.values.update({
-//       spreadsheetId: SPREADSHEET_ID,
-//       valueInputOption: "USER_ENTERED",
-//       range: TRANSACTIONS_RANGE,
-//       requestBody: {
-//         values: [row],
-//       },
-//     });
+  console.log("updating transaction", range, updateRow);
 
-//     console.log("updated transaction", row);
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// };
+  try {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      valueInputOption: "USER_ENTERED",
+      range: range,
+      requestBody: {
+        values: [updateRow],
+      },
+    });
+
+    console.log("updated transaction", range);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

@@ -3,7 +3,7 @@ import { getAllTransactions } from "@/backend/transactions";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { PageProps, Transaction } from "@/domain";
+import { PageProps, TransactionWithRow } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount } from "@/utils";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -20,7 +20,7 @@ import { useState } from "react";
 interface TransactionsPageProps {
   year: number;
   month: number;
-  transactions: Transaction[];
+  transactions: TransactionWithRow[];
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {

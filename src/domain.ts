@@ -41,6 +41,14 @@ export interface NewTransactionBackend extends Omit<NewTransaction, "date"> {
   date: string;
 }
 
+export interface UpdateTransaction extends Omit<TransactionWithRow, "date"> {
+  date: Dayjs;
+}
+
+export interface UpdateTransactionBackend extends Omit<TransactionWithRow, "date"> {
+  date: string;
+}
+
 export interface PageProps {
   session: Session;
   categories: Category[];
