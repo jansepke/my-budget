@@ -18,6 +18,7 @@ interface EditFormProps {
   transaction: TransactionWithRow;
 }
 
+// TODO: refactor with AddForm
 export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
   const { categories } = useCategories();
   const [formData, setFormData] = useState<UpdateTransaction>({
@@ -49,6 +50,7 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
     }
   };
 
+  // TODO: fix value type not matching field type
   const changeHandler = <T,>(field: keyof TransactionWithRow, value: T) => setFormData({ ...formData, [field]: value });
 
   return (

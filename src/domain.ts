@@ -20,6 +20,7 @@ export interface GroupStat extends CategoryStat {
   categories: CategoryStat[];
 }
 
+// TODO: rename to DTO and ensure formatted date
 export interface Transaction {
   from: number;
   to: number;

@@ -31,6 +31,7 @@ const defaultFormData = {
   in: { date: dayjs() },
 };
 
+// TODO: refactor with EditForm
 export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
   const { categories } = useCategories();
   const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData.out);
@@ -65,6 +66,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
     }
   };
 
+  // TODO: fix value type not matching field type
   const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
 
   const handleTypeChange = (value: TransactionType) => {
