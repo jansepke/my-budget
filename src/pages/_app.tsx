@@ -12,6 +12,7 @@ import "dayjs/locale/en-gb";
 import { SessionProvider, useSession } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import NextNProgress from "nextjs-progressbar";
 
 export default function MyApp({ Component, pageProps: { session, categories, ...pageProps } }: AppProps<PageProps>) {
   const App = () => {
@@ -28,23 +29,26 @@ export default function MyApp({ Component, pageProps: { session, categories, ...
   };
 
   return (
-    <SessionProvider session={session}>
-      <AppCacheProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-          <Head>
-            <title>My Budget</title>
-            <meta name="description" content="My Budget" />
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
-          </Head>
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <CategoriesProvider categories={categories}>
-              <App />
-            </CategoriesProvider>
-          </ThemeProvider>
-        </LocalizationProvider>
-      </AppCacheProvider>
-    </SessionProvider>
+    <>
+      <NextNProgress height={5} />
+      <SessionProvider session={session}>
+        <AppCacheProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+            <Head>
+              <title>My Budget</title>
+              <meta name="description" content="My Budget" />
+              <meta name="viewport" content="initial-scale=1, width=device-width" />
+            </Head>
+            <ThemeProvider theme={theme}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <CategoriesProvider categories={categories}>
+                <App />
+              </CategoriesProvider>
+            </ThemeProvider>
+          </LocalizationProvider>
+        </AppCacheProvider>
+      </SessionProvider>
+    </>
   );
 }
