@@ -44,5 +44,5 @@ interface CategoryIconProps {
 }
 
 export const CategoryIcon: React.FC<CategoryIconProps> = ({ category }) => {
-  return <Avatar>{category?.icon ? icons[category?.icon] : category?.value ?? "-"}</Avatar>;
+  return <Avatar>{category?.icon ? icons[category?.icon] : category?.value ?? "?"}</Avatar>;
 };

@@ -20,6 +20,7 @@ interface IndexPageProps {
   otherTransactions: Transaction[];
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
+  missingCategoryCount: number;
   averageIncome: number;
 }
 
@@ -30,6 +31,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
   categoryStats,
   templateTransactions,
   averageIncome,
+  missingCategoryCount,
 }) => {
   const { data: session } = useSession();
   const firstName = session?.user?.name?.split(" ")[0];
@@ -47,6 +49,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
         categoryStats={categoryStats}
         templateTransactions={templateTransactions}
         averageIncome={averageIncome}
+        missingCategoryCount={missingCategoryCount}
       />
     </Container>
   );
@@ -73,6 +76,7 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps & PageProps> 
       categoryStats: calculateCategoryStats(categories, allTransactions),
       templateTransactions: templateTransactions,
       averageIncome: await getAverageIncome(session),
+      missingCategoryCount: allTransactions.filter(filterForMainAccount).filter((t) => t.category.length === 0).length,
       categories,
     },
   };

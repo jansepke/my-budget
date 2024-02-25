@@ -1,26 +1,39 @@
+import { YearStats } from "@/components/reports/YearStats";
 import Link from "@/components/shared/Link";
 import { CategoryStat, Transaction } from "@/domain";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { YearStats } from "../reports/YearStats";
 
 interface ReportsTileProps {
   categoryStats: CategoryStat[];
   templateTransactions: Transaction[];
+  missingCategoryCount: number;
   averageIncome: number;
 }
 
-export const ReportsTile: React.FC<ReportsTileProps> = ({ categoryStats, templateTransactions, averageIncome }) => (
+export const ReportsTile: React.FC<ReportsTileProps> = ({
+  categoryStats,
+  templateTransactions,
+  averageIncome,
+  missingCategoryCount,
+}) => (
   <div>
-    <Typography variant="h5">
-      <Link href="/reports/categories/current" color="inherit" underline="hover">
-        Reports <NorthEastIcon />
-      </Link>
-    </Typography>
+    <Typography variant="h5">Reports</Typography>
+
     <YearStats
       categoryStats={categoryStats}
       templateTransactions={templateTransactions}
       averageIncome={averageIncome}
     />
+
+    <Box m={2}>
+      <Typography variant="h6">
+        <Link href="/transactions/missing" color="inherit" underline="hover">
+          Missing Category <NorthEastIcon />
+        </Link>
+      </Typography>
+      <Typography color="text.secondary">{missingCategoryCount} transactions without a category</Typography>
+    </Box>
   </div>
 );
