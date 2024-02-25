@@ -40,6 +40,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
             dataKey={(c: (typeof stats)[0]) => -c.sum}
             innerRadius={30}
             outerRadius={60}
+            isAnimationActive={false}
             fill={theme.palette.primary.main}
             label={(c: (typeof stats)[0]) => `${c.label}: ${c.sum}€`}
           />
