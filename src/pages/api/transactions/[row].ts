@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { row } = req.query;
     const newTransaction = JSON.parse(req.body as string) as UpdateTransactionBackend;
 
-    await updateTransaction(session, row, newTransaction);
+    await updateTransaction(session, row as string, newTransaction);
 
     res.end();
   } else {
