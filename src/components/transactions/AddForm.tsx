@@ -66,8 +66,8 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
     }
   };
 
-  // TODO: fix value type not matching field type
-  const changeHandler = <T,>(field: keyof NewTransaction, value: T) => setFormData({ ...formData, [field]: value });
+  const changeHandler = <T extends keyof Partial<NewTransaction>>(field: T, value: Partial<NewTransaction>[T]) =>
+    setFormData({ ...formData, [field]: value });
 
   const handleTypeChange = (value: TransactionType) => {
     setType(value);
@@ -134,7 +134,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
         fullWidth
         inputProps={{ inputMode: "decimal" }}
         value={formData.amount ?? ""}
-        onChange={(e) => changeHandler("amount", e.target.value)}
+        onChange={(e) => changeHandler("amount", e.target.value as unknown as number)}
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
       <CategorySelector

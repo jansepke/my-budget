@@ -49,9 +49,8 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
       setIsSaving(false);
     }
   };
-
-  // TODO: fix value type not matching field type
-  const changeHandler = <T,>(field: keyof TransactionWithRow, value: T) => setFormData({ ...formData, [field]: value });
+  const changeHandler = <T extends keyof Partial<UpdateTransaction>>(field: T, value: Partial<UpdateTransaction>[T]) =>
+    setFormData({ ...formData, [field]: value });
 
   return (
     <Stack
@@ -82,7 +81,7 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
         fullWidth
         inputProps={{ inputMode: "decimal" }}
         value={formData.amount ?? ""}
-        onChange={(e) => changeHandler("amount", e.target.value)}
+        onChange={(e) => changeHandler("amount", e.target.value as unknown as number)}
         InputProps={buildIconStartAdornment(<EuroIcon />)}
       />
       <CategorySelector
