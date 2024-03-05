@@ -1,5 +1,5 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
-import { CategorySelector } from "@/components/transactions/CategorySelector";
+import { CategorySelector } from "@/components/transactions/inputs/CategorySelector";
 import { Category, Transaction } from "@/domain";
 import { formatCurrency, sum } from "@/utils";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";

@@ -1,5 +1,5 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
-import { AccountSelector } from "@/components/transactions/AccountSelector";
+import { AccountSelector } from "@/components/transactions/inputs/AccountSelector";
 import { Account, NewTransaction } from "@/domain";
 import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,7 +18,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
 import { useFocus } from "../shared/useFocus";
-import { CategorySelector } from "./CategorySelector";
+import { CategorySelector } from "./inputs/CategorySelector";
 
 type TransactionType = "out" | "in";
 

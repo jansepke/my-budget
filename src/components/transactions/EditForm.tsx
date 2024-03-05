@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
-import { CategorySelector } from "./CategorySelector";
+import { CategorySelector } from "./inputs/CategorySelector";
 
 interface EditFormProps {
   transaction: TransactionWithRow;
