@@ -1,5 +1,6 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
 import { AccountSelector } from "@/components/transactions/inputs/AccountSelector";
+import { Form } from "@/components/transactions/inputs/Form";
 import { buildIconStartAdornment, useForm } from "@/components/transactions/inputs/util";
 import { Account, NewTransaction } from "@/domain";
 import { customFetch } from "@/utils";
@@ -10,7 +11,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -61,15 +61,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
   };
 
   return (
-    <Stack
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
+    <Form onSubmit={handleSubmit}>
       <FormControl fullWidth>
         <FormLabel>Type</FormLabel>
         <ToggleButtonGroup
@@ -140,6 +132,6 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
         Add
       </LoadingButton>
       {error && <Alert severity="error">{error}</Alert>}
-    </Stack>
+    </Form>
   );
 };

@@ -1,4 +1,5 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
+import { Form } from "@/components/transactions/inputs/Form";
 import { buildIconStartAdornment, useForm } from "@/components/transactions/inputs/util";
 import { TransactionWithRow, UpdateTransaction } from "@/domain";
 import { customFetch, parseGoogleSheetsDate } from "@/utils";
@@ -7,7 +8,6 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import TitleIcon from "@mui/icons-material/Title";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
@@ -21,7 +21,7 @@ interface EditFormProps {
 export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
   const { categories } = useCategories();
 
-  const addTransaction = async (formData: Partial<UpdateTransaction>) => {
+  const updateTransaction = async (formData: Partial<UpdateTransaction>) => {
     if (!formData.amount) return;
 
     const amount = Number(formData.amount.toString().replace(",", "."));
@@ -34,19 +34,11 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
 
   const { formData, isSaving, error, changeHandler, handleSubmit } = useForm<Partial<UpdateTransaction>>(
     { ...transaction, date: dayjs(parseGoogleSheetsDate(transaction.date)) },
-    addTransaction,
+    updateTransaction,
   );
 
   return (
-    <Stack
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
+    <Form onSubmit={handleSubmit}>
       <DatePicker
         label="Date"
         value={formData.date}
@@ -86,6 +78,6 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
         Save
       </LoadingButton>
       {error && <Alert severity="error">{error}</Alert>}
-    </Stack>
+    </Form>
   );
 };
