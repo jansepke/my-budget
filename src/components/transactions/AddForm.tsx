@@ -1,5 +1,6 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
 import { AccountSelector } from "@/components/transactions/inputs/AccountSelector";
+import { buildIconStartAdornment, useForm } from "@/components/transactions/inputs/util";
 import { Account, NewTransaction } from "@/domain";
 import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,14 +10,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useFocus } from "../shared/useFocus";
 import { CategorySelector } from "./inputs/CategorySelector";
 
@@ -34,40 +34,26 @@ const defaultFormData = {
 // TODO: refactor with EditForm
 export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
   const { categories } = useCategories();
-  const [formData, setFormData] = useState<Partial<NewTransaction>>(defaultFormData.out);
   const [type, setType] = useState<TransactionType>("out");
   const { inputRef, focus } = useFocus();
-  const [error, setError] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
 
-  const addTransaction = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const addTransaction = async (formData: Partial<NewTransaction>) => {
     if (!formData.amount) return;
 
     const amount = Number(formData.amount.toString().replace(",", "."));
     const body = JSON.stringify({ ...formData, amount: type === "out" ? -amount : amount });
 
-    try {
-      setIsSaving(true);
-      await customFetch("/api/transactions", { method: "POST", body });
+    await customFetch("/api/transactions", { method: "POST", body });
+    setType("out");
+    setFormData({ ...defaultFormData.out, date: formData.date });
 
-      setError("");
-      setType("out");
-      setFormData({ ...defaultFormData.out, date: formData.date });
-
-      focus();
-    } catch (error) {
-      console.log(error);
-
-      setError((error as Error).toString());
-    } finally {
-      setIsSaving(false);
-    }
+    focus();
   };
 
-  const changeHandler = <T extends keyof Partial<NewTransaction>>(field: T, value: Partial<NewTransaction>[T]) =>
-    setFormData({ ...formData, [field]: value });
+  const { formData, setFormData, isSaving, error, changeHandler, handleSubmit } = useForm<Partial<NewTransaction>>(
+    defaultFormData.out,
+    addTransaction,
+  );
 
   const handleTypeChange = (value: TransactionType) => {
     setType(value);
@@ -79,7 +65,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
       component="form"
       noValidate
       autoComplete="off"
-      onSubmit={addTransaction}
+      onSubmit={handleSubmit}
       justifyContent="center"
       alignItems="center"
       spacing={2}
@@ -157,9 +143,3 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
     </Stack>
   );
 };
-
-function buildIconStartAdornment(icon: React.ReactNode) {
-  return {
-    startAdornment: <InputAdornment position="start">{icon}</InputAdornment>,
-  };
-}
