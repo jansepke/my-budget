@@ -31,7 +31,6 @@ const defaultFormData = {
   in: { date: dayjs() },
 };
 
-// TODO: refactor with EditForm
 export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
   const { categories } = useCategories();
   const [type, setType] = useState<TransactionType>("out");

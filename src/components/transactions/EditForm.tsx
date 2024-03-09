@@ -17,7 +17,6 @@ interface EditFormProps {
   transaction: TransactionWithRow;
 }
 
-// TODO: refactor with AddForm
 export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
   const { categories } = useCategories();
 
