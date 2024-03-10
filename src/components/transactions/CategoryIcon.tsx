@@ -1,5 +1,6 @@
 import { Category } from "@/domain";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import BedroomBabyIcon from "@mui/icons-material/BedroomBaby";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import ChairIcon from "@mui/icons-material/Chair";
 import CheckroomIcon from "@mui/icons-material/Checkroom";
@@ -8,7 +9,10 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import EuroIcon from "@mui/icons-material/Euro";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import HealingIcon from "@mui/icons-material/Healing";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import MedicationIcon from "@mui/icons-material/Medication";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
@@ -37,6 +41,10 @@ const icons: Record<string, React.ReactElement> = {
   present: <CardGiftcardIcon />,
   furniture: <ChairIcon />,
   flag: <TourIcon />,
+  medication: <MedicationIcon />,
+  healing: <HealingIcon />,
+  gasStation: <LocalGasStationIcon />,
+  toys: <BedroomBabyIcon />,
 };
 
 interface CategoryIconProps {
