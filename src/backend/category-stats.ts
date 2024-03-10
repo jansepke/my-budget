@@ -1,10 +1,10 @@
-import { Category, CategoryStat, Transaction } from "@/domain";
+import { Category, CategoryStat, TransactionDTO } from "@/domain";
 import { filterByCategory, filterByGroup, parseGoogleSheetsDate, sum } from "@/utils";
 
-const calculateSumsForCategory = (category: string, transactionsByMonth: Transaction[][]): number[] =>
+const calculateSumsForCategory = (category: string, transactionsByMonth: TransactionDTO[][]): number[] =>
   transactionsByMonth.map((transactions) => sum(transactions.filter(filterByCategory(category))));
 
-export const calculateCategoryStats = (categories: Category[], transactions: Transaction[]): CategoryStat[] => {
+export const calculateCategoryStats = (categories: Category[], transactions: TransactionDTO[]): CategoryStat[] => {
   const transactionsByMonth = transactions.reduce((all, transaction) => {
     const date = parseGoogleSheetsDate(transaction.date);
     const month = date.getMonth();
@@ -15,7 +15,7 @@ export const calculateCategoryStats = (categories: Category[], transactions: Tra
     all[month].push(transaction);
 
     return all;
-  }, [] as Transaction[][]);
+  }, [] as TransactionDTO[][]);
 
   return categories.map((c) => ({
     ...c,
@@ -23,10 +23,10 @@ export const calculateCategoryStats = (categories: Category[], transactions: Tra
   }));
 };
 
-const calculateSumsForGroup = (category: string, transactionsByMonth: Transaction[][]): number[] =>
+const calculateSumsForGroup = (category: string, transactionsByMonth: TransactionDTO[][]): number[] =>
   transactionsByMonth.map((transactions) => sum(transactions.filter(filterByGroup(category))));
 
-export const calculateGroupStats = (categories: Category[], transactions: Transaction[]): CategoryStat[] => {
+export const calculateGroupStats = (categories: Category[], transactions: TransactionDTO[]): CategoryStat[] => {
   const transactionsByMonth = transactions.reduce((all, transaction) => {
     const date = parseGoogleSheetsDate(transaction.date);
     const month = date.getMonth();
@@ -37,7 +37,7 @@ export const calculateGroupStats = (categories: Category[], transactions: Transa
     all[month].push(transaction);
 
     return all;
-  }, [] as Transaction[][]);
+  }, [] as TransactionDTO[][]);
 
   return categories
     .filter((c) => c.value.length === 1)

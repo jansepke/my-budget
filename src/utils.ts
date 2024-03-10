@@ -1,4 +1,4 @@
-import { Transaction } from "@/domain";
+import { TransactionDTO } from "@/domain";
 import { green, red } from "@mui/material/colors";
 import dayjs from "dayjs";
 
@@ -22,10 +22,11 @@ export const formatCurrency = (value: number, decimals = true) =>
 export const currencyColor = (value: number) => currencyDiffColor(value, 0);
 export const currencyDiffColor = (value: number, to: number) => (value < to ? red[400] : green[700]);
 
-export const sum = (transactions: Pick<Transaction, "amount">[]) => transactions.reduce((sum, t) => sum + t.amount, 0);
+export const sum = (transactions: Pick<TransactionDTO, "amount">[]) =>
+  transactions.reduce((sum, t) => sum + t.amount, 0);
 export const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
-export const filterBetweenDates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => (t: Transaction) => {
+export const filterBetweenDates = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => (t: TransactionDTO) => {
   const date = parseGoogleSheetsDate(t.date);
   return date > startDate.toDate() && date < endDate.toDate();
 };
@@ -37,15 +38,15 @@ export const filterByMonth = (year: number, month: number) => {
   return filterBetweenDates(startDate, endDate);
 };
 
-export const filterForMainAccount = (t: Transaction) => (t.from && !t.to) || (t.to === 1 && !t.from);
+export const filterForMainAccount = (t: TransactionDTO) => (t.from && !t.to) || (t.to === 1 && !t.from);
 
-export const filterForOtherAccounts = (t: Transaction) => t.from !== 1 || t.to !== 1;
+export const filterForOtherAccounts = (t: TransactionDTO) => t.from !== 1 || t.to !== 1;
 
-export const filterForOtherAccount = (accountId: number) => (t: Transaction) =>
+export const filterForOtherAccount = (accountId: number) => (t: TransactionDTO) =>
   t.from === accountId || t.to === accountId;
 
-export const filterByCategory = (category: string) => (t: Transaction) => t.category === category;
-export const filterByGroup = (group: string) => (t: Transaction) => t.category?.startsWith(group);
+export const filterByCategory = (category: string) => (t: TransactionDTO) => t.category === category;
+export const filterByGroup = (group: string) => (t: TransactionDTO) => t.category?.startsWith(group);
 
 export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
   const response = await fetch(input, init);

@@ -6,7 +6,7 @@ import { getAllTransactions, getTemplateTransactions } from "@/backend/transacti
 import { CurrentMonthTile } from "@/components/dashboard/CurrentMonthTile";
 import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
-import { Account, CategoryStat, PageProps, Transaction } from "@/domain";
+import { Account, CategoryStat, PageProps, TransactionDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
 import Container from "@mui/material/Container";
@@ -16,10 +16,10 @@ import { useSession } from "next-auth/react";
 
 interface IndexPageProps {
   accounts: Account[];
-  mainTransactions: Transaction[];
-  otherTransactions: Transaction[];
+  mainTransactions: TransactionDTO[];
+  otherTransactions: TransactionDTO[];
   categoryStats: CategoryStat[];
-  templateTransactions: Transaction[];
+  templateTransactions: TransactionDTO[];
   missingCategoryCount: number;
   averageIncome: number;
 }

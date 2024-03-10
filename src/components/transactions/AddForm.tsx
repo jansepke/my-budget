@@ -2,7 +2,7 @@ import { useCategories } from "@/components/shared/CategoriesProvider";
 import { AccountSelector } from "@/components/transactions/inputs/AccountSelector";
 import { Form } from "@/components/transactions/inputs/Form";
 import { buildIconStartAdornment, useForm } from "@/components/transactions/inputs/util";
-import { Account, NewTransaction } from "@/domain";
+import { Account, Transaction } from "@/domain";
 import { customFetch } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 import EuroIcon from "@mui/icons-material/Euro";
@@ -36,7 +36,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
   const [type, setType] = useState<TransactionType>("out");
   const { inputRef, focus } = useFocus();
 
-  const addTransaction = async (formData: Partial<NewTransaction>) => {
+  const addTransaction = async (formData: Partial<Transaction>) => {
     if (!formData.amount) return;
 
     const amount = Number(formData.amount.toString().replace(",", "."));
@@ -49,7 +49,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
     focus();
   };
 
-  const { formData, setFormData, isSaving, error, changeHandler, handleSubmit } = useForm<Partial<NewTransaction>>(
+  const { formData, setFormData, isSaving, error, changeHandler, handleSubmit } = useForm<Partial<Transaction>>(
     defaultFormData.out,
     addTransaction,
   );

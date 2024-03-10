@@ -20,33 +20,25 @@ export interface GroupStat extends CategoryStat {
   categories: CategoryStat[];
 }
 
-// TODO: rename to DTO and ensure formatted date
 export interface Transaction {
   from: number;
   to: number;
-  date: number;
+  date: Dayjs;
   description: string;
   amount: number;
   category: string;
 }
 
-export interface TransactionWithRow extends Transaction {
+export interface TransactionDTO extends Omit<Transaction, "date"> {
+  date: number;
+}
+
+export interface TransactionWithRow extends TransactionDTO {
   row: number;
 }
 
-export interface NewTransaction extends Omit<Transaction, "date"> {
-  date: Dayjs;
-}
-
-export interface NewTransactionBackend extends Omit<NewTransaction, "date"> {
-  date: string;
-}
-
-export interface UpdateTransaction extends Omit<TransactionWithRow, "date"> {
-  date: Dayjs;
-}
-
-export interface UpdateTransactionBackend extends Omit<TransactionWithRow, "date"> {
+// TODO: use number date for backend
+export interface TransactionBackend extends Omit<Transaction, "date"> {
   date: string;
 }
 

@@ -1,5 +1,5 @@
 import { updateTransaction } from "@/backend/transactions";
-import { UpdateTransactionBackend } from "@/domain";
+import { TransactionBackend } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "PUT") {
     const { row } = req.query;
-    const newTransaction = JSON.parse(req.body as string) as UpdateTransactionBackend;
+    const newTransaction = JSON.parse(req.body as string) as TransactionBackend;
 
     await updateTransaction(session, row as string, newTransaction);
 

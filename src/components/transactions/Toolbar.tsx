@@ -1,6 +1,6 @@
 import { useCategories } from "@/components/shared/CategoriesProvider";
 import { CategorySelector } from "@/components/transactions/inputs/CategorySelector";
-import { Category, Transaction } from "@/domain";
+import { Category, TransactionDTO } from "@/domain";
 import { formatCurrency, sum } from "@/utils";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 interface ToolbarProps {
   year: number;
   month: number;
-  filteredTransactions: Transaction[];
+  filteredTransactions: TransactionDTO[];
   showFilter: boolean;
   showPicker: boolean;
 }

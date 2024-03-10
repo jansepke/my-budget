@@ -1,5 +1,5 @@
 import { createTransaction } from "@/backend/transactions";
-import { NewTransactionBackend } from "@/domain";
+import { TransactionBackend } from "@/domain";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "POST") {
-    const newTransaction = JSON.parse(req.body as string) as NewTransactionBackend;
+    const newTransaction = JSON.parse(req.body as string) as TransactionBackend;
 
     await createTransaction(session, newTransaction);
 

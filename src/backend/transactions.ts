@@ -5,7 +5,7 @@ import {
   createSheetsClient,
   getValues,
 } from "@/backend/google-sheets";
-import { NewTransactionBackend, Transaction, TransactionWithRow, UpdateTransactionBackend } from "@/domain";
+import { TransactionBackend, TransactionDTO, TransactionWithRow } from "@/domain";
 import { formatDate } from "@/utils";
 import { Session } from "next-auth";
 
@@ -13,7 +13,7 @@ const rowsToTransactions = ([from, to, date, description, amount, category = nul
   | string
   | number
   | null
-)[]): Transaction => ({
+)[]): TransactionDTO => ({
   from: Number(from),
   to: Number(to),
   date: date as number,
@@ -36,7 +36,7 @@ export const getAllTransactions = async (session: Session): Promise<TransactionW
   }
 };
 
-export const getTemplateTransactions = async (session: Session): Promise<Transaction[]> => {
+export const getTemplateTransactions = async (session: Session): Promise<TransactionDTO[]> => {
   try {
     const rows = await getValues(session, TEMPLATE_RANGE);
 
@@ -48,7 +48,7 @@ export const getTemplateTransactions = async (session: Session): Promise<Transac
   }
 };
 
-export const createTransaction = async (session: Session, newTransaction: NewTransactionBackend) => {
+export const createTransaction = async (session: Session, newTransaction: TransactionBackend) => {
   const sheets = createSheetsClient(session);
 
   const date = formatDate(new Date(newTransaction.date));
@@ -81,7 +81,7 @@ export const createTransaction = async (session: Session, newTransaction: NewTra
   }
 };
 
-export const updateTransaction = async (session: Session, row: string, transaction: UpdateTransactionBackend) => {
+export const updateTransaction = async (session: Session, row: string, transaction: TransactionBackend) => {
   const sheets = createSheetsClient(session);
 
   const date = formatDate(new Date(transaction.date));

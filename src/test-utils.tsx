@@ -1,4 +1,4 @@
-import { CategoryStat, Transaction } from "@/domain";
+import { CategoryStat, TransactionDTO } from "@/domain";
 import { render } from "@testing-library/react";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
 
@@ -12,7 +12,7 @@ export const createCustomRender =
     return { unmount, ...mergedProps };
   };
 
-export const mockTransaction = (transaction: Partial<Transaction>): Transaction => ({
+export const mockTransaction = (transaction: Partial<TransactionDTO>): TransactionDTO => ({
   amount: 0,
   category: "",
   date: 1,
@@ -22,7 +22,7 @@ export const mockTransaction = (transaction: Partial<Transaction>): Transaction 
   ...transaction,
 });
 
-export const mockTransactions = (...transactions: Partial<Transaction>[]): Transaction[] =>
+export const mockTransactions = (...transactions: Partial<TransactionDTO>[]): TransactionDTO[] =>
   transactions.map(mockTransaction);
 
 export const mockCategoryStat = (categoryStat: Partial<CategoryStat>): CategoryStat => ({
