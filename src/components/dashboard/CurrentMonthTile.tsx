@@ -22,6 +22,9 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
   const stats = calculateGroupStats(categories, transactions)
     .map((c) => ({ ...c, sum: Math.round(c.sums[now.getMonth()]) }))
     .filter((c) => c.sum < 0 && !c.value.startsWith(FIXED_GROUP));
+  const totalSum = stats.reduce((sum, stat) => sum + stat.sum, 0);
+
+  const renderLabel = (c: (typeof stats)[0]) => (c.sum / totalSum > 0.05 ? `${c.label}: ${c.sum}€` : undefined);
 
   return (
     <div>
@@ -31,7 +34,6 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
         </Link>
       </Typography>
       <TransactionStats accountId={1} transactions={transactions} showFixedSum />
-      {/* <TransactionList accountId={1} transactions={transactions.slice(-5)} /> */}
       <ResponsiveContainer height={200}>
         <PieChart>
           <Pie
@@ -42,7 +44,8 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
             outerRadius={60}
             isAnimationActive={false}
             fill={theme.palette.primary.main}
-            label={(c: (typeof stats)[0]) => `${c.label}: ${c.sum}€`}
+            label={renderLabel}
+            labelLine={false}
           />
         </PieChart>
       </ResponsiveContainer>
