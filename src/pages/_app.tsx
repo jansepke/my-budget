@@ -32,7 +32,7 @@ export default function MyApp({ Component, pageProps: { session, categories, ...
     <>
       <NextNProgress height={5} />
       <SessionProvider session={session}>
-        <AppCacheProvider>
+        <AppCacheProvider {...pageProps}>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
             <Head>
               <title>My Budget</title>
@@ -40,7 +40,6 @@ export default function MyApp({ Component, pageProps: { session, categories, ...
               <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
             <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
               <CategoriesProvider categories={categories}>
                 <App />
