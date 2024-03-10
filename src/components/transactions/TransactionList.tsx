@@ -38,37 +38,39 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
     <>
       {editTransaction === undefined ? (
         <List dense>
-          {Object.entries(transactionsByDate).map(([date, trans]) => (
-            <React.Fragment key={`item-${date}`}>
-              <ListSubheader disableGutters>{formatDate(parseGoogleSheetsDate(Number(date)))}</ListSubheader>
-              {trans.map((t, idx) => {
-                const category = categories.find((c) => c.value === t.category);
+          {Object.entries(transactionsByDate)
+            .sort(([a], [b]) => Number(b) - Number(a))
+            .map(([date, trans]) => (
+              <React.Fragment key={`item-${date}`}>
+                <ListSubheader disableGutters>{formatDate(parseGoogleSheetsDate(Number(date)))}</ListSubheader>
+                {trans.reverse().map((t, idx) => {
+                  const category = categories.find((c) => c.value === t.category);
 
-                return (
-                  <ListItem disableGutters key={`item-${date}-${idx}`}>
-                    <ListItemButton onClick={() => setEditRow(t.row)}>
-                      <ListItemAvatar>
-                        <CategoryIcon category={category} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Box display="flex" justifyContent="space-between">
-                            {t.description}{" "}
-                            <Box sx={{ color: currencyColor(t.amount) }}>{formatCurrency(t.amount)}</Box>
-                          </Box>
-                        }
-                        secondary={
-                          <>
-                            {category?.label} {t.from !== 0 && t.from !== accountId && "X"}
-                          </>
-                        }
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </React.Fragment>
-          ))}
+                  return (
+                    <ListItem disableGutters key={`item-${date}-${idx}`}>
+                      <ListItemButton onClick={() => setEditRow(t.row)}>
+                        <ListItemAvatar>
+                          <CategoryIcon category={category} />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={
+                            <Box display="flex" justifyContent="space-between">
+                              {t.description}{" "}
+                              <Box sx={{ color: currencyColor(t.amount) }}>{formatCurrency(t.amount)}</Box>
+                            </Box>
+                          }
+                          secondary={
+                            <>
+                              {category?.label} {t.from !== 0 && t.from !== accountId && "X"}
+                            </>
+                          }
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                })}
+              </React.Fragment>
+            ))}
         </List>
       ) : (
         <EditForm transaction={editTransaction} />
