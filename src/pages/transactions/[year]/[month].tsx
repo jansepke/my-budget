@@ -65,7 +65,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           showFilter={showFilter}
           showPicker={showPicker}
         />
-        <TransactionStats accountId={1} transactions={parsedTransactions} showFixedSum />
+        <TransactionStats accountId={1} transactions={parsedTransactions} />
 
         <TransactionList accountId={1} transactions={filteredTransactions} />
       </Container>

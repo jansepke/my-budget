@@ -1,7 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { TransactionList } from "@/components/transactions/TransactionList";
-import { TransactionStats } from "@/components/transactions/TransactionStats";
 import { PageProps, TransactionWithRowDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
 import { filterForOtherAccount, parseDTOs } from "@/utils";
@@ -15,7 +14,6 @@ interface TransactionsPageProps {
 
 const TransactionsPage: React.FC<TransactionsPageProps> = ({ accountId, transactions }) => (
   <Container maxWidth="md" sx={{ marginTop: 1 }}>
-    <TransactionStats accountId={accountId} transactions={parseDTOs(transactions)} />
     <TransactionList accountId={accountId} transactions={parseDTOs(transactions)} />
   </Container>
 );

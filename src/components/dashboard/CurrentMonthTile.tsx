@@ -33,7 +33,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
           Your Budget in {currentMonth} <NorthEastIcon />
         </Link>
       </Typography>
-      <TransactionStats accountId={1} transactions={transactions} showFixedSum />
+      <TransactionStats accountId={1} transactions={transactions} />
       <ResponsiveContainer height={200}>
         <PieChart>
           <Pie
