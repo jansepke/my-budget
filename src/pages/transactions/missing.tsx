@@ -1,21 +1,21 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
 import { TransactionList } from "@/components/transactions/TransactionList";
-import { PageProps, TransactionWithRow } from "@/domain";
+import { PageProps, TransactionWithRowDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { filterForMainAccount } from "@/utils";
+import { filterForMainAccount, parseDTOs } from "@/utils";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
 
 interface TransactionsPageProps {
-  transactions: TransactionWithRow[];
+  transactions: TransactionWithRowDTO[];
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = ({ transactions }) => (
   <Container maxWidth="md" sx={{ marginTop: 1 }}>
     <Typography variant="h6">Missing Category ({transactions.length})</Typography>
-    <TransactionList accountId={0} transactions={transactions} />
+    <TransactionList accountId={0} transactions={parseDTOs(transactions)} />
   </Container>
 );
 

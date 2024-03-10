@@ -1,11 +1,11 @@
-import { TransactionDTO } from "@/domain";
+import { Transaction } from "@/domain";
 import { FIXED_GROUP, INCOME_CATEGORY, formatCurrency, sum } from "@/utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface TransactionStatsProps {
   accountId: number;
-  transactions: TransactionDTO[];
+  transactions: Transaction[];
   showFixedSum?: boolean;
 }
 

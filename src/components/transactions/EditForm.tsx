@@ -2,7 +2,7 @@ import { useCategories } from "@/components/shared/CategoriesProvider";
 import { Form } from "@/components/transactions/inputs/Form";
 import { buildIconStartAdornment, useForm } from "@/components/transactions/inputs/util";
 import { Transaction, TransactionWithRow } from "@/domain";
-import { customFetch, parseGoogleSheetsDate } from "@/utils";
+import { customFetch } from "@/utils";
 import EuroIcon from "@mui/icons-material/Euro";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import TitleIcon from "@mui/icons-material/Title";
@@ -20,7 +20,7 @@ interface EditFormProps {
 export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
   const { categories } = useCategories();
 
-  const Transaction = async (formData: Partial<Transaction>) => {
+  const updateTransaction = async (formData: Partial<Transaction>) => {
     if (!formData.amount) return;
 
     const amount = Number(formData.amount.toString().replace(",", "."));
@@ -32,8 +32,8 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
   };
 
   const { formData, isSaving, error, changeHandler, handleSubmit } = useForm<Partial<Transaction>>(
-    { ...transaction, date: dayjs(parseGoogleSheetsDate(transaction.date)) },
-    Transaction,
+    transaction,
+    updateTransaction,
   );
 
   return (

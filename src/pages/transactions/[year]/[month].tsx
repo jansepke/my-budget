@@ -3,9 +3,9 @@ import { getAllTransactions } from "@/backend/transactions";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { PageProps, TransactionWithRow } from "@/domain";
+import { PageProps, TransactionWithRowDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { filterByMonth, filterForMainAccount } from "@/utils";
+import { filterByMonth, filterForMainAccount, parseDTOs } from "@/utils";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AppBar from "@mui/material/AppBar";
@@ -20,7 +20,7 @@ import { useState } from "react";
 interface TransactionsPageProps {
   year: number;
   month: number;
-  transactions: TransactionWithRow[];
+  transactions: TransactionWithRowDTO[];
 }
 
 const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
@@ -33,7 +33,9 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
   const monthDate = new Date();
   monthDate.setMonth(props.month - 1);
 
-  const filteredTransactions = props.transactions.filter(
+  const parsedTransactions = parseDTOs(props.transactions);
+
+  const filteredTransactions = parsedTransactions.filter(
     (t) =>
       filterCategory == null ||
       t.category.startsWith(filterCategory) ||
@@ -63,7 +65,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           showFilter={showFilter}
           showPicker={showPicker}
         />
-        <TransactionStats accountId={1} transactions={props.transactions} showFixedSum />
+        <TransactionStats accountId={1} transactions={parsedTransactions} showFixedSum />
 
         <TransactionList accountId={1} transactions={filteredTransactions} />
       </Container>

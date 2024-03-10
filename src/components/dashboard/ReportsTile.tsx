@@ -1,13 +1,13 @@
 import { YearStats } from "@/components/reports/YearStats";
 import Link from "@/components/shared/Link";
-import { CategoryStat, TransactionDTO } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface ReportsTileProps {
   categoryStats: CategoryStat[];
-  templateTransactions: TransactionDTO[];
+  templateTransactions: Transaction[];
   missingCategoryCount: number;
   averageIncome: number;
 }

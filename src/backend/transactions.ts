@@ -5,7 +5,7 @@ import {
   createSheetsClient,
   getValues,
 } from "@/backend/google-sheets";
-import { TransactionBackend, TransactionDTO, TransactionWithRow } from "@/domain";
+import { TransactionBackend, TransactionDTO, TransactionWithRowDTO } from "@/domain";
 import { formatDate } from "@/utils";
 import { Session } from "next-auth";
 
@@ -22,7 +22,7 @@ const rowsToTransactions = ([from, to, date, description, amount, category = nul
   category: (category as string | null) ?? "",
 });
 
-export const getAllTransactions = async (session: Session): Promise<TransactionWithRow[]> => {
+export const getAllTransactions = async (session: Session): Promise<TransactionWithRowDTO[]> => {
   try {
     const rows = await getValues(session, TRANSACTIONS_RANGE, false);
 

@@ -2,7 +2,7 @@ import { useCategories } from "@/components/shared/CategoriesProvider";
 import { CategoryIcon } from "@/components/transactions/CategoryIcon";
 import { EditForm } from "@/components/transactions/EditForm";
 import { TransactionWithRow } from "@/domain";
-import { currencyColor, formatCurrency, formatDate, parseGoogleSheetsDate } from "@/utils";
+import { currencyColor, formatCurrency, formatDate } from "@/utils";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -23,10 +23,11 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
 
   const transactionsByDate = transactions.reduce(
     (all, t) => {
-      if (!all[t.date]) {
-        all[t.date] = [];
+      const unix = t.date.unix();
+      if (!all[unix]) {
+        all[unix] = [];
       }
-      all[t.date].push(t);
+      all[unix].push(t);
       return all;
     },
     {} as Record<number, TransactionWithRow[]>,
@@ -42,7 +43,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
             .sort(([a], [b]) => Number(b) - Number(a))
             .map(([date, trans]) => (
               <React.Fragment key={`item-${date}`}>
-                <ListSubheader disableGutters>{formatDate(parseGoogleSheetsDate(Number(date)))}</ListSubheader>
+                <ListSubheader disableGutters>{formatDate(new Date(Number(date) * 1000))}</ListSubheader>
                 {trans.reverse().map((t, idx) => {
                   const category = categories.find((c) => c.value === t.category);
 

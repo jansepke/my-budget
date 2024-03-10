@@ -1,5 +1,5 @@
 import Link from "@/components/shared/Link";
-import { CategoryStat, TransactionDTO } from "@/domain";
+import { CategoryStat, Transaction } from "@/domain";
 import { FIXED_GROUP, INCOME_CATEGORY, average, filterByGroup, formatCurrency, sum } from "@/utils";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import React from "react";
 
 interface YearStatsProps {
   categoryStats: CategoryStat[];
-  templateTransactions: TransactionDTO[];
+  templateTransactions: Transaction[];
   averageIncome: number;
 }
 

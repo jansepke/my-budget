@@ -2,7 +2,7 @@ import { calculateGroupStats } from "@/backend/category-stats";
 import { useCategories } from "@/components/shared/CategoriesProvider";
 import Link from "@/components/shared/Link";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
-import { TransactionDTO } from "@/domain";
+import { Transaction } from "@/domain";
 import { FIXED_GROUP } from "@/utils";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import { useTheme } from "@mui/material";
@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { Pie, PieChart, ResponsiveContainer } from "recharts";
 
 interface CurrentMonthTileProps {
-  transactions: TransactionDTO[];
+  transactions: Transaction[];
 }
 
 export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions }) => {

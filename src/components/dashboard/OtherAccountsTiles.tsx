@@ -1,5 +1,5 @@
 import Link from "@/components/shared/Link";
-import { Account, TransactionDTO } from "@/domain";
+import { Account, Transaction } from "@/domain";
 import { currencyColor, filterForOtherAccount, formatCurrency, sum } from "@/utils";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import Box from "@mui/material/Box";
@@ -10,7 +10,7 @@ import React from "react";
 
 interface AccountTileProps {
   account: Account;
-  transactions: TransactionDTO[];
+  transactions: Transaction[];
 }
 
 const AccountTile: React.FC<AccountTileProps> = ({ account, transactions }) => {
@@ -32,7 +32,7 @@ const AccountTile: React.FC<AccountTileProps> = ({ account, transactions }) => {
 
 interface OtherAccountsTilesProps {
   accounts: Account[];
-  transactions: TransactionDTO[];
+  transactions: Transaction[];
 }
 
 export const OtherAccountsTiles: React.FC<OtherAccountsTilesProps> = ({ accounts, transactions }) => {

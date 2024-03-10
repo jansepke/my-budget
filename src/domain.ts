@@ -20,20 +20,27 @@ export interface GroupStat extends CategoryStat {
   categories: CategoryStat[];
 }
 
-export interface Transaction {
+export interface TransactionBase {
   from: number;
   to: number;
-  date: Dayjs;
   description: string;
   amount: number;
   category: string;
+}
+
+export interface Transaction extends TransactionBase {
+  date: Dayjs;
 }
 
 export interface TransactionDTO extends Omit<Transaction, "date"> {
   date: number;
 }
 
-export interface TransactionWithRow extends TransactionDTO {
+export interface TransactionWithRow extends Transaction {
+  row: number;
+}
+
+export interface TransactionWithRowDTO extends TransactionDTO {
   row: number;
 }
 

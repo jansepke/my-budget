@@ -1,4 +1,4 @@
-import { TransactionDTO } from "@/domain";
+import { TransactionBase, TransactionDTO } from "@/domain";
 import { green, red } from "@mui/material/colors";
 import dayjs from "dayjs";
 
@@ -8,6 +8,8 @@ export const FIXED_GROUP = "M";
 // https://stackoverflow.com/a/53107408/1453662
 export const parseGoogleSheetsDate = (value: number) => new Date(value * 86400000 - 2209132800000);
 export const formatDate = (value: Date) => value.toLocaleDateString("de-DE", { dateStyle: "medium" });
+export const parseDTOs = <T extends { date: number }>(ts: T[]) =>
+  ts.map((t) => ({ ...t, date: dayjs(parseGoogleSheetsDate(t.date)) }));
 
 const numberFormat = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
 const numberFormatNoDecimal = new Intl.NumberFormat("de-DE", {
@@ -22,7 +24,7 @@ export const formatCurrency = (value: number, decimals = true) =>
 export const currencyColor = (value: number) => currencyDiffColor(value, 0);
 export const currencyDiffColor = (value: number, to: number) => (value < to ? red[400] : green[700]);
 
-export const sum = (transactions: Pick<TransactionDTO, "amount">[]) =>
+export const sum = (transactions: Pick<TransactionBase, "amount">[]) =>
   transactions.reduce((sum, t) => sum + t.amount, 0);
 export const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
@@ -38,15 +40,15 @@ export const filterByMonth = (year: number, month: number) => {
   return filterBetweenDates(startDate, endDate);
 };
 
-export const filterForMainAccount = (t: TransactionDTO) => (t.from && !t.to) || (t.to === 1 && !t.from);
+export const filterForMainAccount = (t: TransactionBase) => (t.from && !t.to) || (t.to === 1 && !t.from);
 
-export const filterForOtherAccounts = (t: TransactionDTO) => t.from !== 1 || t.to !== 1;
+export const filterForOtherAccounts = (t: TransactionBase) => t.from !== 1 || t.to !== 1;
 
-export const filterForOtherAccount = (accountId: number) => (t: TransactionDTO) =>
+export const filterForOtherAccount = (accountId: number) => (t: TransactionBase) =>
   t.from === accountId || t.to === accountId;
 
-export const filterByCategory = (category: string) => (t: TransactionDTO) => t.category === category;
-export const filterByGroup = (group: string) => (t: TransactionDTO) => t.category?.startsWith(group);
+export const filterByCategory = (category: string) => (t: TransactionBase) => t.category === category;
+export const filterByGroup = (group: string) => (t: TransactionBase) => t.category?.startsWith(group);
 
 export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
   const response = await fetch(input, init);

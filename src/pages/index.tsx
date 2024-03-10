@@ -8,7 +8,7 @@ import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import { Account, CategoryStat, PageProps, TransactionDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { filterByMonth, filterForMainAccount, filterForOtherAccounts } from "@/utils";
+import { filterByMonth, filterForMainAccount, filterForOtherAccounts, parseDTOs } from "@/utils";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
@@ -41,13 +41,13 @@ const IndexPage: React.FC<IndexPageProps> = ({
       <Typography variant="h4" mt={3} color="primary">
         Hello {firstName}
       </Typography>
-      <CurrentMonthTile transactions={mainTransactions} />
+      <CurrentMonthTile transactions={parseDTOs(mainTransactions)} />
 
-      <OtherAccountsTiles accounts={accounts} transactions={otherTransactions} />
+      <OtherAccountsTiles accounts={accounts} transactions={parseDTOs(otherTransactions)} />
 
       <ReportsTile
         categoryStats={categoryStats}
-        templateTransactions={templateTransactions}
+        templateTransactions={parseDTOs(templateTransactions)}
         averageIncome={averageIncome}
         missingCategoryCount={missingCategoryCount}
       />
