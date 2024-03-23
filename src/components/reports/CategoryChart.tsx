@@ -16,7 +16,8 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ transactions }) =>
   const now = new Date();
   const stats = calculateGroupStats(categories, transactions)
     .map((c) => ({ ...c, sum: Math.round(c.sums[now.getMonth()]) }))
-    .filter((c) => c.sum < 0 && !c.value.startsWith(FIXED_GROUP));
+    .filter((c) => c.sum < 0 && !c.value.startsWith(FIXED_GROUP))
+    .sort((a, b) => a.sum - b.sum);
   const totalSum = stats.reduce((sum, stat) => sum + stat.sum, 0);
 
   const renderLabel = (c: (typeof stats)[0]) => (c.sum / totalSum > 0.05 ? `${c.label}: ${c.sum}€` : undefined);
@@ -34,6 +35,8 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ transactions }) =>
           fill={theme.palette.primary.main}
           label={renderLabel}
           labelLine={false}
+          startAngle={180}
+          endAngle={-180}
         />
       </PieChart>
     </ResponsiveContainer>
