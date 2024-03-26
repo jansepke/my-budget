@@ -33,7 +33,7 @@ const TableRowCells: React.FC<TableRowCellsProps> = ({ stat, drilldown }) => (
       <TableCell align="right" sx={{ color: currencyDiffColor(stat.sums.at(month)!, average(stat.sums)) }} key={month}>
         {drilldown ? (
           <Link
-            href={`/transactions/2023/${String(month + 1).padStart(2, "0")}?category=${stat.value}`}
+            href={`/transactions/${new Date().getFullYear()}/${String(month + 1).padStart(2, "0")}?category=${stat.value}`}
             color="inherit"
             underline="hover"
           >
