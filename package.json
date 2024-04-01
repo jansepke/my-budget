@@ -20,7 +20,7 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/server": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
     "@googleapis/sheets": "^5.0.5",
     "@mui/icons-material": "^5.15.11",
     "@mui/lab": "^5.0.0-alpha.168",
