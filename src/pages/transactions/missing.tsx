@@ -8,20 +8,20 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { GetServerSideProps } from "next";
 
-interface TransactionsPageProps {
+interface MissingTransactionsPageProps {
   transactions: TransactionWithRowDTO[];
 }
 
-const TransactionsPage: React.FC<TransactionsPageProps> = ({ transactions }) => (
+const MissingTransactionsPage: React.FC<MissingTransactionsPageProps> = ({ transactions }) => (
   <Container maxWidth="md" sx={{ marginTop: 1 }}>
     <Typography variant="h6">Missing Category ({transactions.length})</Typography>
-    <TransactionList accountId={0} transactions={parseDTOs(transactions)} />
+    <TransactionList transactions={parseDTOs(transactions)} />
   </Container>
 );
 
-export default TransactionsPage;
+export default MissingTransactionsPage;
 
-export const getServerSideProps: GetServerSideProps<TransactionsPageProps & PageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<MissingTransactionsPageProps & PageProps> = async (context) => {
   const session = await getSession(context);
 
   const allTransactions = await getAllTransactions(session);

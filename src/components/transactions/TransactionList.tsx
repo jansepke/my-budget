@@ -13,7 +13,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import React, { useState } from "react";
 
 interface TransactionListProps {
-  accountId: number;
+  accountId?: number;
   transactions: TransactionWithRow[];
 }
 
@@ -62,7 +62,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({ accountId, tra
                           }
                           secondary={
                             <>
-                              {category?.label} {t.from !== 0 && t.from !== accountId && "X"}
+                              {category?.label} {accountId !== undefined && t.from !== 0 && t.from !== accountId && "X"}
                             </>
                           }
                         />
