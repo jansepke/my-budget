@@ -8,9 +8,10 @@ import { OtherAccountsTiles } from "@/components/dashboard/OtherAccountsTiles";
 import { ReportsTile } from "@/components/dashboard/ReportsTile";
 import { Account, CategoryStat, PageProps, TransactionDTO } from "@/domain";
 import { getSession } from "@/pages/api/auth/[...nextauth]";
-import { filterByMonth, filterForMainAccount, filterForOtherAccounts, parseDTOs } from "@/utils";
+import { filterBetweenDates, filterByMonth, filterForMainAccount, filterForOtherAccounts, parseDTOs } from "@/utils";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 
@@ -73,7 +74,12 @@ export const getServerSideProps: GetServerSideProps<IndexPageProps & PageProps> 
         .filter(filterByMonth(now.getUTCFullYear(), now.getUTCMonth() + 1))
         .filter(filterForMainAccount),
       otherTransactions: allTransactions.filter(filterForOtherAccounts),
-      categoryStats: calculateCategoryStats(categories, allTransactions),
+      categoryStats: calculateCategoryStats(
+        categories,
+        allTransactions
+          .filter(filterForMainAccount)
+          .filter(filterBetweenDates(dayjs().startOf("year"), dayjs().endOf("year"))),
+      ),
       templateTransactions: templateTransactions,
       averageIncome: await getAverageIncome(session),
       missingCategoryCount: allTransactions.filter(filterForMainAccount).filter((t) => t.category.length === 0).length,
