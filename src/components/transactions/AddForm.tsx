@@ -56,7 +56,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
 
   const handleTypeChange = (value: TransactionType) => {
     setType(value);
-    setFormData(defaultFormData[value]);
+    setFormData({ ...defaultFormData[value], date: formData.date });
   };
 
   return (
