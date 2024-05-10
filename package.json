@@ -37,7 +37,7 @@
     "recharts": "^2.12.6"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^14.2.2",
     "@types/node": "^20.12.7",
     "@types/react": "^18.3.1",
