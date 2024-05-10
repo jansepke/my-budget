@@ -49,6 +49,8 @@ export const filterForOtherAccount = (accountId: number) => (t: TransactionBase)
 
 export const filterByCategory = (category: string) => (t: TransactionBase) => t.category === category;
 export const filterByGroup = (group: string) => (t: TransactionBase) => t.category?.startsWith(group);
+export const filterVariable = (t: TransactionBase) =>
+  !t.category.startsWith(INCOME_CATEGORY) && !t.category.startsWith(FIXED_GROUP);
 
 export const customFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
   const response = await fetch(input, init);

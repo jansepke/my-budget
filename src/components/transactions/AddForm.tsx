@@ -9,6 +9,7 @@ import EuroIcon from "@mui/icons-material/Euro";
 import TitleIcon from "@mui/icons-material/Title";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
+import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
@@ -24,6 +25,7 @@ type TransactionType = "out" | "in";
 
 interface AddFormProps {
   accounts: Account[];
+  uniqueDescriptions: string[];
 }
 
 const defaultFormData = {
@@ -31,7 +33,7 @@ const defaultFormData = {
   in: { date: dayjs() },
 };
 
-export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
+export const AddForm: React.FC<AddFormProps> = ({ accounts, uniqueDescriptions }) => {
   const { categories } = useCategories();
   const [type, setType] = useState<TransactionType>("out");
   const { inputRef, focus } = useFocus();
@@ -98,13 +100,21 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts }) => {
         format="DD-MM-YYYY"
         slotProps={{ textField: { fullWidth: true } }}
       />
-      <TextField
-        label="Description"
-        fullWidth
-        inputRef={inputRef}
+      <Autocomplete
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            ref={inputRef}
+            label="Description"
+            InputProps={{ ...params.InputProps, ...buildIconStartAdornment(<TitleIcon />) }}
+          />
+        )}
         value={formData.description ?? ""}
-        onChange={(e) => changeHandler("description", e.target.value)}
-        InputProps={buildIconStartAdornment(<TitleIcon />)}
+        onChange={(e, c) => changeHandler("description", c ?? "")}
+        options={uniqueDescriptions}
+        selectOnFocus
+        freeSolo
+        fullWidth
       />
       <TextField
         label="Amount"
