@@ -24,7 +24,7 @@
     "@googleapis/sheets": "^5.0.5",
     "@mui/icons-material": "^5.15.17",
     "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.15.13",
+    "@mui/material": "^5.15.17",
     "@mui/material-nextjs": "^5.15.11",
     "@mui/x-date-pickers": "^7.3.1",
     "@vercel/edge-config": "^1.1.0",
