@@ -22,9 +22,9 @@ export const TransactionStats: React.FC<TransactionStatsProps> = ({ accountId, t
         arrow
         title={
           <>
-            fixed: {formatCurrency(variableSum)}
+            fixed: {formatCurrency(fixedSum)}
             <br />
-            variable: {formatCurrency(fixedSum)}
+            variable: {formatCurrency(variableSum)}
           </>
         }
       >
