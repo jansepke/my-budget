@@ -110,6 +110,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, uniqueDescriptions }
           />
         )}
         value={formData.description ?? ""}
+        autoSelect
         onChange={(e, c) => changeHandler("description", c ?? "")}
         options={uniqueDescriptions}
         selectOnFocus
