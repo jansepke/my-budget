@@ -99,6 +99,7 @@ export const AddForm: React.FC<AddFormProps> = ({ accounts, uniqueDescriptions }
         onChange={(value) => changeHandler("date", value ?? dayjs())}
         format="DD-MM-YYYY"
         slotProps={{ textField: { fullWidth: true } }}
+        showDaysOutsideCurrentMonth
       />
       <Autocomplete
         renderInput={(params) => (

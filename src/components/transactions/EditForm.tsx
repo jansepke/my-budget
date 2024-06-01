@@ -44,6 +44,7 @@ export const EditForm: React.FC<EditFormProps> = ({ transaction }) => {
         onChange={(value) => changeHandler("date", value ?? dayjs())}
         format="DD-MM-YYYY"
         slotProps={{ textField: { fullWidth: true } }}
+        showDaysOutsideCurrentMonth
       />
       <TextField
         label="Description"
