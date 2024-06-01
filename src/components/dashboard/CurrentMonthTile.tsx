@@ -20,7 +20,7 @@ export const CurrentMonthTile: React.FC<CurrentMonthTileProps> = ({ transactions
         </Link>
       </Typography>
       <TransactionStats accountId={1} transactions={transactions} />
-      <CategoryChart transactions={transactions} />
+      <CategoryChart transactions={transactions} month={new Date().getMonth()} />
     </div>
   );
 };

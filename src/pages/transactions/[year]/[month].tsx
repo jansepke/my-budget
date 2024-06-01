@@ -1,5 +1,6 @@
 import { getAllCategories } from "@/backend/categories";
 import { getAllTransactions } from "@/backend/transactions";
+import { CategoryChart } from "@/components/reports/CategoryChart";
 import { Toolbar } from "@/components/transactions/Toolbar";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { TransactionStats } from "@/components/transactions/TransactionStats";
@@ -66,6 +67,7 @@ const TransactionsPage: React.FC<TransactionsPageProps> = (props) => {
           showPicker={showPicker}
         />
         <TransactionStats accountId={1} transactions={parsedTransactions} />
+        <CategoryChart transactions={parsedTransactions} month={props.month - 1} />
 
         <TransactionList accountId={1} transactions={filteredTransactions} />
       </Container>

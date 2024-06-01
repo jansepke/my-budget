@@ -7,20 +7,24 @@ import { Pie, PieChart, ResponsiveContainer } from "recharts";
 
 interface CategoryChartProps {
   transactions: Transaction[];
+  month: number;
 }
 
-export const CategoryChart: React.FC<CategoryChartProps> = ({ transactions }) => {
+export const CategoryChart: React.FC<CategoryChartProps> = ({ transactions, month }) => {
   const { categories } = useCategories();
   const theme = useTheme();
 
-  const now = new Date();
   const stats = calculateGroupStats(categories, transactions)
-    .map((c) => ({ ...c, sum: Math.round(c.sums[now.getMonth()]) }))
+    .map((c) => ({ ...c, sum: Math.round(c.sums[month]) }))
     .filter((c) => c.sum < 0 && !c.value.startsWith(FIXED_GROUP))
     .sort((a, b) => a.sum - b.sum);
   const totalSum = stats.reduce((sum, stat) => sum + stat.sum, 0);
 
   const renderLabel = (c: (typeof stats)[0]) => (c.sum / totalSum > 0.05 ? `${c.label}: ${c.sum}€` : undefined);
+
+  if (stats.length === 0) {
+    return null;
+  }
 
   return (
     <ResponsiveContainer height={200}>
