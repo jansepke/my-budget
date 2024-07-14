@@ -40,7 +40,8 @@ export const filterByMonth = (year: number, month: number) => {
   return filterBetweenDates(startDate, endDate);
 };
 
-export const filterForMainAccount = (t: TransactionBase) => (t.from && !t.to) || (t.to === 1 && !t.from);
+export const filterForMainAccount = (t: TransactionBase) =>
+  (t.from && !t.to) || (!t.from && (t.to === 1 || t.category !== undefined));
 
 export const filterForOtherAccounts = (t: TransactionBase) => t.from !== 1 || t.to !== 1;
 
