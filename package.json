@@ -22,7 +22,7 @@
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.5",
     "@googleapis/sheets": "^9.0.0",
-    "@mui/icons-material": "^5.15.19",
+    "@mui/icons-material": "^5.16.1",
     "@mui/lab": "^5.0.0-alpha.172",
     "@mui/material": "^5.16.1",
     "@mui/material-nextjs": "^5.15.11",
