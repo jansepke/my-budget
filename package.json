@@ -51,7 +51,7 @@
     "eslint-plugin-jest-dom": "^5.4.0",
     "eslint-plugin-testing-library": "^6.2.2",
     "husky": "^9.1.4",
-    "jsdom": "^24.1.0",
+    "jsdom": "^24.1.1",
     "next-router-mock": "^0.9.13",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
