@@ -27,7 +27,7 @@
     "@mui/material": "^5.16.6",
     "@mui/material-nextjs": "^5.16.6",
     "@mui/x-date-pickers": "^7.11.1",
-    "@vercel/edge-config": "^1.2.0",
+    "@vercel/edge-config": "^1.2.1",
     "dayjs": "^1.11.12",
     "next": "^14.2.5",
     "next-auth": "^4.24.7",
